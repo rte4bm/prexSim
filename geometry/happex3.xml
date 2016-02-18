@@ -3,93 +3,47 @@
 <!DOCTYPE gdml [
 <!ENTITY materials SYSTEM "materials.xml">
 ]>
+
 <gdml
-      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-      xsi:noNamespaceSchemaLocation="http://service-spi.web.cern.ch/service-spi/app/releases/GDML/schema/gdml.xsd">
- <!-- FIXME 
-<gdml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="./schema/gdml.xsd">
-  -->
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:noNamespaceSchemaLocation="http://service-spi.web.cern.ch/service-spi/app/releases/GDML/schema/gdml.xsd">
 
 <define>
 <!-- Commonly adjusted parameters -->
 <!-- Units are in cm, and are NOT half-lengths -->
-
   <constant name="real_sc_thick_4" value="0.5"/> <!-- QT will fail for values less than 0.2 REAL VALUE=0.05--> 
 
-  <constant name="fTargetLength" value="0.05"/>
+  <constant name="fTargetLength" value="20.00"/>
 
   <constant name="fDeltaCaTargetZ" value="0."/>
-  <!-- for theta = 0.909 deg -->
-  <!--   <constant name="fcollInnerR" value="1.361"/>  -->
-  <!-- for theta = 0.78 deg -->
-  <constant name="fcollInnerR" value="1.168"/>
-  <!-- for theta = 0.86 deg -->
-  <!-- <constant name="fcollInnerR" value="1.285"/> -->
-  <!-- for theta = 0.94 deg -->
-  <!-- <constant name="fcollInnerR" value="1.402"/> -->
-
-  <!--For Collimator bore radius scan -->
-  <!-- for theta = 1.27 deg -->
-  <!-- <constant name="fcollInnerR" value="1.905"/> -->
-
-
-
-<!-- Shielding -->
+  <constant name="fcollInnerR"     value="1.905"/>
   <constant name="fHutShieldThick" value="20."/>
-  <constant name="fSCShieldThick" value="40."/>
-  <constant name="fSeptPipeShieldThick" value="15."/>
-  <constant name="fSeptPipeShieldLength" value="35."/>
-  <constant name="fHightFrontSCShield" value="150"/>
-  <constant name="fHightSideSCShield" value="120"/>
-  <constant name="fHightBackSCShield" value="120"/>
-  <constant name="fThickFrontSCShield" value="40."/>
-  <constant name="fThickSideSCShield" value="10."/> 
-  <constant name="fThickBackSCShield" value="20."/>
-  <constant name="fstartPhiSideShield1" value="210"/>
-  <constant name="fdeltaPhiSideShield1" value="15"/>
-  <constant name="fstartPhiSideShield2" value="315"/>
-  <constant name="fdeltaPhiSideShield2" value="15"/>  
-  <constant name="fstartPhiBackShield" value="-30"/>
-  <constant name="fdeltaPhiBackShield" value="240"/>  
-  <constant name="fstartPhiFrontShield" value="225"/>
-  <constant name="fdeltaPhiFrontShield" value="90"/>  
-  <constant name="fSCHutShieldWidth" value="20"/>
-  <constant name="fSCHutShieldHeight" value="15"/>
-  <constant name="fSCHutShieldLength" value="20"/>
-
+  <constant name="fSCShieldThick"  value="20."/>
+  
   <constant name="PI" value="1.*pi"/>
 
 <!-- World Volume -->
 
-  <constant name="width_mother" value="10000.0"/>
+  <constant name="width_mother"  value="10000.0"/>
   <constant name="height_mother" value="10000.0"/>
   <constant name="length_mother" value="10000.0"/>
 
   <constant name="prex_target_center" value="-105.3"/>  <!-- reference everything to this -->
 
-  <!-- Detector dimensions  -->
+<!-- Detector dimensions  -->
   <constant name="det_thick" value="1"/>
   <constant name="det_inner_r" value="length_mother/2+prex_target_center-det_thick"/>  <!-- as large as it can be... -->
   <constant name="det_outer_r" value="length_mother/2+prex_target_center"/>
+
   <!-- Electronic Hut @ HRS dimensions  -->
-  <constant name="width_elec_hut" value="200.0"/>
+  <constant name="width_elec_hut"  value="200.0"/>
   <constant name="height_elec_hut" value="200.0"/>
   <constant name="length_elec_hut" value="400.0"/>
   
   <!-- Electronic Hut @ septum dimensions  -->
-  <constant name="width_elec_hut_sept" value="100.0"/>
+  <constant name="width_elec_hut_sept"  value="100.0"/>
   <constant name="height_elec_hut_sept" value="100.0"/>
   <constant name="length_elec_hut_sept" value="100.0"/>
-
-  <!-- Beam-line Cylindical Detector dimensions  -->
-  <constant name="beam_cyl_det_thick" value="0.1"/>
-  <constant name="beam_cyl_det_inner_r" value="46.9"/>  
-  <constant name="beam_cyl_det_outer_r" value="47"/>
-  <!-- Beam-line Cylindical Detector covers upto the septum pipe (lenght is 135.213)-->
-  <constant name="beam_cyl_det_length" value="3074.44+135.213"/>
-
-<!-- Cylindrical detector to wrap around collimator dimensions  -->
-
 
 <!-- Target dimensions  -->
   <constant name="inner_rad_targ" value="0.0"/>  
@@ -97,77 +51,25 @@
   <constant name="center_targ" value="prex_target_center - fDeltaCaTargetZ"/>  
   <constant name="length_targ" value="fTargetLength"/>
 
-
 <!-- Collimator dimensions  -->
+  <constant name="width_coll_1" value="8.321"/>  <constant name="height_coll_1" value="16.828"/>  <constant name="length_coll_1" value="2.413"/>
+  <constant name="width_coll_2" value="10.795"/>  <constant name="height_coll_2" value="16.828"/>  <constant name="length_coll_2" value="5.842"/>
 
-<!--norminal radial and length for further testing : rakitha Fri Jul 26 14:10:07 EDT 2013 
-  <constant name="radius_test_coll_1" value="12.00"/> 
-  <constant name="length_test_coll_1" value="24.00"/> 
--->
-<!-- CW70 inner volume dimentions : rakitha Mon Sep 30 15:50:52 EDT 2013  -->
-  <constant name="radius_cw70_coll_1" value="5.00"/> 
-  <constant name="length_cw70_coll_1" value="8.00"/> 
-
-  <constant name="delta_cw70_coll_us_face" value="85.822"/>
-  <constant name="delta_cw70_coll_ds_face" value="delta_cw70_coll_us_face+length_cw70_coll_1"/>
-
-  <constant name="coll_angle" value="atan(fcollInnerR/(delta_cw70_coll_us_face))*180./PI"/>
-
-  <constant name="cw70_coll_inner_r1" value="(delta_cw70_coll_us_face)*tan(coll_angle*PI/180.)"/> 
-  <constant name="cw70_coll_inner_r2" value="(delta_cw70_coll_ds_face)*tan(coll_angle*PI/180.)"/>
-
-  <constant name="length_cw70_bore" value="1.001*(length_cw70_coll_1)"/>
-
-  <constant name="center_cw70_coll" value="prex_target_center+delta_cw70_coll_us_face+length_cw70_coll_1/2"/>
-
-  <!-- **No longer in use**  Initial CW70 water jacket inlet volume dimentions : rakitha Mon Sep 30 15:50:52 EDT 2013  -->  
-  <constant name="width_cw70_jacket" value="5"/>  <constant name="height_cw70_jacket" value="2"/>  <constant name="length_cw70_jacket" value="3"/>
-  <!-- CW70 collimator extension at the US dimentions : rakitha  Mon Nov 18 13:43:01 EST 2013 -->  
-  <constant name="cw70_jacket_inner_r" value="2"/>  <constant name="cw70_jacket_outer_r" value="5"/>  <constant name="cw70_jacket_length" value="2.54"/>
-
-  <!-- CW70 surface grooves : rakitha Mon Nov 18 13:43:01 EST 2013  -->
-  <constant name="cw70_groove_inner_r" value="3.905"/> <constant name="cw70_groove_outer_r" value="5"/><constant name="cw70_groove_length" value="0.96"/>
-
-  <!-- Space between CW70 surface and W block : rakitha Mon Nov 18 13:43:01 EST 2013  -->
-  <constant name="cw70_cooling_length" value="0.24"/>
-  <!-- Tungsten jacket volume dimentions : rakitha Mon Oct 14 17:32:34 EDT 2013  -->
-  <constant name="width_w_coll_1" value="11.4"/>  <constant name="height_w_coll_1" value="22.7"/>  <constant name="length_w_coll_1" value="16.5"/>
-  <!-- Make a square Tungsten jacket -->
-  <!-- <constant name="width_w_coll_1" value="24"/>  <constant name="height_w_coll_1" value="24"/>  <constant name="length_w_coll_1" value="16.5"/> -->
-  <!-- Dimensions of volume to be subtracted at DS of Tungsten jacket (Length is 3.48 + 1.27 cm see CAD diagram): rakitha Mon Nov 18 15:12:34 EST 2013  -->
-  <constant name="width_w_sub_box" value="11.4"/>  <constant name="height_w_sub_box" value="4.44"/>  <constant name="length_w_sub_box" value="4.75"/>
-  <!-- Dimensions of trapazoidal volume to be added at DS of Tungsten jacket : rakitha Mon Nov 18 15:12:34 EST 2013  -->
-  <constant name="trap_box_x1" value="11.4"/> <constant name="trap_box_x2" value="11.4"/> 
-  <!-- The basic trapazoid will have slanted on both sides in the y plane. Added 1.27/2 to y1 and y2 to extend the volume height so that one side of the trapazoid will be below the W collimator volume when union together.  -->
-  <constant name="trap_box_y1" value="4.44+1.27/2"/> <constant name="trap_box_y2" value="3.17+1.27/2"/> 
-  <constant name="trap_box_half_length" value="1.27/2"/>
-
-  <!--Dimensions of the Copper tube between the CW70 and W box -->
-  <constant name="Cu_tube_inner_r" value="radius_cw70_coll_1+0.001"/>  <constant name="Cu_tube_outer_r" value="radius_cw70_coll_1+cw70_cooling_length-0.001"/> <constant name="Cu_tube_length" value="length_cw70_coll_1+cw70_jacket_length"/>
-  
   <constant name="coll_3_inner_r" value="0"/>  <constant name="coll_3_outer_r" value="3.073"/> <constant name="length_coll_3" value="6.096"/>
 
-<!-- set this parameter to actual length of the collimator -->
-  <constant name="length_coll" value="length_w_coll_1"/>
-
-  <constant name="length_bore" value="1.001*(length_w_coll_1)"/>
+  <constant name="length_bore" value="1.001*(length_coll_1+length_coll_2+length_coll_3)"/>
 
   <constant name="delta_coll_us_face" value="85.822"/>
-  <constant name="delta_coll_ds_face" value="delta_coll_us_face+length_w_coll_1"/>
-  <constant name="center_coll" value="prex_target_center+delta_coll_us_face+length_w_coll_1/2"/>
+  <constant name="delta_coll_ds_face" value="delta_coll_us_face+(length_coll_1+length_coll_2+length_coll_3)"/>
+  <constant name="center_coll" value="prex_target_center+delta_coll_us_face+length_coll_1/2"/>
 
-  
+  <constant name="coll_angle" value="atan(fcollInnerR/(delta_coll_ds_face+fDeltaCaTargetZ))*180./PI"/>
 
-<!--  <constant name="coll_inner_r1" value="fcollInnerR"/>
-  <constant name="coll_inner_r2" value="fcollInnerR"/> -->
+  <constant name="coll_inner_r1" value="fcollInnerR"/>
+  <constant name="coll_inner_r2" value="fcollInnerR"/> 
 
-   <constant name="coll_inner_r1" value="(delta_coll_us_face)*tan(coll_angle*PI/180.)"/> 
-<!--To keep the bore smooth with no dis-continuities, the US radius of the W collimator must be different from coll_inner_r1 and calculated new US radius is 1.105 cm. What matter is 0.2 cm increase in DS bore radius since US of the W jacket has the CW70 collimator inclosed, the actually US bore radius is determined by the CW70 collimator. -->
-<!--   <constant name="coll_inner_r2" value="(delta_coll_ds_face)*tan(coll_angle*PI/180.) + 0.2"/> -->
-<!-- To keep the same angular cone as CW70 -->
-   <constant name="coll_inner_r2" value="(delta_coll_ds_face)*tan(coll_angle*PI/180.)"/>
-   <!-- To have no conical bore. Just tube with same radius -->
-<!--  <constant name="coll_inner_r2" value="1.488"/>  -->
+<!--   <constant name="coll_inner_r1" value="(delta_coll_us_face+fDeltaCaTargetZ-0.0005*(length_coll_1+length_coll_2+length_coll_3))*tan(coll_angle*PI/180.)"/>
+   <constant name="coll_inner_r2" value="(delta_coll_ds_face+fDeltaCaTargetZ+0.0005*(length_coll_1+length_coll_2+length_coll_3))*tan(coll_angle*PI/180.)"/> -->
 
 
 <!-- Scattering chamber dimensions -->
@@ -205,15 +107,9 @@
   <constant name="height_sc_attach_hole" value="17.018"/>
 
   <constant name="width_sc_attach" value="44.811"/>
-  <!--The difference between PT4 collimator and sc_attach height is 1.8536 cm. The sc_attachment height is increased  -->
-  <constant name="deltaY_pt4_sc_attach" value="1.8536"/>
-  <constant name="height_sc_attach_old" value="25.9264"/>
-  <constant name="height_sc_attach" value="height_sc_attach_old+deltaY_pt4_sc_attach"/>
+  <constant name="height_sc_attach" value="25.9264"/>
 
-  <!--The difference between PT4 and old prexII collimator length. The sc_attachment lenth is extended  -->
-  <constant name="deltaz_pt4_sc_attach" value="2.149"/>
-  <!--The sc_attachment length is extended  -->
-  <constant name="length_sc_attach" value="center_coll+length_coll/2+deltaz_pt4_sc_attach*2-(center_sc+inner_r_sc)"/> 
+  <constant name="length_sc_attach" value="center_coll+length_coll_1/2+length_coll_2+length_coll_3-(center_sc+inner_r_sc)"/>
   <constant name="center_sc_attach" value="center_sc+inner_r_sc+length_sc_attach/2"/>
 <!-- Need to get a real number for this for actual attachment... -->
   <constant name="length_sc_attach_hole" value="outer_r_sc"/>
@@ -237,37 +133,14 @@
   <constant name="width_septum" value="137.16"/> <constant name="height_septum" value="84."/> <constant name="length_septum" value="74.3863"/> 
   <constant name="center_septum" value="175.211+prex_target_center"/> <!-- Seems about right; some space for coils...  -->
   
-  <constant name="width_septum_rect_hole" value="31.115"/> <constant name="height_septum_rect_hole" value="25.0285"/>
-  <constant name="sept_pipe_cont_width" value="9.0" /> <constant name="sept_pipe_cont_high" value="9.6"/> 
-<!-- Septum coils -->
-<!-- In PREX I just Coil 2 and Coil 3 present, in PREX II Coil 1 is also present -->
-<!-- Coil 1 -->
- <constant name="thick_coil1" value="7.3"/>
- <constant name="length_coil1" value="1.*length_septum+2.*thick_coil1" />
- <constant name="height_coil1" value="107.1" />
- <constant name="height_coil1_hole" value="34.58" />
- <constant name="width_coil1" value="8.3" />
- <constant name="width_full_coil1" value="92.83" />
-
- <constant name="rect_hole_center_x" value="1.*width_coil1+0.5*width_septum_rect_hole"/> 
- 
+  <constant name="rect_hole_center_x" value="19.685"/>  <constant name="width_septum_rect_hole" value="31.115"/> <constant name="height_septum_rect_hole" value="25.0285"/>
 
 <!-- Beamline -->
-  <!-- The offset is due to difference in collimator length compared to PREX-I geometry -->
-  <!-- This is computed by (Current collimator length - Previous collimator length) see elog-2873 for previous values : Rakitha  Tue Nov  5 17:56:29 EST 2013 -->
-  <!-- <constant name="beam_pipe_placement_offset" value= "-2.149"/>  -->
-  <constant name="beam_pipe_placement_offset" value= "0"/> 
   <constant name="ri_septum_pipe" value= "3.797"/>
   <constant name="ro_septum_pipe" value="4.102"/>
 
-  <!--The thickness of the sc_attach is 5.08 cm and this is the could be the minimum sepration between the collimatorand the septum pipe (there will be bellows at either ends connecting septum pipe to sc_attach and beam pipe.  -->
-  <constant name="deltaz_pt4_septum_pipe" value="5.08"/>
-  <!-- <constant name="length_septum_pipe" value= "137.362"/> -->
-  <!-- The correct lenght is  135.213 cm to accormodate new collimator but due to the collimator box detector there is little over lap. to use this detector set the length to 135.150 cm-->
-  <constant name="length_septum_pipe_old" value= "135.213"/>
-  <constant name="length_septum_pipe" value= "length_septum_pipe_old - deltaz_pt4_septum_pipe"/>
-  <!-- The offset is required to coincide septum pipe with sc_attachment openning -->
-  <constant name="center_septum_pipe" value= "prex_target_center+delta_coll_ds_face+beam_pipe_placement_offset+deltaz_pt4_septum_pipe+length_septum_pipe/2"/>
+  <constant name="length_septum_pipe" value= "137.362"/>
+  <constant name="center_septum_pipe" value= "prex_target_center+delta_coll_ds_face+length_septum_pipe/2"/>
 
 <!-- To access matrix elements, use matrix_name[row_number, column_number] -->
 <!-- Rows are inner and outer radii, length and distance of center from end of septum pipe-->
@@ -289,7 +162,7 @@
   <constant name="center_vac_enc_yu" value="0."/> 
   <constant name="thick_vac_enc" value="0.635"/> 
 
-  <constant name="left_theta" value="-atan((width_vac_d_enc-width_vac_u_enc+17.239)/length_vac_enc)*180/PI"/>
+  <constant name="left_theta" value="-atan((width_vac_d_enc-width_vac_u_enc+7.239)/length_vac_enc)*180/PI"/>
   <constant name="left_phi" value="0"/>
   <constant name="right_theta" value="-left_theta"/>
   <constant name="right_phi" value="left_phi"/> 
@@ -312,12 +185,6 @@
 
   <constant name="inner_r_sc_shld" value="1.*outer_r_sc+1.*real_sc_thick_2+1.*real_sc_thick_3"/>
   <constant name="outer_r_sc_shld" value="inner_r_sc_shld+fSCShieldThick"/>
-
-<!-- Shielding scattering attachment -->
-  <constant name="width_sc_attach_hut" value="width_sc_attach+2.*fSCHutShieldWidth"/>
-  <constant name="height_sc_attach_hut" value="height_sc_attach+2.*fSCHutShieldHeight"/>
-  <constant name="length_sc_attach_hut" value="length_sc_attach+2.*fSCHutShieldLength"/>
-
 
 <!-- Hall - wall, floor and "dump" -->
   <constant name="radius_of_hall" value="2651.7"/>
@@ -356,8 +223,6 @@
   <constant name="cDet_1_radius" value="prex_target_center+600."/>
   <constant name="cDet_2_radius" value="prex_target_center+2300."/>
   <constant name="cDet_3_radius" value="1*radius_of_cylwall - 1."/>
-
-
 
 <!-- Pedestal scattering chamber -->
   <constant name="ped_downstream_high" value="199." />
@@ -435,49 +300,18 @@
   <position unit="cm" name="scAttachTrans_1" x="0" y="0" z="-thick_sc_attach/2"/>
   <position unit="cm" name="scAttachTrans_l" x="-1.0*center_vac_enc_xu" y="0" z="center_vac_enc_z - center_sc_attach - thick_sc_attach"/>
   <position unit="cm" name="scAttachTrans_r" x="1.0*center_vac_enc_xu" y="0" z="center_vac_enc_z - center_sc_attach - thick_sc_attach"/>
-  <position unit="cm" name="scAttachTrans_hut_l" x="-1.0*center_vac_enc_xu" y="0" z="center_vac_enc_z - center_sc_attach"/>
-  <position unit="cm" name="scAttachTrans_hut_r" x="1.0*center_vac_enc_xu" y="0" z="center_vac_enc_z - center_sc_attach"/>
   <position unit="cm" name="scAttachTrans_2" x="0" y="0" z="center_sc - center_sc_attach"/>
   <position unit="cm" name="scAttachTrans_3" x="0" y="0" z="length_sc_attach/2"/>
-  <position unit="cm" name="scAttachTrans_4" x="0" y="0" z="length_sc_attach/2 - length_w_coll_1/2"/>
-  <position unit="cm" name="scAttachTubeTrans_1" x="3.*(width_sc_attach - 0.5*thick_sc_attach)/8.-0.5*thick_sc_attach" y="0.5*height_sc_attach+0.25*(height_septum - height_sc_attach)" z="0.5*length_sc_attach -0.5*thick_sc_attach -3.*(width_sc_attach - 0.5*thick_sc_attach)/8."/>
-  <position unit="cm" name="scAttachTubeTrans_2"  x="-3.*(width_sc_attach - 0.5*thick_sc_attach)/8.+0.5*thick_sc_attach" y="0.5*height_sc_attach+0.25*(height_septum - height_sc_attach)" z="0.5*length_sc_attach -0.5*thick_sc_attach -3.*(width_sc_attach - 0.5*thick_sc_attach)/8."/>
-  <position unit="cm" name="ShldTubeTrans_1" x="3.*(width_sc_attach - 0.5*thick_sc_attach)/8.-0.5*thick_sc_attach"  y="-inner_r_sc -1.*length_sc_attach +0.5*thick_sc_attach +3.*(width_sc_attach - 0.5*thick_sc_attach)/8." z="-y_cent_sc+0.5*height_sc_attach+0.25*(height_septum - height_sc_attach)"/>
-  <position unit="cm" name="ShldTubeTrans_2"  x="-3.*(width_sc_attach - 0.5*thick_sc_attach)/8.+0.5*thick_sc_attach"  y="-inner_r_sc -1.*length_sc_attach +0.5*thick_sc_attach +3.*(width_sc_attach - 0.5*thick_sc_attach)/8." z="-y_cent_sc+0.5*height_sc_attach+0.25*(height_septum - height_sc_attach)"/>
-
 
   <position unit="cm" name="scOringTrans_1" x="0" y="0" z="0"/>
   <position unit="cm" name="sc_oring_center" x="0" y="0" z="center_sc_oring"/>
   <position unit="cm" name="sc_oringDet_center" x="0" y="0" z="center_sc_oringDet"/>
 
-  <position unit="cm" name="collTrans_1"       x="0" y="0"     z="-1*(length_coll)/4"/> 
-  <position unit="cm" name="collTrans_2"       x="0" y="0"     z="(length_coll)/4"/>
-  <position unit="cm" name="collTrans_3"       x="0" y="0"     z="(length_coll)/2"/>
-  <position unit="cm" name="collTrans_0"       x="0" y="0"     z="0"/>	
-  <position unit="cm" name="jacketTrans_u"       x="0" y="radius_cw70_coll_1 - height_cw70_jacket/2"     z="-length_cw70_coll_1/2-length_cw70_jacket/2"/>
-  <position unit="cm" name="jacketTrans_d"       x="0" y="-radius_cw70_coll_1 + height_cw70_jacket/2"     z="-length_cw70_coll_1/2-length_cw70_jacket/2"/>
-  <position unit="cm" name="jacketTrans_d_1"       x="0" y="radius_cw70_coll_1 - height_cw70_jacket/2"     z="-length_w_coll_1/2-length_cw70_jacket/2"/>
-  <position unit="cm" name="jacketTrans_u_1"       x="0" y="-radius_cw70_coll_1 + height_cw70_jacket/2"     z="-length_w_coll_1/2-length_cw70_jacket/2"/>
-  <position unit="cm" name="collTrans_4"       x="0" y="0"     z="-(length_w_coll_1)/2+length_cw70_coll_1/2"/>
-  <position unit="cm" name="coll_center"       x="0" y="0"     z="center_coll"/>
-  <position unit="cm" name="coll_cw70_center"       x="0" y="0"     z="center_cw70_coll"/>
-  <position unit="cm" name="Cu_tube_center"       x="0" y="0"     z="center_cw70_coll-cw70_jacket_length/2"/>
+  <position unit="cm" name="collTrans_1"       x="0" y="0"     z="(length_coll_1+length_coll_2)/2"/>
+  <position unit="cm" name="collTrans_2"       x="0" y="0"     z="(length_coll_1+length_coll_3)/2+length_coll_2"/>
+  <position unit="cm" name="collTrans_3"       x="0" y="0"     z="(length_coll_2+length_coll_3)/2"/>	
+  <position unit="cm" name="coll_center"       x="0" y="0"     z="center_coll"/>	
 
-  <position unit="cm" name="jacketTrans_cyc"       x="0" y="0"     z="-length_cw70_coll_1/2-cw70_jacket_length/2"/>
-  <position unit="cm" name="jacketTrans_cyc_g1"       x="0" y="0"     z="-length_cw70_coll_1/2+cw70_groove_length"/>
-  <position unit="cm" name="jacketTrans_cyc_g2"       x="0" y="0"     z="-length_cw70_coll_1/2+3*cw70_groove_length"/>
-  <position unit="cm" name="jacketTrans_cyc_g3"       x="0" y="0"     z="-length_cw70_coll_1/2+5*cw70_groove_length"/>
-  <position unit="cm" name="jacketTrans_cyc_g4"       x="0" y="0"     z="-length_cw70_coll_1/2+7*cw70_groove_length"/>
-
-  <!--Positions for box geometry to be subtracted from the W collimator jacket -->
-  <position unit="cm" name="jacket_sub_boxTrans_u"       x="0" y="height_w_coll_1/2 - height_w_sub_box/2"     z="length_w_coll_1/2-length_w_sub_box/2"/>
-  <position unit="cm" name="jacket_sub_boxTrans_d"       x="0" y="-height_w_coll_1/2 + height_w_sub_box/2"     z="length_w_coll_1/2-length_w_sub_box/2"/>
-  
-  <!--Positions for trapozoidal geometry to be added to the W collimator jacket --> 
-  <!-- Subtracted 1.27/2 from height so that bottom side of the trapazoid will be below the W collimator volume when union together.  -->
-  <position unit="cm" name="jacket_add_trapTrans_u"       x="0" y="height_w_coll_1/2 - trap_box_y2/2-1.27/2"     z="length_w_coll_1*0.999/2-length_w_sub_box+trap_box_half_length/2"/>
-  <position unit="cm" name="jacket_add_trapTrans_d"       x="0" y="-height_w_coll_1/2 + trap_box_y2/2+1.27/2"     z="length_w_coll_1*0.999/2-length_w_sub_box+trap_box_half_length/2"/>
- 
   <position unit="cm" name="septum_center"     x="0" y="0"     z="center_septum"/>	
   <position unit="cm" name="septTrans_l"       x="-rect_hole_center_x" y="0"     z="0"/>	
   <position unit="cm" name="septTrans_r"       x="rect_hole_center_x" y="0"     z="0"/>	
@@ -491,12 +325,9 @@
   <position unit="cm" name="hut_center"        x="0" y="0"     z="center_hut"/>	
   <position unit="cm" name="scShldTrans_1" x="0" y="-(1.*outer_r_sc+1.*real_sc_thick_2+1.*real_sc_thick_3+1.*thick_sc/2)" z="-y_cent_sc"/>
   <position unit="cm" name="scShldTrans_2" x="0" y="(outer_r_sc-thick_sc/2)" z="-y_cent_sc"/>
-  <position unit="cm" name="scShldlayTrans_1" x="0" y="0" z="-0.5*height_sc+0.5*fHightSideSCShield"/>
-  <position unit="cm" name="scShldlayTrans_2" x="0" y="0" z="-0.5*height_sc+0.5*fHightFrontSCShield"/>
+
   <position unit="cm" name="septShldTrans_l"        x="rect_hole_center_x - center_vac_enc_xu"  y="0"     z="center_vac_enc_z - center_septum"/>	
-  <position unit="cm" name="septShldTrans_r"        x="-(rect_hole_center_x-center_vac_enc_xu)" y="0"     z="center_vac_enc_z - center_septum"/>
-  <position unit="cm" name="septpipeShldTrans_l"        x="-1.* center_vac_enc_xu"  y="0"     z="0.5*length_vac_enc -0.5*fSeptPipeShieldLength"/>	
-  <position unit="cm" name="septpipeShldTrans_r"        x="center_vac_enc_xu" y="0"     z="0.5*length_vac_enc -0.5*fSeptPipeShieldLength"/>	
+  <position unit="cm" name="septShldTrans_r"        x="-(rect_hole_center_x-center_vac_enc_xu)" y="0"     z="center_vac_enc_z - center_septum"/>	
   <position unit="cm" name="septShld_center_l"        x="-rect_hole_center_x" y="0"     z="center_septum"/>	
   <position unit="cm" name="septShld_center_r"        x="rect_hole_center_x" y="0"     z="center_septum"/>
 
@@ -518,7 +349,6 @@
   <position unit="cm" name="topwall_center"    x="0" y="1.*center_topwall"     z="0"/>
 
   <position unit="cm" name="sDet_1_pos"       x="0" y="0"     z="center_targ"/>	
-  <position unit="cm" name="sDet_2_pos"       x="0" y="0"     z="center_coll"/>
   <position unit="cm" name="pDet_1_pos"       x="0" y="0"     z="prex_target_center+600."/>	
   <position unit="cm" name="pDet_2_pos"       x="0" y="0"     z="prex_target_center+2300."/>	
   <position unit="cm" name="pDet_3_pos"       x="0" y="0"     z="1*radius_of_cylwall-1."/>	      
@@ -527,17 +357,19 @@
   <position unit="cm" name="cDet_1_under_2pos"       x="0" y="0" z="-center_cylwall-0.5*thick_cylwall+1.*sc_arm_center_2"/>
   <position unit="cm" name="dDet_us_pos"       x="0" y="0"     z="center_targ+delta_coll_us_face-0.1"/>
   <position unit="cm" name="dDet_ds_pos"       x="0" y="0"     z="center_targ+delta_coll_ds_face+0.1"/>
+
   <position unit="cm" name="dDet_beamline_pos_1"       x="0" y="0"     z="center_targ+237.535+0.1"/>
   <position unit="cm" name="dDet_beamline_pos_2"       x="0" y="0"     z="center_targ+336.831"/>
   <position unit="cm" name="dDet_beamline_pos_3"       x="0" y="0"     z="center_targ+2757.199"/>
   <position unit="cm" name="dDet_beamline_pos_4"       x="0" y="0"     z="center_targ+3311.975"/>
-  <position unit="cm" name="beam_cyl_det_pos"       x="0" y="0"     z="center_targ+237.535-length_septum_pipe+beam_cyl_det_length/2"/>
+
 
   <!--Electronic hut placement -->
   <position unit="cm" name="dbox_elec_hut_pos"       x="450" y="0"     z="1900"/>
 
   <!--Electronic hut placement -->
   <position unit="cm" name="dbox_elec_hut_sept_pos"       x="-125" y="100"     z="150"/>
+
 
 <!-- <position unit="cm" name="scTrans_1" x="0" y="-(outer_r_sc-thick_sc/2)" z="-y_cent_sc"/> -->
   <position unit="cm" name="cDet_1_trans"     x="0" y="-cDet_1_radius"     z="-1.*center_cylwall-0.5*thick_cylwall"/>
@@ -627,12 +459,28 @@
   <rotation name="scRot_12" unit="deg" x="0" y="0" z="-12.5"/>
   <rotation name="identity"/>
 
+  <!--  Detectors for new concrete sites - Ricky -->
+  <constant name="width_det_far" value="100.0"/>
+  <constant name="height_det_far" value="100.0"/>
+  <constant name="length_det_far" value="100.0"/>  
+  <!-- Concrete sites - Ricky -->
+  <constant name="width_slab1" value="200."/>
+  <constant name="width_slab2" value="300."/>
+  <constant name="length_slab1" value="200."/>
+  <constant name="length_slab2" value="500."/>
+  <constant name="height_slab" value="-(bottom_cylwall)+50."/>
+  <constant name="thick_slab" value="50."/>  
+  <!-- Positions for detectors and walls at concrete site - Ricky-->
+  <position unit="cm" name="farDet_farside_pos" x="860." y="0" z="-1461."/>
+  <position unit="cm" name="farDet_rampside_pos" x="-425." y="0" z="-1461"/>
+  <position unit="cm" name="slab1_pos" x="810." y="-(height_slab)/2.+thick_cylwall+50." z="-1411."/>
+  <position unit="cm" name="slab2_pos" x="-425." y="-(height_slab)/2.+thick_cylwall+50." z="-1461."/>
+  <position unit="cm" name="slab1_trans" x="thick_slab" y="0" z="-(thick_slab)"/>
+  <position unit="cm" name="slab2_trans" x="-(thick_slab)" y="0" z="-(thick_slab)"/>
+  
 </define>
 
-
 &materials;
-
-
 
 
 <solids>
@@ -640,130 +488,29 @@
   <box lunit="cm" name="boxMother" x="width_mother" y="height_mother" z="length_mother"/>
 
 
-<!-- Cylindrical CW70 Collimator : rakitha Mon Sep 30 16:40:34 EDT 2013 -->
-  <tube aunit="deg" startphi="0" deltaphi="360" lunit="cm" name="coll_cw70_cyln" rmin="0.0" rmax="radius_cw70_coll_1" z="length_cw70_coll_1"/>
-  <!-- CW70 water jacket inlet volume dimentions -->  
-  <tube aunit="deg" startphi="0" deltaphi="360" lunit="cm" name="coll_cw70_cyln_outer_1" rmin="cw70_jacket_inner_r" rmax="cw70_jacket_outer_r" z="cw70_jacket_length"/>
-  <!-- Solid used to generate the CW70 surface grooves : rakitha Mon Nov 18 13:43:01 EST 2013  -->
-  <tube aunit="deg" startphi="0" deltaphi="360" lunit="cm" name="cw70_groove_solid" rmin="cw70_groove_inner_r" rmax="cw70_groove_outer_r*1.001" z="cw70_groove_length"/>
+<!-- Collimator -->
+  <box lunit="cm" name="coll_1" x="width_coll_1" y="height_coll_1" z="length_coll_1"/>
+  <box lunit="cm" name="coll_2" x="width_coll_2" y="height_coll_2" z="length_coll_2"/>
+  <tube aunit="deg" startphi="0" deltaphi="360" lunit="cm" name="coll_3" rmin="coll_3_inner_r" rmax="coll_3_outer_r" z="length_coll_3" />
 
-  <cone aunit="deg" startphi="0" deltaphi="360" lunit="cm" name="coll_cw70_bore_cone" rmin1="0.0" rmax1="cw70_coll_inner_r1" rmin2="0.0" rmax2="cw70_coll_inner_r2" z="length_cw70_bore"/>
+  <cone aunit="deg" startphi="0" deltaphi="360" lunit="cm" name="coll_bore" rmin1="0.0" rmax1="coll_inner_r1" rmin2="0.0" rmax2="coll_inner_r2" z="length_bore"/>
 
-  <subtraction name ="coll_cw70_cyln_outer">
-      <first ref="coll_cw70_cyln_outer_1"/>
-      <second ref="cw70_groove_solid"/>
-      <positionref ref="collTrans_0"/>
-      <rotationref ref="identity"/>
-  </subtraction> 
-
-  <subtraction name ="coll_CW70_Solid_1">
-      <first ref="coll_cw70_cyln"/>
-      <second ref="coll_cw70_bore_cone"/>
-      <positionref ref="collTrans_0"/>
-      <rotationref ref="identity"/>
-  </subtraction>
-
-  <subtraction name ="coll_CW70_Solid_2">
-      <first ref="coll_CW70_Solid_1"/>
-      <second ref="cw70_groove_solid"/>
-      <positionref ref="jacketTrans_cyc_g1"/>
-      <rotationref ref="identity"/>
-  </subtraction>  
-
-  <subtraction name ="coll_CW70_Solid_3">
-      <first ref="coll_CW70_Solid_2"/>
-      <second ref="cw70_groove_solid"/>
-      <positionref ref="jacketTrans_cyc_g2"/>
-      <rotationref ref="identity"/>
-  </subtraction>  
-
-  <subtraction name ="coll_CW70_Solid_4">
-      <first ref="coll_CW70_Solid_3"/>
-      <second ref="cw70_groove_solid"/>
-      <positionref ref="jacketTrans_cyc_g3"/>
-      <rotationref ref="identity"/>
-  </subtraction>  
-
-  <subtraction name ="coll_CW70_Solid_5">
-      <first ref="coll_CW70_Solid_4"/>
-      <second ref="cw70_groove_solid"/>
-      <positionref ref="jacketTrans_cyc_g4"/>
-      <rotationref ref="identity"/>
-  </subtraction>  
-
-  <union name ="coll_CW70_Solid">
-      <first ref="coll_CW70_Solid_5"/>
-      <second ref="coll_cw70_cyln_outer"/>
-      <positionref ref="jacketTrans_cyc"/>
+  <union name ="partial_coll_0">
+      <first ref="coll_1"/>
+      <second ref="coll_2"/>
+      <positionref ref="collTrans_1"/>
       <rotationref ref="identity"/>
   </union>
-
-<!-- W Box Collimator Jacket : rakitha Mon Sep 30 16:40:34 EDT 2013 -->
-  <box lunit="cm" name="Coll_jacket_W" x="width_w_coll_1" y="height_w_coll_1" z="length_w_coll_1"/>
-  <cone aunit="deg" startphi="0" deltaphi="360" lunit="cm" name="coll_jacket_w_bore_cone" rmin1="0.0" rmax1="coll_inner_r1" rmin2="0.0" rmax2="coll_inner_r2" z="length_bore"/>
-
-  <!-- Box geometry to be subtracted from the DS of the W Box Collimator Jacket : rakitha Mon Nov 18 15:12:34 EST 2013 -->
-  <box lunit="cm" name="Coll_jacket_sub_box" x="width_w_sub_box*1.0001" y="height_w_sub_box*1.0001" z="length_w_sub_box*1.001"/>
-
-  <trd  lunit="cm" name="trd_box_w_1" x1="trap_box_x1" x2="trap_box_x2" y1="trap_box_y1" y2="trap_box_y2" z="trap_box_half_length"/>
-<!-- To have a smooth transistion from CW70 to W jacket in the Bore, rmax1 must be recalcualted and replace the coll_inner_r1 -->
-<!--   <cone aunit="deg" startphi="0" deltaphi="360" lunit="cm" name="coll_jacket_w_bore_cone" rmin1="0.0" rmax1="1.173" rmin2="0.0" rmax2="coll_inner_r2" z="length_bore"/>  -->
-
-<!-- To have a smooth transistion from CW70 to W jacket in the Bore, rmax1 must be recalcualted and replace the coll_inner_r1 -->
-<!-- <cone aunit="deg" startphi="0" deltaphi="360" lunit="cm" name="coll_jacket_w_bore_cone" rmin1="0.0" rmax1="1.488" rmin2="0.0" rmax2="coll_inner_r2" z="length_bore"/> -->
-
-  <subtraction name ="coll_jacket_W_Solid_1">
-      <first ref="Coll_jacket_W"/>
-      <second ref="coll_jacket_w_bore_cone"/>
-      <positionref ref="collTrans_0"/>
-      <rotationref ref="identity"/>
-  </subtraction>
-
-  <subtraction name ="coll_jacket_W_Solid_2">
-      <first ref="coll_jacket_W_Solid_1"/>
-      <second ref="Coll_jacket_sub_box"/>
-      <positionref ref="jacket_sub_boxTrans_u"/>
-      <rotationref ref="identity"/>
-  </subtraction>
-
-  <subtraction name ="coll_jacket_W_Solid_3">
-      <first ref="coll_jacket_W_Solid_2"/>
-      <second ref="Coll_jacket_sub_box"/>
-      <positionref ref="jacket_sub_boxTrans_d"/>
-      <rotationref ref="identity"/>
-  </subtraction>
-
-   <union name ="coll_jacket_W_Solid_4">
-      <first ref="coll_jacket_W_Solid_3"/>
-      <second ref="trd_box_w_1"/>
-      <positionref ref="jacket_add_trapTrans_u"/>
-      <rotationref ref="identity"/>
-  </union> 
-
-   <union name ="coll_jacket_W_Solid_5">
-      <first ref="coll_jacket_W_Solid_4"/>
-      <second ref="trd_box_w_1"/>
-      <positionref ref="jacket_add_trapTrans_d"/>
+  <union name ="coll_solid_0">
+      <first ref="partial_coll_0"/>
+      <second ref="coll_3"/>
+      <positionref ref="collTrans_2"/>
       <rotationref ref="identity"/>
   </union>
-
-  <tube aunit="deg" startphi="0" deltaphi="360" lunit="cm" name="coll_cw70_cyln_subt" rmin="0.0" rmax="radius_cw70_coll_1+cw70_cooling_length" z="length_cw70_coll_1*1.0001"/>  
-  <subtraction name ="coll_jacket_W_Solid">
-      <first ref="coll_jacket_W_Solid_5"/>
-      <second ref="coll_cw70_cyln_subt"/>
-      <positionref ref="collTrans_4"/>
-      <rotationref ref="identity"/>
-  </subtraction>
-
-  <!-- Copper Cylinder for water cooling CW70 Collimator : rakitha Wed Nov 20 09:19:34 EST 2013 -->
-  <tube aunit="deg" startphi="0" deltaphi="360" lunit="cm" name="Cu_tube_solid_1" rmin="Cu_tube_inner_r" rmax="Cu_tube_outer_r" z="Cu_tube_length"/>
-  <!-- Empty the Copper Cylinder  : rakitha Wed Nov 20 09:19:34 EST 2013 -->
-  <tube aunit="deg" startphi="0" deltaphi="360" lunit="cm" name="Cu_tube_solid_1_subt" rmin="Cu_tube_inner_r + 0.05" rmax="Cu_tube_outer_r - 0.05" z="Cu_tube_length - 0.05"/>
-
-  <subtraction name ="Cu_tube_Solid">
-      <first ref="Cu_tube_solid_1"/>
-      <second ref="Cu_tube_solid_1_subt"/>
-      <positionref ref="collTrans_0"/>
+  <subtraction name ="collWSolid">
+      <first ref="coll_solid_0"/>
+      <second ref="coll_bore"/>
+      <positionref ref="collTrans_3"/>
       <rotationref ref="identity"/>
   </subtraction>
 
@@ -777,7 +524,7 @@
   <tube aunit="deg" startphi="0" deltaphi="360" lunit="cm" name="ScattChamberDet" rmin="inner_r_sc - 1.1" rmax="inner_r_sc - .1" z="1*height_sc-2*thick_sc-.1" />
 
   <box lunit="cm" name="sc_attach_hole" x="1.001*width_sc_attach_hole" y="1.001*height_sc_attach_hole" z="1.001*length_sc_attach_hole"/>
-  <tube aunit="deg" startphi="0" deltaphi="360" lunit="cm" name="sc_beam_hole" rmin="0.0" rmax="sc_beam_hole_radius" z="2*sc_beam_hole_length" />
+  <tube aunit="deg" startphi="0" deltaphi="360" lunit="cm" name="sc_beam_hole" rmin="0.0" rmax="sc_beam_hole_radius" z="sc_beam_hole_length" />
 
   <tube aunit="deg" startphi="100" deltaphi="140" lunit="cm" name="real_hole_sc_1" rmin="0.0" rmax="1.1*outer_r_sc" z="real_sc_hole_high" />
   <tube aunit="deg" startphi="300" deltaphi="140" lunit="cm" name="real_hole_sc_2" rmin="0.0" rmax="1.1*outer_r_sc" z="real_sc_hole_high" />
@@ -945,7 +692,6 @@
 
   <box lunit="cm" name="sc_attach_o" x="width_sc_attach" y="height_sc_attach" z="length_sc_attach"/>
   <box lunit="cm" name="sc_attach_i" x="width_sc_attach - thick_sc_attach" y="height_sc_attach - thick_sc_attach" z="length_sc_attach - thick_sc_attach/2"/>
-  <tube aunit="deg" startphi="0" deltaphi="360" lunit="cm" name="sc_attach_tube" rmin="(width_sc_attach - 0.5*thick_sc_attach)/8. - 1.*thick_sc_attach" rmax="(width_sc_attach - 0.5*thick_sc_attach)/8." z="0.5*(height_septum - height_sc_attach)" />
 
 <!-- width and height of hole will be the wrong size; need to adjust width and height for increased length relative to actual vacuum enclosures -->
   <tube aunit="deg" startphi="0" deltaphi="360" lunit="cm" name="sc_attach_beam_hole" rmin="0.0" rmax="1.001*coll_3_outer_r" z="sc_beam_hole_length" />
@@ -979,20 +725,8 @@
       <positionref ref="scAttachTrans_2"/>
       <rotationref ref="scRot_1"/>
   </subtraction>
-  <union name="sc_attach_4">
-    <first ref="sc_attach_3"/>
-    <second ref="sc_attach_tube"/>
-    <positionref ref="scAttachTubeTrans_1"/>
-    <rotationref ref="scRot_1"/>
-  </union>
-  <union name="sc_attach_5">
-    <first ref="sc_attach_4"/>
-    <second ref="sc_attach_tube"/>
-    <positionref ref="scAttachTubeTrans_2"/>
-    <rotationref ref="scRot_1"/>
-  </union>
   <subtraction name ="sc_attach_solid">
-      <first ref="sc_attach_5"/>
+      <first ref="sc_attach_3"/>
       <second ref="sc_attach_beam_hole"/> <!-- Should be with the septum pipe -->
       <positionref ref="scAttachTrans_3"/>
   </subtraction>
@@ -1016,7 +750,6 @@
 
   <box lunit="cm" name="sept_rect_hole" x="width_septum_rect_hole" y="height_septum_rect_hole" z="1.001*length_septum"/>
   <tube aunit="deg" startphi="0" deltaphi="360" lunit="cm" name="sept_beam_hole" rmin="0." rmax="1.001*ro_septum_pipe" z="1.001*length_septum" />
-  <box lunit="cm" name="sept_beam_hole_2" x="sept_pipe_cont_width" y="sept_pipe_cont_high" z="1.001*length_septum" />
 
   <subtraction name ="septum_solid_1">
       <first ref="septum_solid_0"/>
@@ -1037,14 +770,9 @@
 
 
 <!-- Beamline -->
-<!--septum_pipe_tube tube is not used the polycone is the one used in the geometry-->
   <tube aunit="deg" startphi="0" deltaphi="360" lunit="cm" name="septum_pipe_tube" rmin="ri_septum_pipe" rmax="ro_septum_pipe" z="length_septum_pipe" />
-   <polycone aunit="deg" startphi="0" deltaphi="360" lunit="cm" name="septum_pipe_tube_1"> 
-     <zplane  rmin="1.2 * coll_inner_r2" rmax="1.2 * coll_inner_r2 + 1.0*ro_septum_pipe -1.0*ri_septum_pipe" z="-0.5*length_septum_pipe" />
-     <zplane  rmin="1.2 * coll_inner_r2 + 20.0 * tan(coll_angle*PI/180.)" rmax="1.2 * coll_inner_r2 + 20.0 * tan(coll_angle*PI/180.) + 1.0*ro_septum_pipe -1.0*ri_septum_pipe" z="-0.5*length_septum_pipe + 20.0" />
-     <zplane  rmin="ri_septum_pipe" rmax="ro_septum_pipe" z="-0.5*length_septum_pipe + 30.0" />
-     <zplane  rmin="ri_septum_pipe" rmax="ro_septum_pipe" z="+0.5*length_septum_pipe" />
-   </polycone> 
+
+  
   <polycone aunit="deg" startphi="0" deltaphi="360" lunit="cm" name="beamtube_1"> 
     <zplane rmin="ro_septum_pipe" rmax="beamline[2,1]" z="-0.5*beamline[3,1]-0.5*beamline[3,2]-0.5*beamline[3,3]-0.5*beamline[3,4]-0.5*beamline[3,5]-0.5*beamline[3,6]-0.5*beamline[3,7]-0.5*beamline[3,8]-0.5*beamline[3,9]-0.5*beamline[3,10]-0.5*beamline[3,11]-0.5*beamline[3,12]-0.5*beamline[3,13] -1."/> 
     <zplane rmin="ro_septum_pipe" rmax="beamline[2,1]" z="-0.5*beamline[3,1]-0.5*beamline[3,2]-0.5*beamline[3,3]-0.5*beamline[3,4]-0.5*beamline[3,5]-0.5*beamline[3,6]-0.5*beamline[3,7]-0.5*beamline[3,8]-0.5*beamline[3,9]-0.5*beamline[3,10]-0.5*beamline[3,11]-0.5*beamline[3,12]-0.5*beamline[3,13]"/> 
@@ -1148,26 +876,8 @@
   <box lunit="cm" name="hut_sc_hole" x="width_hut_sc_hole" y="height_hut_sc_hole" z="length_hut_sc_hole"/>
   <tube aunit="deg" startphi="0" deltaphi="360" lunit="cm" name="hut_sc_tube_hole" rmin="0" rmax="outer_r_sc_shld*1.001" z="height_sc*1.001" />
 
-  <tube aunit="deg" startphi="225" deltaphi="90" lunit="cm" name="outScattChamberShld" rmin="inner_r_sc_shld" rmax="outer_r_sc_shld" z="height_sc" />
- 
-  <tube aunit="deg" startphi="fstartPhiBackShield" deltaphi="fdeltaPhiBackShield" lunit="cm" name="outScattChamberShld_p1" rmin="inner_r_sc_shld" rmax="inner_r_sc_shld+fThickBackSCShield" z="height_sc" />
-  <tube aunit="deg" startphi="fstartPhiBackShield - 1." deltaphi="fdeltaPhiBackShield + 2." lunit="cm" name="outScattChamberShld_p1_m" rmin="inner_r_sc_shld - 1." rmax="inner_r_sc_shld+fThickBackSCShield + 1." z="height_sc + 0.01" />
-  <tube aunit="deg" startphi="fstartPhiSideShield1" deltaphi="fdeltaPhiSideShield1" lunit="cm" name="outScattChamberShld_p2" rmin="inner_r_sc_shld" rmax="inner_r_sc_shld+fThickSideSCShield" z="fHightSideSCShield" />
-  <tube aunit="deg" startphi="fstartPhiSideShield2" deltaphi="fdeltaPhiSideShield2" lunit="cm" name="outScattChamberShld_p3" rmin="inner_r_sc_shld" rmax="inner_r_sc_shld+fThickSideSCShield" z="fHightSideSCShield" />
-  <tube aunit="deg" startphi="fstartPhiFrontShield" deltaphi="fdeltaPhiFrontShield" lunit="cm" name="outScattChamberShld_p4" rmin="inner_r_sc_shld" rmax="inner_r_sc_shld+fThickFrontSCShield" z="fHightFrontSCShield" />
-
-   <tube aunit="deg" startphi="0" deltaphi="360" lunit="cm" name="Shldsc_attach_tube" rmin="0." rmax="1.001*(width_sc_attach - 0.5*thick_sc_attach)/8." z="0.501*(height_septum - height_sc_attach)" />
-
-  <box lunit="cm" name="scShld_attach_hole" x="width_hut_sc_hole" y="height_hut_sc_hole" z="4*length_hut_sc_hole"/>
-
-   <polycone aunit="deg" startphi="0" deltaphi="360" lunit="cm" name="septum_pipe_shield_1"> 
-     <zplane  rmin="1.21 * coll_inner_r2  + 1.0*ro_septum_pipe -1.0*ri_septum_pipe" rmax="fSeptPipeShieldThick" z="-0.5*fSeptPipeShieldLength" />
-     <zplane  rmin="1.21 * coll_inner_r2 + 1.0*ro_septum_pipe -1.0*ri_septum_pipe + fSeptPipeShieldLength * tan(coll_angle*PI/180.)" rmax="fSeptPipeShieldThick" z="-0.5*fSeptPipeShieldLength+ 20." />
-     <zplane  rmin="1.01*ro_septum_pipe" rmax="fSeptPipeShieldThick" z="-0.5*fSeptPipeShieldLength + 30.0" />
-     <zplane  rmin="1.01*ro_septum_pipe" rmax="1.2*ro_septum_pipe" z="+0.5*fSeptPipeShieldLength" />
-   </polycone> 
-
-  <box lunit="cm" name="Shld_rect_hole" x="width_septum_rect_hole" y="2.*fSeptPipeShieldThick" z="0.5*fSeptPipeShieldLength"/>
+  <tube aunit="deg" startphi="0" deltaphi="360" lunit="cm" name="outScattChamberShld" rmin="inner_r_sc_shld" rmax="outer_r_sc_shld" z="height_sc" />
+  <box lunit="cm" name="scShld_attach_hole" x="width_hut_sc_hole" y="height_hut_sc_hole" z="2*length_hut_sc_hole"/>
 
   <subtraction name ="hut_solid_1">
       <first ref="hut_solid_0"/>
@@ -1186,46 +896,8 @@
       <rotationref ref="scRot_2"/>
   </subtraction>
  
-  <subtraction name ="outScattChamberShld_p0">
-      <first ref="outScattChamberShld_p1"/>
-      <second ref="outScattChamberShld_p1_m"/>
-      <position name="scShldlayTrans_0" unit="cm" x="0" y="0" z="fHightSideSCShield"/>
-      <rotationref ref="identity"/>
-  </subtraction>
-
-  <union name ="outScattChamberShld_p5">
-     <first ref="outScattChamberShld_p0"/>
-     <second ref="outScattChamberShld_p2"/>
-     <positionref ref="scShldlayTrans_1"/>
-     <rotationref ref="identity"/>
-   </union>
-  <union name ="outScattChamberShld_p6">
-     <first ref="outScattChamberShld_p5"/>
-     <second ref="outScattChamberShld_p3"/>
-     <positionref ref="scShldlayTrans_1"/>
-     <rotationref ref="identity"/>
-   </union>
-  <union name ="outScattChamberShld_p7">
-     <first ref="outScattChamberShld_p6"/>
-     <second ref="outScattChamberShld_p4"/>
-     <positionref ref="scShldlayTrans_2"/>
-     <rotationref ref="identity"/>
-   </union>
-   <subtraction name="outScattChamberShld_p8">
-     <first ref="outScattChamberShld_p7"/>
-     <second ref="Shldsc_attach_tube"/>
-     <positionref ref="ShldTubeTrans_1"/>
-     <rotationref ref="identity"/>
-   </subtraction>
-   <subtraction name="outScattChamberShld_p9">
-     <first ref="outScattChamberShld_p8"/>
-     <second ref="Shldsc_attach_tube"/>
-     <positionref ref="ShldTubeTrans_2"/>
-     <rotationref ref="identity"/>
-   </subtraction>
-
   <subtraction name ="scatt_cham_shld_solid_0">
-      <first ref="outScattChamberShld_p9"/>
+      <first ref="outScattChamberShld"/>
       <second ref="scShld_attach_hole"/>
       <positionref ref="scShldTrans_1"/>
       <rotationref ref="scRot_1"/>
@@ -1243,27 +915,6 @@
       <rotationref ref="identity"/>
   </subtraction>  
  --> 
-  <union name="septum_pipe_shield_0_1">
-    <first ref="septum_pipe_shield_1"/>
-    <second ref="Shld_rect_hole"/>
-    <position name="Shld_rect_hole_pos" unit="cm" x="rect_hole_center_x" y="0" z="0"/>
-  </union>
-  <union name="septum_pipe_shield_0_2">
-    <first ref="septum_pipe_shield_0_1"/>
-    <second ref="Shld_rect_hole"/>
-    <position name="Shld_rect_hole_pos2" unit="cm" x="-rect_hole_center_x" y="0" z="0"/>
-  </union>
-  <subtraction name ="septum_pipe_shield_2">
-      <first ref="septum_pipe_shield_0_2"/>
-      <second ref="hole_for_l_vac_enc"/>
-      <positionref ref="septpipeShldTrans_l"/>
-  </subtraction>
-  <subtraction name ="septum_pipe_shield_3">
-      <first ref="septum_pipe_shield_2"/>
-      <second ref="hole_for_r_vac_enc"/>
-      <positionref ref="septpipeShldTrans_r"/>
-  </subtraction>
-
   <box lunit="cm" name="sept_shld_l_0" x="0.9999*width_septum_rect_hole" y="height_septum_rect_hole" z="length_septum"/>
   <box lunit="cm" name="sept_shld_r_0" x="0.9999*width_septum_rect_hole" y="height_septum_rect_hole" z="length_septum"/>
 
@@ -1278,39 +929,6 @@
       <second ref="hole_for_r_vac_enc"/>
       <positionref ref="septShldTrans_r"/>
   </subtraction>
-
-
-<!-- Shielding SC attach hut -->
-  <box lunit="cm" name="sc_attach_hut_o" x="width_sc_attach_hut" y="height_sc_attach_hut" z="length_sc_attach_hut"/>
-  <tube aunit="deg" startphi="0" deltaphi="360" lunit="cm" name="hut_sc_tube_hut_hole" rmin="0" rmax="1.001*(inner_r_sc_shld+fThickFrontSCShield)" z="height_sc*1.001" />
-  <subtraction name ="sc_attach_hut_0">
-      <first ref="sc_attach_hut_o"/>
-      <second ref="sc_attach_o"/>
-      <positionref ref="ped_notrans"/>
-  </subtraction>
-  <subtraction name ="sc_attach_hut_1">
-      <first ref="sc_attach_hut_0"/>
-      <second ref="hole_for_l_vac_enc"/>
-      <positionref ref="scAttachTrans_hut_l"/>
-  </subtraction>
-  <subtraction name ="sc_attach_hut_2">
-      <first ref="sc_attach_hut_1"/>
-      <second ref="hole_for_r_vac_enc"/>
-      <positionref ref="scAttachTrans_hut_r"/>
-  </subtraction>
-  <subtraction name ="sc_attach_hut_3">
-      <first ref="sc_attach_hut_2"/>
-      <second ref="hut_sc_tube_hut_hole"/>
-      <positionref ref="scAttachTrans_2"/>
-      <rotationref ref="scRot_1"/>
-  </subtraction>
-  <subtraction name ="sc_attach_hut_solid">
-      <first ref="sc_attach_hut_3"/>
-      <second ref="sc_attach_beam_hole"/> <!-- Should be with the septum pipe -->
-      <positionref ref="scAttachTrans_3"/>
-  </subtraction>
-
-
 
 <!-- Pedestal scattering chamber -->
   <box lunit="cm" name="ped_tube_upstream_o" x="ped_tube_width" y="ped_tube_side/2" z="ped_tube_side"/>
@@ -1744,13 +1362,12 @@
       <positionref ref="dumpTrans_2"/>
   </subtraction>
 
-
-<!-- Electronic hut at HRS represnted by this box -->
-<box lunit="cm" name="box_elec_hut" x="width_elec_hut" y="height_elec_hut" z="length_elec_hut"/> 
-
-<!-- Electronic hut at septum magnet represnted by this box -->
-<box lunit="cm" name="box_elec_hut_sept" x="width_elec_hut_sept" y="height_elec_hut_sept" z="length_elec_hut_sept"/> 
-
+  <!-- Electronic hut at HRS represnted by this box -->
+  <box lunit="cm" name="box_elec_hut" x="width_elec_hut" y="height_elec_hut" z="length_elec_hut"/> 
+  
+  <!-- Electronic hut at septum magnet represnted by this box -->
+  <box lunit="cm" name="box_elec_hut_sept" x="width_elec_hut_sept" y="height_elec_hut_sept" z="length_elec_hut_sept"/> 
+  
 
 <!-- Detectors -->
   <sphere aunit="deg" startphi="0" deltaphi="360" starttheta="0" deltatheta="360" lunit="cm" name="sDet_1"  rmin="det_inner_r" rmax="det_outer_r"/>
@@ -1762,7 +1379,7 @@
   <tube aunit="deg" startphi="0" deltaphi="360" lunit="cm" name="cDet_2_f" rmin="cDet_2_radius" rmax="cDet_2_radius+1." z="1*height_cylwall-1*thick_cylwall" /> 
   <tube aunit="deg" startphi="0" deltaphi="360" lunit="cm" name="cDet_3_f" rmin="cDet_3_radius - 1." rmax="cDet_3_radius" z="1*height_cylwall-1*thick_cylwall" /> 
 
-   <subtraction name ="cDet_1_f_p1">
+  <subtraction name ="cDet_1_f_p1">
       <first ref="cDet_1_f"/>
       <second ref="beamtube_10"/>
       <positionref ref="cDet_1_trans"/>
@@ -1779,7 +1396,8 @@
       <second ref="under_arm_solid"/>
       <positionref ref="cDet_1_under_2pos"/>
       <rotationref ref="scRot_11"/>
-  </subtraction>  
+  </subtraction> 
+
   <subtraction name ="cDet_2">
       <first ref="cDet_2_f"/>
       <second ref="beamtube_12"/>
@@ -1793,49 +1411,8 @@
       <rotationref ref="scRot_1"/>
   </subtraction> 
 
-
   <tube aunit="deg" startphi="0" deltaphi="360" lunit="cm" name="dDet_us" rmin="0" rmax="(coll_inner_r1)*1.0001" z="0.1" />
   <tube aunit="deg" startphi="0" deltaphi="360" lunit="cm" name="dDet_ds" rmin="0" rmax="(coll_inner_r2)*1.0001" z="0.1" />
-
-  <sphere aunit="deg" startphi="0" deltaphi="360" starttheta="0" deltatheta="360" lunit="cm" name="sDet_2"  rmin="30.0" rmax="30.1"/>
-  
-  <box lunit="cm" name="box_1" x="width_w_coll_1+0.001" y="height_w_coll_1+0.001" z="length_w_coll_1+0.001"/>
-  <cone aunit="deg" startphi="0" deltaphi="360" lunit="cm" name="bore_cone_1" rmin1="0.0" rmax1="coll_inner_r1" rmin2="0.0" rmax2="coll_inner_r2" z="length_bore+0.001"/>
-
-  <box lunit="cm" name="box_2" x="width_w_coll_1+0.0001" y="height_w_coll_1+0.0001" z="length_w_coll_1+0.0001"/>
-
-  <subtraction name ="box_3">
-      <first ref="box_1"/>
-      <second ref="box_2"/>
-      <positionref ref="collTrans_0"/>
-      <rotationref ref="identity"/>
-  </subtraction>
-
-
-  <subtraction name ="box_4">
-      <first ref="box_3"/>
-      <second ref="bore_cone_1"/>
-      <positionref ref="collTrans_0"/>
-      <rotationref ref="identity"/>
-  </subtraction>
-
-
-  <box lunit="cm" name="jacket_cw70_1" x="width_cw70_jacket" y="height_cw70_jacket" z="length_cw70_jacket+0.01"/>
-
-
-  <subtraction name ="box_5">
-      <first ref="box_4"/>
-      <second ref="jacket_cw70_1"/>
-      <positionref ref="jacketTrans_d_1"/>
-      <rotationref ref="identity"/>
-  </subtraction>
-
-  <subtraction name ="box_det_1">
-      <first ref="box_5"/>
-      <second ref="jacket_cw70_1"/>
-      <positionref ref="jacketTrans_u_1"/>
-      <rotationref ref="identity"/>
-  </subtraction>
 
   <!-- Disk detectors inside the beamline : Rakitha Tue Nov  5 15:17:02 EST 2013 -->
   <tube aunit="deg" startphi="0" deltaphi="360" lunit="cm" name="dDet_beamline_1" rmin="0" rmax="beamline[1,1]" z="0.1" />
@@ -1843,67 +1420,48 @@
   <tube aunit="deg" startphi="0" deltaphi="360" lunit="cm" name="dDet_beamline_3" rmin="0" rmax="beamline[1,12]" z="0.1" />  
   <tube aunit="deg" startphi="0" deltaphi="360" lunit="cm" name="dDet_beamline_4" rmin="0" rmax="beamline[1,12]" z="0.1" />
 
-  <!-- Beam-line Cylindical detector outside the beamline : Rakitha Tue Nov 12 11:23:08 EST 2013 -->
-  <tube aunit="deg" startphi="0" deltaphi="360" lunit="cm" name="beam_cyl_det" rmin="beam_cyl_det_inner_r" rmax="beam_cyl_det_outer_r" z="beam_cyl_det_length" />
-  <!--detector for electronic hut -->
-  <box lunit="cm" name="det_box_elec_hut_1" x="width_elec_hut+0.0001" y="height_elec_hut+0.0001" z="length_elec_hut+0.0001"/>
-  <box lunit="cm" name="det_box_elec_hut_2" x="width_elec_hut" y="height_elec_hut" z="length_elec_hut"/>
 
-  <subtraction name ="det_box_elec_hut">
-    <first ref="det_box_elec_hut_1"/>
-    <second ref="det_box_elec_hut_2"/>
-    <positionref ref="collTrans_0"/>
-    <rotationref ref="identity"/>
+  <!-- Concrete sites and concrete site detectors -Ricky -->
+  <box lunit="cm" name="farDet_farside_solid" x="width_det_far" y="height_det_far" z="length_det_far"/>
+  <box lunit="cm" name="farDet_rampside_solid" x="width_det_far" y="height_det_far" z="length_det_far"/>
+  <box lunit="cm" name="slab1_0" x="width_slab1" y="height_slab" z="length_slab1"/>
+  <box lunit="cm" name="slab2_0" x="width_slab2" y="height_slab" z="length_slab2"/>
+  <box lunit="cm" name="slab1_cut" x="width_slab1" y="height_slab+0.5" z="length_slab1"/>
+  <box lunit="cm" name="slab2_cut" x="width_slab2" y="height_slab+0.5" z="length_slab2"/>
+  
+  <subtraction name="slab1_solid">
+    <first ref="slab1_0"/>
+    <second ref="slab1_cut"/>
+    <positionref ref="slab1_trans"/>
+  </subtraction>
+  
+  <subtraction name="slab2_solid">
+    <first ref="slab2_0"/>
+    <second ref="slab2_cut"/>
+    <positionref ref="slab2_trans"/>
   </subtraction>
 
-  
+
 </solids>
-
-
-
 
 
   <structure>
 
-
     <volume name="W_coll_logic">
-       <materialref ref="CW70"/>
-       <!--       <materialref ref="Kryptonite"/> -->
-       <!--      <materialref ref="Tungsten"/>  -->
-      <solidref ref="coll_CW70_Solid"/>
+      <materialref ref="Tungsten"/>
+      <solidref ref="collWSolid"/>
       <!-- <auxiliary auxtype="SensDet" auxvalue="volumeN5001"/> -->
     </volume>
 
-    <volume name="coll_jacket_W_logic">
-      <!--  <materialref ref="Kryptonite"/> -->
-      <materialref ref="Tungsten"/>
-      <!-- <materialref ref="CW70"/> -->
-      <solidref ref="coll_jacket_W_Solid"/>
-      <!-- <auxiliary auxtype="SensDet" auxvalue="volumeN5002"/> -->
-    </volume>
-
-    <volume name="Cu_tube_logic">
-      <materialref ref="Copper"/> 
-      <solidref ref="Cu_tube_Solid"/>
-      <!--  <auxiliary auxtype="SensDet" auxvalue="volumeN5003"/> -->
-    </volume>
-
     <volume name="target_logic">
-      <materialref ref="PureLead"/>
+      <materialref ref="H2Liquid"/>
       <solidref ref="tubeTarget"/>
     </volume>
-<!--
-    <volume name="scDet_logic">
-      <materialref ref="Vacuum"/>
-      <solidref ref="ScattChamberDet"/>
-      <auxiliary auxtype="SensDet" auxvalue="planeDet"/>
-    </volume>
--->
+
     <volume name="sc_logic">
       <materialref ref="Aluminum"/>
       <solidref ref="scatt_w_holes"/>
-      <auxiliary auxtype="SensDet" auxvalue="volumeN5004"/>
-<!-- <auxiliary auxtype="SensDet" auxvalue="planeDet"/> -->
+      <!-- <auxiliary auxtype="SensDet" auxvalue="volumeN5004"/> -->
     </volume>
     <volume name="sc_attach_logic">
       <materialref ref="Aluminum"/>
@@ -1930,17 +1488,17 @@
 
     <volume name="septum_pipe_logic">
       <materialref ref="StainlessSteel"/>
-      <solidref ref="septum_pipe_tube_1"/>
+      <solidref ref="septum_pipe_tube"/>
       <!-- <auxiliary auxtype="SensDet" auxvalue="volumeN5007"/> -->
     </volume>
-
+ 
     <volume name="beamtube_1_logic">
       <materialref ref="Aluminum"/>
-<!--      <materialref ref="Tungsten"/> -->
+      <!-- <materialref ref="Tungsten"/> -->
       <solidref ref="beamtube_1"/>
       <!-- <auxiliary auxtype="SensDet" auxvalue="volumeN5008"/> -->
     </volume>
-   
+  
 
     <volume name="vac_enc_l_logic">
       <materialref ref="StainlessSteel"/>
@@ -1951,25 +1509,13 @@
       <solidref ref="vac_enc_r_solid"/>
     </volume>
 
-
-    <volume name="sc_attach_hut_logic">
-      <materialref ref="Shield"/>
-      <solidref ref="sc_attach_hut_solid"/>
-      <auxiliary auxtype="SensDet" auxvalue="volumeN5011"/>
-    </volume>
     <volume name="hut_logic">
       <materialref ref="Shield"/>
       <solidref ref="hut_solid"/>
     </volume>
-    
     <volume name="scatt_cham_shld_logic">
       <materialref ref="Shield"/>
       <solidref ref="scatt_cham_shld_solid"/>
-      <auxiliary auxtype="SensDet" auxvalue="volumeN5012"/>
-    </volume>
-    <volume name="septpipeShld_logic">
-      <materialref ref="Shield"/>
-      <solidref ref="septum_pipe_shield_3"/>
     </volume>
     <volume name="septShld_l_logic">
       <materialref ref="Shield"/>
@@ -2042,14 +1588,29 @@
       <auxiliary auxtype="SensDet" auxvalue="volumeN10009"/> 
     </volume>
 
-    <!-- Electronic hut detector -->
-    <volume name="det_box_elec_hut_logic">
-       <materialref ref="Vacuum"/>
-      <solidref ref="det_box_elec_hut"/>
-      <auxiliary auxtype="SensDet" auxvalue="volumeN10006"/> 
+    <!-- Detectors at concrete sites and concrete -->
+    <volume name="farDet_farside_logic">
+      <materialref ref="Kryptonite"/>
+      <solidref ref="farDet_farside_solid"/>
+      <auxiliary auxtype="SensDet" auxvalue="volumeN2001"/>
     </volume>
-
-
+    
+    <volume name="farDet_rampside_logic">
+      <materialref ref="Kryptonite"/>
+      <solidref ref="farDet_rampside_solid"/>
+      <auxiliary auxtype="SensDet" auxvalue="volumeN2002"/>
+    </volume>
+    
+    <volume name="slab1_logic">
+      <materialref ref="Concrete"/>
+      <solidref ref="slab1_solid"/>
+    </volume>
+    
+    <volume name="slab2_logic">
+      <materialref ref="Concrete"/>
+      <solidref ref="slab2_solid"/>
+    </volume>
+    
     <volume name="sDet_1_logic">
       <materialref ref="Vacuum"/>
       <solidref ref="sDet_1"/>
@@ -2073,20 +1634,17 @@
     <volume name="cDet_1_logic">
       <materialref ref="Vacuum"/>
       <solidref ref="cDet_1"/>
-<!--      <auxiliary auxtype="SensDet" auxvalue="planeDet"/> -->
       <auxiliary auxtype="SensDet" auxvalue="volumeN8001"/>
-    </volume>
+    </volume> 
     <volume name="cDet_2_logic">
       <materialref ref="Vacuum"/>
       <solidref ref="cDet_2"/>
-<!--      <auxiliary auxtype="SensDet" auxvalue="planeDet"/> -->
-      <auxiliary auxtype="SensDet" auxvalue="volumeN8002"/> 
+      <auxiliary auxtype="SensDet" auxvalue="volumeN8002"/>
     </volume>
     <volume name="cDet_3_logic">
       <materialref ref="Vacuum"/>
       <solidref ref="cDet_3"/>
-<!--      <auxiliary auxtype="SensDet" auxvalue="planeDet"/> -->
-     <auxiliary auxtype="SensDet" auxvalue="volumeN8003"/>
+      <auxiliary auxtype="SensDet" auxvalue="volumeN8003"/>
     </volume>
 
     <volume name="dDet_us_logic">
@@ -2100,23 +1658,6 @@
       <auxiliary auxtype="SensDet" auxvalue="volumeN8005"/>
     </volume>
 
-
-    <volume name="sDet_2_logic">
-      <materialref ref="Vacuum"/>
-      <solidref ref="sDet_2"/>
-      <!-- <auxiliary auxtype="SensDet" auxvalue="volumeN8006"/> -->
-    </volume> 
-
-
-
-
-    <volume name="box_det_1_logic">
-      <materialref ref="Vacuum"/>
-      <solidref ref="box_det_1"/>
-      <auxiliary auxtype="SensDet" auxvalue="volumeN8007"/>
-    </volume>
-
-    
     <volume name="dDet_beamline_1_logic">
       <materialref ref="Vacuum"/>
       <solidref ref="dDet_beamline_1"/>
@@ -2141,148 +1682,104 @@
       <auxiliary auxtype="SensDet" auxvalue="volumeN10004"/>
     </volume>
 
-    <volume name="beam_cyl_det_logic">
-      <materialref ref="Vacuum"/>
-      <solidref ref="beam_cyl_det"/>
-      <auxiliary auxtype="SensDet" auxvalue="volumeN10005"/>
-    </volume>
-
 
     <volume name="logicMother">
       <materialref ref="Vacuum"/>
       <solidref ref="boxMother"/>
 
-      <physvol name="collimator">
-        <volumeref ref="W_coll_logic"/>
-        <positionref ref="coll_cw70_center"/>
-      </physvol>
-
-
-      <physvol name="collimator_jacket">
-        <volumeref ref="coll_jacket_W_logic"/>
-        <positionref ref="coll_center"/>
-      </physvol>
-
-      <physvol name="Cu_tube">
-        <volumeref ref="Cu_tube_logic"/>
-        <positionref ref="Cu_tube_center"/>
-      </physvol>
+      <!-- <physvol name="collimator"> -->
+      <!--   <volumeref ref="W_coll_logic"/> -->
+      <!--   <positionref ref="coll_center"/> -->
+      <!-- </physvol> -->
 
       <physvol name="target">
         <volumeref ref="target_logic"/>
         <positionref ref="targ_center"/>
       </physvol>
 
-
       <physvol name="sc_other_1">
         <volumeref ref="sc_logic"/>
         <positionref ref="sc_center"/>
         <rotationref ref="scRot_1"/>
       </physvol>
+
       <physvol name="sc_attachment">
         <volumeref ref="sc_attach_logic"/>
         <positionref ref="sc_attach_center"/>
       </physvol>
 
-      <physvol name="septum">
-        <volumeref ref="septum_logic"/>
-        <positionref ref="septum_center"/>
-      </physvol>
-
-
-
+      <!-- <physvol name="septum"> -->
+      <!--   <volumeref ref="septum_logic"/> -->
+      <!--   <positionref ref="septum_center"/> -->
+      <!-- </physvol> -->
 
      <physvol name="septum_pipe">
       <volumeref ref="septum_pipe_logic" />
       <position name="posbeamline" unit="cm" x="0" y="0" z="center_septum_pipe"/>
-    </physvol>
-
-
+     </physvol>
+     
      <physvol name="beam_pipe_1">
-      <volumeref ref="beamtube_1_logic" />
-      <position name="posbeamline_1" unit="cm" x="0" y="0" z="center_septum_pipe+length_septum_pipe/2+0.5*(beamline[3,1]+beamline[3,2]+beamline[3,3]+beamline[3,4]+beamline[3,5]+beamline[3,6]+beamline[3,7]+beamline[3,8]+beamline[3,9]+beamline[3,10]+beamline[3,11]+beamline[3,12]+beamline[3,13])"/>
-    </physvol>
-
-
-
-
-
-     <physvol name="vacEnc_l">
-        <volumeref ref="vac_enc_l_logic"/>
-        <positionref ref="vac_enc_center_l"/>
-      </physvol>
-      <physvol name="vacEnc_r">
-        <volumeref ref="vac_enc_r_logic"/>
-        <positionref ref="vac_enc_center_r"/>
-      </physvol>
-
-
-
-      <physvol name="sc_attachment_hut">
-        <volumeref ref="sc_attach_hut_logic"/>
-        <positionref ref="sc_attach_center"/>
-      </physvol>
-
-      <physvol name="shieldSC">
-        <volumeref ref="scatt_cham_shld_logic"/>
-        <positionref ref="sc_center"/>
-        <rotationref ref="scRot_1"/>
-      </physvol>
-
-      <physvol name="cylwall">
-        <volumeref ref="cylwall_logic"/>
-        <positionref ref="cylwall_center"/>
-        <rotationref ref="scRot_1"/>
-      </physvol>
-
-      <physvol name="topwall">
-        <volumeref ref="topwall_logic"/>
-        <positionref ref="topwall_center"/>
-        <rotationref ref="scRot_1"/>
-      </physvol>
-
-<!-- dump and ssec disabled for beam-line background study : Rakitha Tue Nov 12 11:23:08 EST 2013 -->
-
-      <physvol name="dump">
-        <volumeref ref="dump_logic"/>
-        <positionref ref="dump_center"/>
-      </physvol>
-
-
-      <physvol name="ssenc">
-        <volumeref ref="ssenc_logic"/>
-        <positionref ref="ssenc_cylcenter"/>
-      </physvol>
-
-
-
+       <volumeref ref="beamtube_1_logic" />
+       <position name="posbeamline_1" unit="cm" x="0" y="0" z="center_septum_pipe+length_septum_pipe/2+0.5*(beamline[3,1]+beamline[3,2]+beamline[3,3]+beamline[3,4]+beamline[3,5]+beamline[3,6]+beamline[3,7]+beamline[3,8]+beamline[3,9]+beamline[3,10]+beamline[3,11]+beamline[3,12]+beamline[3,13])"/>
+     </physvol>
  
-      <physvol name="ped_union">
-        <volumeref ref="ped_union_logic"/>
-        <positionref ref="ped_1_pos"/>
-      </physvol>
-      <physvol name="under_arm_ped_1">
-        <volumeref ref="under_arm_logic_1"/>
-        <positionref ref="arm_under_ped_pos_1"/>
-	<rotationref ref="scRot_6"/>
-      </physvol>
-      <physvol name="under_arm_ped_2">
-        <volumeref ref="under_arm_logic_2"/>
-        <positionref ref="arm_under_ped_pos_2"/>
-	<rotationref ref="scRot_7"/>
-      </physvol>
+     <physvol name="vacEnc_l">
+       <volumeref ref="vac_enc_l_logic"/>
+       <positionref ref="vac_enc_center_l"/>
+     </physvol>
+     <physvol name="vacEnc_r">
+       <volumeref ref="vac_enc_r_logic"/>
+       <positionref ref="vac_enc_center_r"/>
+     </physvol>
+
+     <physvol name="cylwall">
+       <volumeref ref="cylwall_logic"/>
+       <positionref ref="cylwall_center"/>
+       <rotationref ref="scRot_1"/>
+     </physvol>
+     
+     <physvol name="topwall">
+       <volumeref ref="topwall_logic"/>
+       <positionref ref="topwall_center"/>
+       <rotationref ref="scRot_1"/>
+     </physvol>
+     
+     <physvol name="dump">
+       <volumeref ref="dump_logic"/>
+       <positionref ref="dump_center"/>
+     </physvol>
+
+     <physvol name="ssenc">
+       <volumeref ref="ssenc_logic"/>
+       <positionref ref="ssenc_cylcenter"/>
+     </physvol>
+     
+ 
+     <physvol name="ped_union">
+       <volumeref ref="ped_union_logic"/>
+       <positionref ref="ped_1_pos"/>
+     </physvol>
+     <physvol name="under_arm_ped_1">
+       <volumeref ref="under_arm_logic_1"/>
+       <positionref ref="arm_under_ped_pos_1"/>
+       <rotationref ref="scRot_6"/>
+     </physvol>
+     <physvol name="under_arm_ped_2">
+       <volumeref ref="under_arm_logic_2"/>
+       <positionref ref="arm_under_ped_pos_2"/>
+       <rotationref ref="scRot_7"/>
+     </physvol>
      <physvol name="under_arm_ped_3">
-        <volumeref ref="under_arm_logic_3"/>
-        <positionref ref="arm_under_ped_pos_3"/>
-	<rotationref ref="scRot_8"/>
-      </physvol>
+       <volumeref ref="under_arm_logic_3"/>
+       <positionref ref="arm_under_ped_pos_3"/>
+       <rotationref ref="scRot_8"/>
+     </physvol>
      <physvol name="top_scatchamber">
-        <volumeref ref="top_scatchamber_logic"/>
-        <positionref ref="top_scatchamber_pos1"/>
-	<rotationref ref="scRot_1"/>
-      </physvol>
-
-
+       <volumeref ref="top_scatchamber_logic"/>
+       <positionref ref="top_scatchamber_pos1"/>
+       <rotationref ref="scRot_1"/>
+     </physvol>
+     
      <!--The electronic hut @ HRS-->     
      <physvol name="box_elec_hut_phys">
        <volumeref ref="box_elec_hut_logic"/>
@@ -2294,107 +1791,86 @@
        <volumeref ref="box_elec_hut_sept_logic"/>
        <positionref ref="dbox_elec_hut_sept_pos"/>
      </physvol>
+     
+     <physvol name="sphere_det_1">
+       <volumeref ref="sDet_1_logic"/>
+       <positionref ref="sDet_1_pos"/>
+     </physvol>	
 
-<!-- elec hut detector is no longer used -->
-<!--
-  <physvol name="det_elec_hut_phys">
-    <volumeref ref="det_box_elec_hut_logic"/>
-    <positionref ref="dbox_elec_hut_pos"/>
-  </physvol>
--->
+     <physvol name="cyl_det_1">
+       <volumeref ref="cDet_1_logic"/>
+       <positionref ref="cDet_1_pos"/>
+       <rotationref ref="scRot_1"/>
+     </physvol>	
 
-      <physvol name="sphere_det_1">
-        <volumeref ref="sDet_1_logic"/>
-        <positionref ref="sDet_1_pos"/>
-      </physvol>	
+     <physvol name="cyl_det_2">
+       <volumeref ref="cDet_2_logic"/>
+       <positionref ref="cDet_1_pos"/>
+       <rotationref ref="scRot_1"/>
+     </physvol>	
 
-<!--
-      <physvol name="plane_det_1">
-        <volumeref ref="pDet_1_logic"/>
-        <positionref ref="pDet_1_pos"/>
-      </physvol>	
-      <physvol name="plane_det_2">
-        <volumeref ref="pDet_2_logic"/>
-        <positionref ref="pDet_2_pos"/>
-      </physvol>	
-      <physvol name="plane_det_3">
-        <volumeref ref="pDet_3_logic"/>
-        <positionref ref="pDet_3_pos"/>
-      </physvol> 
--->
+     <physvol name="cyl_det_3">
+       <volumeref ref="cDet_3_logic"/>
+       <positionref ref="cDet_1_pos"/> 
+       <rotationref ref="scRot_1"/>
+     </physvol>
+     
+     <physvol name="dsk_dDet_us">
+       <volumeref ref="dDet_us_logic"/>
+       <positionref ref="dDet_us_pos"/> 
+     </physvol>
+     
+     <physvol name="dsk_dDet_ds">
+       <volumeref ref="dDet_ds_logic"/>
+       <positionref ref="dDet_ds_pos"/> 
+     </physvol>
+     
+     <physvol name="beamline_1_det">
+       <volumeref ref="dDet_beamline_1_logic"/>
+       <positionref ref="dDet_beamline_pos_1"/>
+     </physvol>
+     
+     <physvol name="beamline_2_det">
+       <volumeref ref="dDet_beamline_2_logic"/>
+       <positionref ref="dDet_beamline_pos_2"/>
+     </physvol>
+     
+     <physvol name="beamline_3_det">
+       <volumeref ref="dDet_beamline_3_logic"/>
+       <positionref ref="dDet_beamline_pos_3"/>
+     </physvol>
+     
+     <physvol name="beamline_4_det">
+       <volumeref ref="dDet_beamline_4_logic"/>
+       <positionref ref="dDet_beamline_pos_4"/>
+     </physvol>
 
-      <physvol name="cyl_det_1">
-        <volumeref ref="cDet_1_logic"/>
-        <positionref ref="cDet_1_pos"/>
-	<rotationref ref="scRot_1"/>
-      </physvol>	
-      <physvol name="cyl_det_2">
-        <volumeref ref="cDet_2_logic"/>
-        <positionref ref="cDet_1_pos"/>
-	<rotationref ref="scRot_1"/>
-      </physvol>	
-      <physvol name="cyl_det_3">
-        <volumeref ref="cDet_3_logic"/>
-        <positionref ref="cDet_1_pos"/> 
-	<rotationref ref="scRot_1"/>
+     <physvol name="farDet_farside">
+       <volumeref ref="farDet_farside_logic"/>
+       <positionref ref="farDet_farside_pos"/>
+     </physvol>
+     
+     <physvol name="farDet_rampside">
+       <volumeref ref="farDet_rampside_logic"/>
+       <positionref ref="farDet_rampside_pos"/>
+     </physvol>
+
+      <physvol name="slab1">
+	<volumeref ref="slab1_logic"/>
+	<positionref ref="slab1_pos"/>
       </physvol>
 
-      <physvol name="dsk_dDet_us">
-        <volumeref ref="dDet_us_logic"/>
-        <positionref ref="dDet_us_pos"/> 
-      </physvol>
-      <physvol name="dsk_dDet_ds">
-        <volumeref ref="dDet_ds_logic"/>
-        <positionref ref="dDet_ds_pos"/> 
-      </physvol>
-<!--The sphere detector is disable due to volume overlap with the septum pipe -->
-	
-  <!--    <physvol name="sphere_det_2">
-        <volumeref ref="sDet_2_logic"/>
-        <positionref ref="sDet_2_pos"/>
-      </physvol>
--->
-
-<!--The box detector is disable due to volume overlap with the septum pipe and new extension of the CW70 collimator -->
-<!--
-      <physvol name="box_det">
-        <volumeref ref="box_det_1_logic"/>
-        <positionref ref="coll_center"/>
-      </physvol>
--->
-
-      <physvol name="beamline_1_det">
-        <volumeref ref="dDet_beamline_1_logic"/>
-        <positionref ref="dDet_beamline_pos_1"/>
+      <physvol name="slab2">
+	<volumeref ref="slab2_logic"/>
+	<positionref ref="slab2_pos"/>
       </physvol>
 
-      <physvol name="beamline_2_det">
-        <volumeref ref="dDet_beamline_2_logic"/>
-        <positionref ref="dDet_beamline_pos_2"/>
-      </physvol>
+     
+   </volume>
+ </structure>
 
-      <physvol name="beamline_3_det">
-        <volumeref ref="dDet_beamline_3_logic"/>
-        <positionref ref="dDet_beamline_pos_3"/>
-      </physvol>
-
-      <physvol name="beamline_4_det">
-        <volumeref ref="dDet_beamline_4_logic"/>
-        <positionref ref="dDet_beamline_pos_4"/>
-      </physvol>
-
-<!--This interfere with the ssenc volume -->
-<!--
-      <physvol name="beamline_cyl_det">
-        <volumeref ref="beam_cyl_det_logic"/>
-        <positionref ref="beam_cyl_det_pos"/>
-      </physvol>
--->
-    </volume>
-  </structure>
-
-  <setup name="Default" version="1.0">
-    <world ref="logicMother"/>
-  </setup>
+ <setup name="Default" version="1.0">
+   <world ref="logicMother"/>
+ </setup>
 
 </gdml>

@@ -134,7 +134,7 @@ G4VPhysicalVolume* MollerDetectorConstruction::Construct()
       if ((*vit).type == "SensDet")
       {
         G4String det_type = (*vit).value;
-	//G4cout << " is a " << det_type <<  G4endl << G4endl;
+	G4cout << " is a " << det_type << G4endl;
 
 	snprintf(detectorname,200,"/detector%i",k+1);
 	collimatordetector[k] = new MollerDetectorSD(detectorname);
@@ -142,9 +142,9 @@ G4VPhysicalVolume* MollerDetectorConstruction::Construct()
         if (collimatordetector[k] != 0)
         {
 
-          G4cout << "  Creating sensitive detector " << det_type
+          G4cout << " Creating sensitive detector " << det_type
                  << " for volume " << myvol->GetName()
-                 <<  G4endl << G4endl;
+                 <<  G4endl ;
 	  char volumeNumber[20] = "volumeN"; 
 	  TString vol_str(det_type.data());
 	  G4int n_vol = -1;
@@ -153,7 +153,7 @@ G4VPhysicalVolume* MollerDetectorConstruction::Construct()
 	    n_vol =  vol_str.Atoi(); 
 	    // G4cout << "volume " << vol_str.Data() << " number overwritten to " << n_vol << G4endl;
 	    collimatordetector[k]->SetVolume(n_vol);
-	    G4cout << "volume number overwritten to " << n_vol <<" to be accessed in the TNtuple" << G4endl;
+	    G4cout << "  volume number overwritten to " << n_vol <<" to be accessed in the TNtuple" << G4endl<< G4endl;
 	  }
           SDman->AddNewDetector(collimatordetector[k]);
           myvol->SetSensitiveDetector(collimatordetector[k]);

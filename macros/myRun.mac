@@ -1,20 +1,3 @@
+/moller/ana/rootfilename ./o_SimName
+/run/beamOn 100
 
-/gun/particle e-
-#/gun/particle gamma
-/moller/gun/gen 7
-
-#/gun/energy 1.05 GeV ## PREX energy
-#/moller/ana/rootfilename ./prex_2-11-16
-
-#/gun/energy 2.20 GeV ## CREX energy
-#/moller/ana/rootfilename ./crex_2-4-16
-
-#HAPPEX 2 ran a higher energies
-/gun/energy 3.18 GeV  ## HAPPEX2 energy
-/moller/ana/rootfilename ./happex2_2-16-16
-
-#Collimator Shield Radiation Testing
-#/gun/energy 0.008 GeV # Coll Radiation
-#/moller/ana/rootfilename ./oneWay_test
-
-/run/beamOn 1000000
