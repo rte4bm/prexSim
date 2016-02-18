@@ -416,6 +416,22 @@
   <constant name="dump_ss_enc_cylcenter" value="center_cyldump-length_dump/2-thick_cylwall+5."/>
   <constant name="dump_ss_enc_hole_radius" value="46.038"/>
 
+  
+  <!--  Detectors for new concrete sites - Ricky -->
+  <constant name="width_det_far" value="100.0"/>
+  <constant name="height_det_far" value="100.0"/>
+  <constant name="length_det_far" value="100.0"/>
+
+  
+  <!-- Concrete sites - Ricky -->
+  <constant name="width_slab1" value="200."/>
+  <constant name="width_slab2" value="300."/>
+  <constant name="length_slab1" value="200."/>
+  <constant name="length_slab2" value="500."/>
+  <constant name="height_slab" value="-(bottom_cylwall)+50."/>
+  <constant name="thick_slab" value="50."/>
+
+
 <!-- Cylindrical detector for Full hall simulation -->
   <constant name="cDet_1_radius" value="prex_target_center+600."/>
   <constant name="cDet_2_radius" value="prex_target_center+2300."/>
@@ -651,6 +667,15 @@
   <position unit="cm" name="cDet_1_trans"     x="0" y="-cDet_1_radius"     z="-1.*center_cylwall-0.5*thick_cylwall"/>
   <position unit="cm" name="cDet_2_trans"     x="0" y="-cDet_2_radius"     z="-1.*center_cylwall-0.5*thick_cylwall"/>
   <position unit="cm" name="cDet_3_trans"     x="0" y="-cDet_3_radius"     z="-1.*center_cylwall-0.5*thick_cylwall"/>
+
+    <!-- Positions for detectors and walls at concrete site - Ricky-->
+  <position unit="cm" name="farDet_farside_pos" x="860." y="0" z="-1461."/>
+  <position unit="cm" name="farDet_rampside_pos" x="-425." y="0" z="-1461"/>
+  <position unit="cm" name="slab1_pos" x="810." y="-(height_slab)/2.+thick_cylwall+50." z="-1411."/>
+  <position unit="cm" name="slab2_pos" x="-425." y="-(height_slab)/2.+thick_cylwall+50." z="-1461."/>
+  <position unit="cm" name="slab1_trans" x="thick_slab" y="0" z="-(thick_slab)"/>
+  <position unit="cm" name="slab2_trans" x="-(thick_slab)" y="0" z="-(thick_slab)"/>
+
 
   <!-- Pedestal scattering chamber -->
  
@@ -1122,18 +1147,20 @@
     <positionref ref="scAttachTubeTrans_2"/>
     <rotationref ref="scRot_1"/>
   </union>
-  <subtraction name ="sc_attach_6">
+  <subtraction name ="sc_attach_solid">
       <first ref="sc_attach_5"/>
       <second ref="sc_attach_beam_hole"/> <!-- Should be with the septum pipe -->
       <positionref ref="scAttachTrans_3"/>
   </subtraction>
+
+  <!--
   <subtraction name="sc_attach_solid">
     <first ref="sc_attach_6"/>
     <second ref="new_coll_chamber_sub"/>
     <positionref ref="coll_chamber_sub_trans"/>
     <rotationref ref="scRot_1"/>
   </subtraction>
-
+    -->
   <!-- Pylon Solid for Pics - Ricky -->
   <tube aunit="deg" startphi="0" deltaphi="360" lunit="cm" name="pylon_solid" rmin="(width_sc_attach - 0.5*thick_sc_attach)/8. - 1.*thick_sc_attach" rmax="(width_sc_attach - 0.5*thick_sc_attach)/8." z="0.5*(height_septum - height_sc_attach)+1." />
   
@@ -1195,15 +1222,15 @@
       <second ref="sc_attach_beam_hole"/>
       <positionref ref="scAttachTrans_3"/>
   </subtraction>
-
+<!--
   <subtraction name="sc_attach_shield_9">
     <first ref="sc_attach_shield_8"/>
     <second ref="new_coll_chamber_sub"/>
     <positionref ref="coll_chamber_sub_trans"/>
     <rotationref ref="scRot_1"/>
   </subtraction>
-
-  
+-->
+<!--  
   <box lunit="cm" name="pig_shield_sub" x="width_pig_shield" y="height_pig_shield" z="length_pig_shield"/>
   <subtraction name="sc_attach_shield_10">
     <first ref="sc_attach_shield_9"/>
@@ -1211,7 +1238,7 @@
     <positionref ref="hole_for_pig"/>
     <rotationref ref="identity"/>
   </subtraction>
-
+-->
 
   <!-- New dual Scattering Chamber -->
   <!-- Add the SC beam pipe first-->
@@ -1425,6 +1452,28 @@
     <second ref="pig_box_1"/>
     <positionref ref="pig_box_trans"/>
   </union>
+
+  
+  <!-- Concrete sites and concrete site detectors -Ricky -->
+  <box lunit="cm" name="farDet_farside_solid" x="width_det_far" y="height_det_far" z="length_det_far"/>
+  <box lunit="cm" name="farDet_rampside_solid" x="width_det_far" y="height_det_far" z="length_det_far"/>
+  <box lunit="cm" name="slab1_0" x="width_slab1" y="height_slab" z="length_slab1"/>
+  <box lunit="cm" name="slab2_0" x="width_slab2" y="height_slab" z="length_slab2"/>
+  <box lunit="cm" name="slab1_cut" x="width_slab1" y="height_slab+0.5" z="length_slab1"/>
+  <box lunit="cm" name="slab2_cut" x="width_slab2" y="height_slab+0.5" z="length_slab2"/>
+
+  <subtraction name="slab1_solid">
+    <first ref="slab1_0"/>
+    <second ref="slab1_cut"/>
+    <positionref ref="slab1_trans"/>
+  </subtraction>
+
+  <subtraction name="slab2_solid">
+    <first ref="slab2_0"/>
+    <second ref="slab2_cut"/>
+    <positionref ref="slab2_trans"/>
+  </subtraction>
+  
 
 
   <!-- o-rings and o-ring detectors -->
@@ -2427,7 +2476,7 @@
 
     <volume name="sc_attach_shield_logic">
       <materialref ref="Shield"/>
-      <solidref ref="sc_attach_shield_10"/>
+      <solidref ref="sc_attach_shield_8"/>
       <auxiliary auxtype="SensDet" auxvalue="volumeN5051"/>
     </volume>
 
@@ -2560,6 +2609,29 @@
       <materialref ref="Kryptonite"/>
       <solidref ref="box_elec_hut_sept"/>
       <auxiliary auxtype="SensDet" auxvalue="volumeN10009"/> 
+    </volume>
+
+    <!-- Detectors at concrete sites and concrete -->
+    <volume name="farDet_farside_logic">
+      <materialref ref="Kryptonite"/>
+      <solidref ref="farDet_farside_solid"/>
+      <auxiliary auxtype="SensDet" auxvalue="volumeN2001"/>
+    </volume>
+
+    <volume name="farDet_rampside_logic">
+      <materialref ref="Kryptonite"/>
+      <solidref ref="farDet_rampside_solid"/>
+      <auxiliary auxtype="SensDet" auxvalue="volumeN2002"/>
+    </volume>
+
+    <volume name="slab1_logic">
+      <materialref ref="Concrete"/>
+      <solidref ref="slab1_solid"/>
+    </volume>
+
+    <volume name="slab2_logic">
+      <materialref ref="Concrete"/>
+      <solidref ref="slab2_solid"/>
     </volume>
 
     <!-- Electronic hut detector -->
@@ -2706,17 +2778,34 @@
       </physvol>
 
       <!-- Placing new collimator chamber - Ricky -->
-      <physvol name="new_coll_chamber">
+      <!-- <physvol name="new_coll_chamber">
 	<volumeref ref="new_coll_chamber_logic"/>
 	<positionref ref="coll_chamber_center"/>
 	<rotationref ref="scRot_1"/>
+      </physvol> -->
+
+      
+      <!-- Concrete sites and detectors - Ricky -->
+      <physvol name="farDet_farside">
+	<volumeref ref="farDet_farside_logic"/>
+	<positionref ref="farDet_farside_pos"/>
+      </physvol>
+      
+      <physvol name="farDet_rampside">
+	<volumeref ref="farDet_rampside_logic"/>
+	<positionref ref="farDet_rampside_pos"/>
       </physvol>
 
-      <!-- Placing Pig Shield - Ricky -->
-      <physvol name="pig_shield">
-	<volumeref ref="pig_shield_logic"/>
-	<positionref ref="pig_center"/>
+      <physvol name="slab1">
+	<volumeref ref="slab1_logic"/>
+	<positionref ref="slab1_pos"/>
       </physvol>
+
+      <physvol name="slab2">
+	<volumeref ref="slab2_logic"/>
+	<positionref ref="slab2_pos"/>
+      </physvol>
+
 
       <!-- Placing pylons - Ricky -->
       <!-- <physvol name="pylon1">
