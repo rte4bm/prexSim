@@ -6,12 +6,16 @@
 #include <cstdlib>
 #include <math.h>
 
+#include <TH1F.h>
 #include <TH2F.h>
+#include <TH3F.h>
 #include <TTree.h>
 #include <TF1.h>
 #include <TFile.h>
 #include <TChain.h>
 #include <TDirectory.h>
+
+using namespace std;
 
 //Radiation All Vertices
 TH1F *Histo_vert_z_full[3];//particle type = photons, electrons, neutrons
@@ -22,6 +26,7 @@ TH1F *Histo_vert_z_weighted_full[3],*Histo_Energy_lt_10[3],*Histo_Energy_gt_10[3
 TH1F *Histo_vert_z[3][3],*Histo_vert_z_weighted[3][3],*Histo_Energy_custom_lt_10[3][3],*Histo_Energy_custom_gt_10[3][3];
 //plot for the detector faces
 TH1F *Det_Face;
+TH3F *DetFace;
 
 Int_t low_ranges[3],up_ranges[3];
 //Flux and power parameters Full range //indices [particle type][energy ranges 0->0.1->10->1000] 
@@ -30,69 +35,57 @@ Double_t flux[3][3],power[3][3];
 Double_t flux_range[3][3][3],power_range[3][3][3];
 float tot_events;
 TDirectory* gD;
-TString prename;
+string prename,ofnm;
 
-float SensVolume_v;
-//8002 cylindircal det at the radius close to electronic hut
-//8003 cyl det at the wall
+int SensVolume_v;
 
 void bookHisto();
-void processTree(TString tname);
+void processTree(string tname);
 void Init();
-void WriteHisto(TString fname);
+void WriteHisto(string fname);
 
-
-using namespace std;
 
 int main(int argc,char** argv) {
 
   if(argc < 3){
-    cout<<"Usage: anaRad [sensative detector #] [output filename] [additional file names]"<<endl;
-    cout<<"   Output files should be of the type: path/Prename_*.root"<<endl;
+    cout<<"Usage: anaRad [input file name] [output file name] [list of sensative detectors #]"<<endl;
+    cout<<" for example: build/anaRad o_HAPPEX2_1e6.root HAPPEX2_1e6 10008 10009 2001 2002 8002 8003"<<endl;
+    cout<<"   Output files will be of the type: output/anaRad_OutputFileName.root"<<endl;
     return 1;
   }
-  TString _sensVol(argv[1]);
-  SensVolume_v=_sensVol.Atof();
-  
-  if(!(SensVolume_v==2001 || SensVolume_v==2002 ||
-       SensVolume_v==10008 || SensVolume_v==10009 ||
-       SensVolume_v==8003 ||SensVolume_v==8004 ||
-       SensVolume_v==8005 || SensVolume_v==10001 ||
-       SensVolume_v==10002 || SensVolume_v==10003 ||
-       SensVolume_v==10004 )) {
-    cout<<" ~~~ You are asking for detector "<<SensVolume_v<<endl;
-    cout<<" This code does not work for that detector. Please modify."<<endl;
-    return 1;
-  }
-  cout<<endl;
-  cout<<"~~~~ Sensative volue set to :" <<SensVolume_v<<endl;
-  cout<<endl;
-  
-  TString rfile(Form("output/o_xx_%d_Radiation.root",(int)SensVolume_v));
-  TFile *rf=new TFile(rfile.Data(),"RECREATE");
+  string ifnm=argv[1]; 
+  ofnm=argv[2];
+  TFile *rf=new TFile(Form("output/anaRad_%s.root",ofnm.c_str()),"RECREATE");
   rf->Close();
 
-  Init();
-  bookHisto();
+  map <int,string> SensNames;
+  SensNames[8002] ="HallD2";//cylindircal det at the radius close to electronic hut
+  SensNames[8003] ="HallD3";//cylindircal det at the radius close to the wall
+  SensNames[10008]="HRShut";
+  SensNames[10009]="Septum";
+  SensNames[10001]="BLTgt1";//beamline circle detector close to the target
+  SensNames[10002]="BLTgt2";//beamline circle detector close to the target
+  SensNames[10003]="BLDmp1";//beamline circle detector close to the dump
+  SensNames[10004]="BLDmp2";//beamline circle detector close to the dump
+  SensNames[2001] ="Lpower";
+  SensNames[2002] ="Rpower";
+
+  for(int i=3;i<argc;i++){
+    TString _sensVol(argv[i]);
+    SensVolume_v=_sensVol.Atoi();
+    cout<<"~~~~ Sensative volue set to :" <<SensVolume_v<<endl;
+    cout<<endl;
+    
+    prename=Form("SV%d",SensVolume_v);
+    if( SensNames.find(SensVolume_v)!=SensNames.end() )
+      prename=SensNames[SensVolume_v];
   
-  /* basic way to process one sim file
-  TString inFile="";
-  processTree(inFile);
-  prename="";
-  WriteHisto(rfile);
-  */
-  for(int i=2;i<argc;i++){
+    bookHisto();
     Init();
-    TString inFile(argv[i]);
-    prename=inFile;
-    prename.Remove(0,prename.First("/")+1);
-    prename.Remove(prename.First("_"),prename.Length());
-    prename+="_"+_sensVol;
-    cout<<"Processing "<<inFile.Data()<<" with prename "<<prename<<endl;
-    processTree(inFile);
-    WriteHisto(rfile);
+    processTree(ifnm);
+    WriteHisto(Form("output/anaRad_%s.root",ofnm.c_str()));
   }
-  
+    
   return 0;
 }
 
@@ -104,15 +97,14 @@ void Init(){
   up_ranges[1]= 135;
   up_ranges[2]= 3400;
   
-  
   for(int i=0;i<3;i++){
     if(Histo_vert_z_full[i]){
       Histo_vert_z_full[i]          ->Reset();
       Histo_vert_2D[i]              ->Reset();
       Histo_vert_full_2D[i]         ->Reset();
       Histo_vert_z_weighted_full[i] ->Reset();
-      Histo_Energy_lt_10[i]          ->Reset();
-      Histo_Energy_gt_10[i]          ->Reset();
+      Histo_Energy_lt_10[i]         ->Reset();
+      Histo_Energy_gt_10[i]         ->Reset();
     }
     
     for(int j=0;j<3;j++){
@@ -120,10 +112,11 @@ void Init(){
       power[i][j]=0.0;
       
       if(Histo_vert_z_full[i]){
-	Histo_vert_z[i][j]            ->Reset();
-	Histo_vert_z_weighted[i][j]   ->Reset();
+      	Histo_vert_z[i][j]             ->Reset();
+	Histo_vert_z_weighted[i][j]    ->Reset();
 	Histo_Energy_custom_lt_10[i][j]->Reset();
 	Histo_Energy_custom_gt_10[i][j]->Reset();
+
       }
       
       for(int k=0;k<3;k++){
@@ -133,8 +126,8 @@ void Init(){
     }
   }
 
-  if(Det_Face) Det_Face  ->Reset();
-
+  if(Det_Face)  Det_Face ->Reset();  
+  if(DetFace)   DetFace  ->Reset();  
 }
  
 void bookHisto(){
@@ -174,7 +167,26 @@ void bookHisto(){
     }
   }
 
-  Det_Face = new TH1F("Det_Face","Detector Face Hit",8,0.,7.);
+  Det_Face = new TH1F("Det_Face","Detector Face Hit",8,-0.5,7.5);
+  
+  int knownDet[4]={10008,10009,2001,2002};
+  float ranges[5][3][2]={
+    {{3500,5501},{-1000,1001},{17000,21001}},//10008
+    {{-1750,-749},{500,1501},{1000,2001}},//10009	   
+    {{8100,9101},{-500,501},{-15110,-14109}},//2001  
+    {{-4750,-3749},{-500,501},{-15110,-14109}},//2002
+    {{-10000,10000},{-10000,10000},{-10000,10000}}
+  };
+
+  int rn=4;
+  for(int i=0;i<4;i++)
+    if(SensVolume_v==knownDet[i])
+      rn=i;
+  
+  DetFace = new TH3F("DetFace","Detector Hits",
+		     100,ranges[rn][0][0],ranges[rn][0][1],
+		     100,ranges[rn][1][0],ranges[rn][1][1],
+		     100,ranges[rn][2][0],ranges[rn][2][1]);
 }
 
 void PrintInfo(){
@@ -183,7 +195,7 @@ void PrintInfo(){
   TString eName[3]={"  0<E<0.1","0.1<E<10"," 10<E<1000"};
   TString zName[3]={"-2600<z<-110"," -110<z<135","  135<z<3400"};
   cout<<" ~Printing:"<<endl;
-  ofstream fout(Form("output/o_%s_powerFlux.dat",prename.Data()),std::ofstream::out);
+  ofstream fout(Form("output/o_%s_%s_powerFlux.dat",ofnm.c_str(),prename.c_str()),std::ofstream::out);
   
   for(int i=0;i<3;i++)
     for(int j=0;j<3;j++)
@@ -205,21 +217,16 @@ void PrintInfo(){
 
 }
 
-void processTree(TString tname){
+void processTree(string tname){
 
-  Float_t kineE, type, volume, track, parent, PDGid, Edeposit, event, creator;
-  //New Float for simulation of various detectors
+  Float_t type, volume, event;
   Float_t Energy;
-  Float_t px,py,pz;
   Float_t x_0,y_0,z_0,xd,yd,zd;
   
-  TChain * t = new TChain("geant");
-  t->Add(tname.Data());
+  TChain *t = new TChain("geant");
+  t->Add(tname.c_str());
   t->SetBranchAddress("type",&type);
   t->SetBranchAddress("volume",&volume);
-  t->SetBranchAddress("px",&px);
-  t->SetBranchAddress("py",&py);
-  t->SetBranchAddress("pz",&pz);
   t->SetBranchAddress("x",&xd);  
   t->SetBranchAddress("y",&yd);  
   t->SetBranchAddress("z",&zd);  
@@ -227,32 +234,30 @@ void processTree(TString tname){
   t->SetBranchAddress("y0",&y_0);
   t->SetBranchAddress("z0",&z_0);
   t->SetBranchAddress("type",&type);
-  t->SetBranchAddress("parent",&parent);  
-  t->SetBranchAddress("creator",&creator);  
-  t->SetBranchAddress("PDGid",&PDGid);  
-  t->SetBranchAddress("track",&track);  
   t->SetBranchAddress("event",&event);
 
   if ( SensVolume_v==2001 || SensVolume_v==2002 || SensVolume_v==10008 || SensVolume_v==10009){
-  t->SetBranchAddress("Edeposit",&Energy); 
-  t->SetBranchAddress("kineE",&kineE);
-  }else if( SensVolume_v==8003 || SensVolume_v==8004 || SensVolume_v==8005 || SensVolume_v==10001 || SensVolume_v==10002 || SensVolume_v==10003 || SensVolume_v==10004 ) {
-    t->SetBranchAddress("kineE",&Energy); 
-    t->SetBranchAddress("Edeposit",&Edeposit); //hack to get the deposited energy
+    t->SetBranchAddress("Edeposit",&Energy); //because these are made from Kryptonite
+  }else if( SensVolume_v==8003  ||SensVolume_v==8002   || SensVolume_v==8004  || SensVolume_v==8005 ||
+	    SensVolume_v==10001 || SensVolume_v==10002 || SensVolume_v==10003||
+	    SensVolume_v==10004 ) {
+    t->SetBranchAddress("kineE",&Energy); //because these are vacuum
   }
 
+  Double_t hit_radius_min = 0.; //cm 
   
-  Double_t hit_radius_min = 46.038; //cm inner radius of the beam pipe 45.72 cm and outer radius of the beam pipe 46.038 cm
-  
-  if ( SensVolume_v==8004 || SensVolume_v==8005 || SensVolume_v==10001 || SensVolume_v==10002 || SensVolume_v==10003 || SensVolume_v==10004 )
-    hit_radius_min = 0.; //this is for looking at results along the beamline
+    //inner radius of the beam pipe 45.72 cm and outer radius of the beam pipe 46.038 cm
+  if ( SensVolume_v==8002  || SensVolume_v==8003)
+    hit_radius_min = 46.038; //cm 
 
+  
   Double_t hit_radius;
   int partType[6]={1,1,-1,-1,0,2}; //electron,positron,N/A,N/A,gamma,neutron
   
   Int_t nentries = (Int_t)t->GetEntries();
   for (int i=0; i<nentries ; i++) {
     t->GetEntry(i);
+
     hit_radius = sqrt(pow(xd/10,2)+pow(yd/10,2));
      
     if ( volume==SensVolume_v  && z_0 > -26000  && type<=5 && hit_radius > hit_radius_min ){
@@ -303,12 +308,8 @@ void processTree(TString tname){
       }
     }
     
-       
-    if(i % 1000000 == 1 ) cout<<" processed: "<<tname.Data()<<" "<<i<<endl;
-  }
-  for (int i=0; i<nentries; i++) {
-    t->GetEntry(i);
     if  ( volume==SensVolume_v  && z_0 > -26000  && type<=5){
+      DetFace->Fill(xd,yd,zd);
       if (SensVolume_v == 2001){
 	if ( (xd>8100 && xd<9100) && (yd>-500 && yd<500) && zd==-14110 ) Det_Face->Fill(1);
 	else if ( (xd>8100 && xd<9100) && (yd>-500 && yd<500) && zd==-15110 ) Det_Face->Fill(2);
@@ -346,28 +347,24 @@ void processTree(TString tname){
 	else Det_Face->Fill(7);
       }
     }
-    }
+       
+    if(i % 1000000 == 1 ) cout<<" processed: "<<tname.c_str()<<" "<<i<<endl;
+  }
   
   PrintInfo();
+  delete t;
 }
 
-void writeEachHisto(TH1F* a){
-  a -> SetName(Form("%s_%s",prename.Data(),a->GetName()));
-  a -> SetTitle(Form("%s %s",prename.Data(),a->GetTitle()));
+void writeEachHisto(TH1* a){
+  a -> SetName(Form("%s_%s",prename.c_str(),a->GetName()));
+  a -> SetTitle(Form("%s %s",prename.c_str(),a->GetTitle()));
   a -> SetDirectory(gD);
   a -> Write();
 }
 
-void writeEachHisto(TH2F* a){
-  a -> SetName(Form("%s_%s",prename.Data(),a->GetName()));
-  a -> SetTitle(Form("%s %s",prename.Data(),a->GetTitle()));
-  a -> SetDirectory(gD);
-  a -> Write();
-}
-
-void WriteHisto(TString fname){
+void WriteHisto(string fname){
   
-  TFile *fout=TFile::Open(fname.Data(),"UPDATE");
+  TFile *fout=TFile::Open(fname.c_str(),"UPDATE");
   gD=fout->GetDirectory("");
   
   for(int i=0;i<3;i++){
@@ -386,7 +383,9 @@ void WriteHisto(TString fname){
   }
 
   writeEachHisto(Det_Face);
+  writeEachHisto(DetFace);
   
   fout->Close();
+  delete fout;
 }
 
