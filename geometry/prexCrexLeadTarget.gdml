@@ -1169,7 +1169,7 @@
       <second ref="sc_attach_sc_chamber_beam_hole"/>
       <positionref ref="scAttachTrans_5"/>
     </subtraction>
-    <subtraction name ="sc_attach_4">
+    <subtraction name ="sc_attach_solid">
       <first ref="sc_attach_3"/>
       <second ref="sc_attach_beam_hole"/> <!-- Should match with the septum pipe -->
       <positionref ref="scAttachTrans_3"/>
@@ -1180,30 +1180,33 @@
 	  rmin="25/2"
 	  rmax="25.4/2"
 	  z="height_sc_attach_pig" />
+    <!--
     <union name ="sc_attach_5">
       <first ref="sc_attach_4"/>
       <second ref="sc_attach_pig"/> 
       <positionref ref="pos_rel_pig_scAttach"/>
       <rotationref ref="scRot_1"/>
-    </union>
+    </union> -->
     <!-- Hole for collimator -->
+    <!--
     <subtraction name ="sc_attach_6">
       <first ref="sc_attach_5"/>
       <second ref="coll_jacket_W"/>
       <positionref ref="pos_rel_pigHole_scAttach"/>
-    </subtraction>
+    </subtraction> -->
     <!-- Lid for the pig -->
+    <!--
     <tube aunit="deg" startphi="0" deltaphi="360"
 	  lunit="cm" name="sc_attach_pigLid"
 	  rmin="0"
 	  rmax="25.4/2"
-	  z="height_sc_attach_pigLid" />    
-    <union name ="sc_attach_solid"> <!--FIXME this may need to be separate volume made out of stainles steel-->
-      <first ref="sc_attach_6"/>
+	  z="height_sc_attach_pigLid" />   --> 
+    <!-- <union name ="sc_attach_solid"> --><!--FIXME this may need to be separate volume made out of stainles steel-->
+    <!--  <first ref="sc_attach_6"/>
       <second ref="sc_attach_pigLid"/> 
       <positionref ref="pos_rel_pigLid_scAttach"/>
       <rotationref ref="scRot_1"/>
-    </union>
+    </union> -->
     
     <!-- Pylon Solid for Pics - Ricky -->
     <tube aunit="deg" startphi="0" deltaphi="360"
