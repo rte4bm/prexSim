@@ -30,8 +30,8 @@
    #/moller/det/setDetectorFileName geometry/prexII_coll_prototype_4_complete.gdml
    #/moller/det/setNumberofCollimators 18 
    #/moller/det/setDetectorFileName geometry/prexII_rickyTest.gdml
-   /moller/det/setDetectorFileName geometry/prexCrexLeadTarget.gdml
-   #/moller/det/setDetectorFileName geometry/prexCrexLeadTarget_March-2016.gdml
+   #/moller/det/setDetectorFileName geometry/prexCrexLeadTarget.gdml
+   /moller/det/setDetectorFileName geometry/prexCrexLeadTarget_March-2016.gdml
    #/moller/det/setDetectorFileName geometry/prexCrexCalcTarget.gdml
    #/moller/det/setDetectorFileName geometry/prexII_newSC_update.gdml
    #/moller/det/setDetectorFileName geometry/newPigDesign_1.gdml
