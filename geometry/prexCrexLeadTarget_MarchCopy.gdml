@@ -372,12 +372,8 @@
     <constant name="forwardthick_sc_attach_shield" value="0."/>
     <constant name="backthick_sc_attach_shield" value="0."/>
     <constant name="width_sc_attach_shield" value="width_sc_attach + 2.*thick_sc_attach_shield"/>
-    <constant name="height_sc_attach_shield" value="height_sc_attach + 2.*thick_sc_attach_shield"/>
-    <constant name="length_sc_attach_shield" value="length_sc_attach/2.-5."/>
-
-    <!-- Minimal Shielding constants 3-24-16 -->
-    <constant name="height_coll_shield_side" value="height_sc_attach"/>
-    <constant name="length_coll_shield_side" value="length_sc_attach+thick_sc_attach_shield"/>
+    <constant name="height_sc_attach_shield" value="height_sc_attach + 4.*thick_sc_attach_shield"/>
+    <constant name="length_sc_attach_shield" value="length_sc_attach + 2.*thick_sc_attach_shield + forwardthick_sc_attach_shield + backthick_sc_attach_shield"/>
 
     <!-- New Chamber for Collimator - Ricky -->
     <constant name="height_coll_chamber" value="height_sc_attach+140."/>
@@ -551,9 +547,6 @@
     <position unit="cm" name="real_hole_sc_trans5" x="0" y="0" z="-0.5*(0.5*height_sc-1.*y_cent_sc-1.*(0.5*real_sc_high_4-1.*real_sc_center_4))+0.5*real_sc_bottom_thick"/>  
     <position unit="cm" name="real_hole_sc_trans6" x="0" y="0" z="-1.*y_cent_sc+1.*real_sc_center_4+0.5*real_sc_high_4+0.5*real_sc_middle_conn_high"/>  
     <position unit="cm" name="sc_attach_center" x="0" y="0" z="center_sc_attach"/>
-    <position unit="cm" name="coll_shield_center" x="0" y="0" z="center_sc_attach-length_sc_attach/4."/>
-    <position unit="cm" name="coll_shield_side_trans1" x="width_sc_attach_shield/2.-thick_sc_attach_shield/2." y="0" z="length_coll_shield_side/2.-thick_sc_attach_shield/2."/>
-     <position unit="cm" name="coll_shield_side_trans2" x="-(width_sc_attach_shield/2.-thick_sc_attach_shield/2.)" y="0" z="length_coll_shield_side/2.-thick_sc_attach_shield/2."/>
     <position unit="cm" name="scAttachTrans_1" x="0" y="0" z="0"/> <!---use thick_sc_attach/2 for leave US side open Rakitha Wed Jul  1 11:50:04 EDT 2015 -->
     <position unit="cm" name="scAttachTrans_l" x="-1.0*center_vac_enc_xu" y="0" z="center_vac_enc_z - center_sc_attach - thick_sc_attach"/>
     <position unit="cm" name="scAttachTrans_r" x="1.0*center_vac_enc_xu" y="0" z="center_vac_enc_z - center_sc_attach - thick_sc_attach"/>
@@ -563,7 +556,6 @@
     <position unit="cm" name="scAttachTrans_3" x="0" y="0" z="length_sc_attach/2"/>
     <position unit="cm" name="scAttachTrans_4" x="0" y="0" z="length_sc_attach/2 - length_w_coll_jacket/2"/>
     <position unit="cm" name="scAttachTrans_5" x="0" y="0" z="-1*length_sc_attach/2"/>
-    <position unit="cm" name="scAttachTrans_6" x="0" y="-height_sc_attach/2-thick_sc_attach_shield/2" z="0."/>
 
     <constant name="height_sc_attach_pig" value="39.37 - height_sc_attach/2"/>
     <constant name="height_sc_attach_pigLid" value="1.27"/>
@@ -578,15 +570,15 @@
 	      z="center_cw70_coll - center_sc_attach - 3.49 + length_w_coll_jacket/2 - length_cw70_coll/2"/>
 
     <!-- Alterations made to make way for collimator chamber -->
-    <!-- Made alterations to match HAPPEX eLog 3122 - Ricky 3/21/16 -->
+    <!-- Made alterations (-20 along z axis) for purposes of spacing - Ricky -->
     <position unit="cm" name="scAttachTubeTrans_1"
 	      x="3.*(width_sc_attach - 0.5*thick_sc_attach)/8.-0.5*thick_sc_attach"
 	      y="-(0.5*height_sc_attach+0.25*(height_septum - height_sc_attach))"
-	      z="0.5*length_sc_attach -0.5*thick_sc_attach -3.*(width_sc_attach - 0.5*thick_sc_attach)/8.-(5.)"/>
+	      z="0.5*length_sc_attach -0.5*thick_sc_attach -3.*(width_sc_attach - 0.5*thick_sc_attach)/8."/>
     <position unit="cm" name="scAttachTubeTrans_2"
 	      x="-3.*(width_sc_attach - 0.5*thick_sc_attach)/8.+0.5*thick_sc_attach"
 	      y="-(0.5*height_sc_attach+0.25*(height_septum - height_sc_attach))"
-	      z="0.5*length_sc_attach -0.5*thick_sc_attach -3.*(width_sc_attach - 0.5*thick_sc_attach)/8.-(5.)"/>
+	      z="0.5*length_sc_attach -0.5*thick_sc_attach -3.*(width_sc_attach - 0.5*thick_sc_attach)/8."/>
     <position unit="cm" name="ShldTubeTrans_1"
 	      x="3.*(width_sc_attach - 0.5*thick_sc_attach)/8.-0.5*thick_sc_attach"
 	      y="-inner_r_sc -1.*length_sc_attach +0.5*thick_sc_attach +3.*(width_sc_attach - 0.5*thick_sc_attach)/8."
@@ -1203,53 +1195,19 @@
       <positionref ref="pos_rel_pigHole_scAttach"/>
     </subtraction> -->
     <!-- Lid for the pig -->
-
+    <!--
     <tube aunit="deg" startphi="0" deltaphi="360"
 	  lunit="cm" name="sc_attach_pigLid"
 	  rmin="0"
 	  rmax="25.4/2"
-	  z="height_sc_attach_pigLid" />    
-    <union name ="sc_attach_7"> <!--FIXME this may need to be separate volume made out of stainles steel-->
-      <first ref="sc_attach_6"/>
+	  z="height_sc_attach_pigLid" />   --> 
+    <!-- <union name ="sc_attach_solid"> --><!--FIXME this may need to be separate volume made out of stainles steel-->
+    <!--  <first ref="sc_attach_6"/>
       <second ref="sc_attach_pigLid"/> 
       <positionref ref="pos_rel_pigLid_scAttach"/>
       <rotationref ref="scRot_1"/>
-    </union>
-
-    <union name="sc_attach_8">
-      <first ref="sc_attach_7"/>
-      <second ref="sc_attach_tube"/>
-      <positionref ref="scAttachTubeTrans_1"/>
-      <rotationref ref="scRot_1"/>
-    </union>
-
-
-    <union name="sc_attach_solid">
-      <first ref="sc_attach_8"/>
-      <second ref="sc_attach_tube"/>
-      <positionref ref="scAttachTubeTrans_2"/>
-      <rotationref ref="scRot_1"/>
-    </union>
+    </union> -->
     
-    <!-- Add Shielding inside the Pig -->
-    <tube aunit="deg" startphi="0" deltaphi="360"
-	  lunit="cm" name="pig_shield_0"
-	  rmin="0."
-	  rmax="innerR_sc_attach_pig"
-	  z="height_sc_attach_pig"/>    
-    <subtraction name="pig_shield_1">
-      <first ref="pig_shield_0"/>
-      <second ref="coll_jacket_W"/>
-      <positionref ref="pos_rel_collHole_pig1"/>
-      <rotationref ref="scRot_1"/>
-    </subtraction>
-    <subtraction name="pig_shield">
-      <first ref="pig_shield_1"/>
-      <second ref="coll_jacket_W"/>
-      <positionref ref="pos_rel_collHole_pig2"/>
-      <rotationref ref="scRot_1"/>
-    </subtraction>
-
     <!-- Pylon Solid for Pics - Ricky -->
     <tube aunit="deg" startphi="0" deltaphi="360"
 	  lunit="cm" name="pylon_solid"
@@ -1260,7 +1218,6 @@
     <!-- New Shielding for collimator box  -->
     <box lunit="cm" name="sc_attach_shield_0" x="width_sc_attach_shield" y="height_sc_attach_shield" z="length_sc_attach_shield"/>
     <box lunit="cm" name="sc_attach_shield_1" x="width_sc_attach + 0.1" y="height_sc_attach + 0.1" z="length_sc_attach + 0"/>
-    <box lunit="cm" name="sc_attach_shield_cut" x="width_sc_attach_shield" y="height_sc_attach_shield" z="length_sc_attach_shield/2."/>
     
     <!-- new SC beam pipe substract -->
     <tube aunit="deg" startphi="0" deltaphi="360"
@@ -1304,44 +1261,8 @@
       <second ref="sc_attach_beam_hole"/>
       <positionref ref="scAttachTrans_3"/>
     </subtraction>
-    <subtraction name="sc_attach_shield_9">
-      <first ref="sc_attach_shield_8"/>
-      <second ref="sc_attach_shield_cut"/>
-      <positionref ref="scAttachTrans_3"/>
-    </subtraction>
-
-    <!-- New minimal shielding - Ricky 3/21/16 -->
-    <box lunit="cm" name="coll_shield_0" x="width_sc_attach_shield" y="height_sc_attach_shield" z="length_sc_attach_shield"/>
-    <box lunit="cm" name="coll_shield_cut" x="width_sc_attach_shield+1." y="thick_sc_attach_shield+1." z="length_sc_attach_shield+1."/>
-    
-    <subtraction name ="coll_shield_1">
-      <first ref="coll_shield_0"/>
-      <second ref="sc_attach_shield_1"/>
-      <positionref ref="center"/>
-    </subtraction>
-<!--
-    <subtraction name="coll_shield_2">
-      <first ref="coll_shield_1"/>
-      <second ref="coll_shield_cut"/>
-      <positionref ref="scAttachTrans_6"/>
-    </subtraction>
--->
-    <box lunit="cm" name="coll_shield_side" x="thick_sc_attach_shield" y="height_coll_shield_side" z="length_coll_shield_side"/>
-
-<!--    
-    <union name="coll_shield_3">
-      <first ref="coll_shield_2"/>
-      <second ref="coll_shield_side"/>
-      <positionref ref="coll_shield_side_trans1"/>
-    </union>
 
     
-    <union name="coll_shield_4">
-      <first ref="coll_shield_3"/>
-      <second ref="coll_shield_side"/>
-      <positionref ref="coll_shield_side_trans2"/>
-    </union>
--->
     <!-- New dual Scattering Chamber -->
     <!-- Add the SC beam pipe first-->
     <tube aunit="deg" startphi="0" deltaphi="360" lunit="cm" name="new_sc_beampipe_0" rmin="0.0" rmax="radius_sc_chamber_beam_pipe" z="length_sc_chamber_beam_pipe" />
@@ -2552,13 +2473,8 @@
 
     <volume name="sc_attach_shield_logic">
       <materialref ref="Shield"/>
-      <solidref ref="sc_attach_shield_9"/>
+      <solidref ref="sc_attach_shield_8"/>
       <auxiliary auxtype="SensDet" auxvalue="volumeN5051"/>
-    </volume>
-
-    <volume name="coll_shield_logic">
-      <materialref ref="Shield"/>
-      <solidref ref="coll_shield_1"/>
     </volume>
 
     <volume name="sc_oring_logic">
@@ -2905,15 +2821,11 @@
       <physvol name="sc_attachment">
         <volumeref ref="sc_attach_logic"/>
         <positionref ref="sc_attach_center"/>
-  </physvol>
-  
-      <!-- <physvol name="sc_attachment_shield"> --> 
-      <!-- <volumeref ref="sc_attach_shield_logic"/> -->
-      <!-- <positionref ref="sc_attach_center"/> --> 
-      <!-- </physvol> -->
-      <physvol name="coll_shield">
-	<volumeref ref="coll_shield_logic"/>
-	<positionref ref="coll_shield_center"/>
+      </physvol>
+
+      <physvol name="sc_attachment_shield">
+        <volumeref ref="sc_attach_shield_logic"/>
+        <positionref ref="sc_attach_center"/>
       </physvol>
 
       <physvol name="septum">

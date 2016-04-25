@@ -90,6 +90,7 @@
   <!-- Beam-line Cylindical Detector covers upto the septum pipe (lenght is 135.213)-->
   <constant name="beam_cyl_det_length" value="3074.44+135.213"/>
 
+  
 <!-- Cylindrical detector to wrap around collimator dimensions  -->
 
 
@@ -113,9 +114,9 @@
   <constant name="delta_cw70_coll_us_face" value="85.822"/>
   <constant name="delta_cw70_coll_ds_face" value="delta_cw70_coll_us_face+length_cw70_coll_1"/>
 
-  <constant name="coll_angle" value="atan(fcollInnerR/(delta_cw70_coll_us_face))*180./PI"/> 
+  <constant name="coll_angle" value="atan(fcollInnerR/(delta_cw70_coll_us_face))*180./PI"/>
 
-  <!-- Scaling for Crex - Ricky  -->
+  <!-- Added Crex scaling -->
   <constant name="cw70_coll_inner_r1" value="(delta_cw70_coll_us_face)*tan(coll_angle*PI/180.)"/> 
   <constant name="cw70_coll_inner_r2" value="(delta_cw70_coll_ds_face)*tan(coll_angle*PI/180.)"/>
 
@@ -126,7 +127,7 @@
   <!-- **No longer in use**  Initial CW70 water jacket inlet volume dimentions : rakitha Mon Sep 30 15:50:52 EDT 2013  -->  
   <constant name="width_cw70_jacket" value="5"/>  <constant name="height_cw70_jacket" value="2"/>  <constant name="length_cw70_jacket" value="3"/>
   <!-- CW70 collimator extension at the US dimentions : rakitha  Mon Nov 18 13:43:01 EST 2013 -->  
-  <constant name="cw70_jacket_inner_r" value="2."/>  <constant name="cw70_jacket_outer_r" value="5"/>  <constant name="cw70_jacket_length" value="2.54"/>
+  <constant name="cw70_jacket_inner_r" value="2"/>  <constant name="cw70_jacket_outer_r" value="5"/>  <constant name="cw70_jacket_length" value="2.54"/>
 
   <!-- CW70 surface grooves : rakitha Mon Nov 18 13:43:01 EST 2013  -->
   <constant name="cw70_groove_inner_r" value="3.905"/> <constant name="cw70_groove_outer_r" value="5"/><constant name="cw70_groove_length" value="0.96"/>
@@ -251,13 +252,13 @@
   <constant name="length_sc_chamber_beam_pipe" value="(center_sc_attach - crex_target_center) +  outer_r_new_sc - length_sc_attach/2"/><!-- 110.298  -->
   <constant name="new_center_sc" value="center_sc_attach - length_sc_attach/2 - length_sc_chamber_beam_pipe/2"/> <!-- -111.151 -->
   <constant name="thick_sc_chamber_beam_pipe" value="1.0"/>
-  <!-- Original Pipe radius was 13.5; modified to 11.5 streamline design -Ricky -->
+  <!-- Original Pipe radius was 13.5; modified to streamline design -Ricky -->
   <constant name="radius_sc_chamber_beam_pipe" value="13.5"/>
   <!--distance from new_center_sc to PREX/CREX target center -->
   <constant name="delta_new_center_sc_prex" value="length_sc_chamber_beam_pipe/2 - (prex_target_center - crex_target_center) - outer_r_new_sc"/>
   <constant name="delta_new_center_sc_crex" value="length_sc_chamber_beam_pipe/2 - outer_r_new_sc"/>
 
-   <!-- Detectors above scattering chambers - Ricky -->
+  <!-- Detectors above scattering chambers - Ricky -->
   <constant name="scat_det_r" value="outer_r_new_sc+1."/>
 
 <!-- Septum dimensions  -->
@@ -353,16 +354,11 @@
   <constant name="forwardthick_sc_attach_shield" value="0."/>
   <constant name="backthick_sc_attach_shield" value="0."/>
   <constant name="width_sc_attach_shield" value="width_sc_attach + 2.*thick_sc_attach_shield"/>
-  <constant name="height_sc_attach_shield" value="height_sc_attach + 2.*thick_sc_attach_shield"/>
-  <constant name="length_sc_attach_shield" value="length_sc_attach/2.-5."/>
-
-  <!-- Minimal Shielding constants 3-24-16 -->
-  <constant name="length_coll_shield" value="length_sc_attach/2.+30."/>
-  <constant name="height_coll_shield_side" value="height_sc_attach_shield"/>
-  <constant name="length_coll_shield_side" value="length_sc_attach+30."/>
+  <constant name="height_sc_attach_shield" value="height_sc_attach + 4.*thick_sc_attach_shield"/>
+  <constant name="length_sc_attach_shield" value="length_sc_attach + 2.*thick_sc_attach_shield + forwardthick_sc_attach_shield + backthick_sc_attach_shield"/>
 
   <!-- New Chamber for Collimator - Ricky -->
-  <constant name="height_coll_chamber" value="height_sc_attach+120."/>
+  <constant name="height_coll_chamber" value="height_sc_attach+140."/>
   <constant name="outer_r_coll_chamber" value="13."/>
   <constant name="center_coll_chamber" value="center_coll - 1."/>
 
@@ -375,13 +371,12 @@
   <constant name="center_accept" value="(center_coll+prex_target_center)/2"/>
 
   <!-- Lead Pig Shield - Ricky -->
-  <constant name="height_pig_shield" value="((height_coll_chamber/2-5.)-(height_sc_attach/2)+15.)"/>
+  <constant name="height_pig_shield" value="((height_coll_chamber/2-5.)-(height_sc_attach/2)+5.)"/>
   <constant name="width_pig_shield" value="outer_r_coll_chamber*2+10."/>
   <constant name="length_pig_shield" value="outer_r_coll_chamber*2+10."/>
   <constant name="pig_box_length" value="outer_r_coll_chamber*2+30."/>
   <constant name="pig_box_width" value="outer_r_coll_chamber*2+30."/>
   <constant name="pig_box_height" value="height_w_coll_1+5."/>
-
 
    <!-- Shielding jacket to "new_sc_beampipe" -->
   <constant name="thick_sc_beampipe_shield" value="20."/>
@@ -421,7 +416,7 @@
   <constant name="dump_ss_enc_cylcenter" value="center_cyldump-length_dump/2-thick_cylwall+5."/>
   <constant name="dump_ss_enc_hole_radius" value="46.038"/>
 
-  
+
   <!--  Detectors for new concrete sites - Ricky -->
   <constant name="width_det_far" value="100.0"/>
   <constant name="height_det_far" value="100.0"/>
@@ -435,7 +430,6 @@
   <constant name="length_slab2" value="500."/>
   <constant name="height_slab" value="-(bottom_cylwall)+50."/>
   <constant name="thick_slab" value="50."/>
-
 
 <!-- Cylindrical detector for Full hall simulation -->
   <constant name="cDet_1_radius" value="prex_target_center+600."/>
@@ -504,7 +498,12 @@
   <constant name="top_scatchamber_p4_high" value="7" />
   <constant name="top_scatchamber_p4_radius" value="54" />
 
- 
+  <!-- Comment this out if testing prex - Ricky  -->
+  <constant name="crex_scalar" value="(crex_target_center-center_cw70_coll)/(prex_target_center-center_cw70_coll)"/>
+
+  <!-- Comment this out if testing crex - Ricky -->
+  <!-- <constant name="crex_scalar" value="1."/> -->
+
 <!-- Positions -->
   <position unit="cm" name="targ_center" x="0" y="0" z="center_targ"/>
   <position unit="cm" name="crex_targ_center" x="0" y="0" z="crex_target_center"/>
@@ -520,12 +519,7 @@
   <position unit="cm" name="real_hole_sc_trans5" x="0" y="0" z="-0.5*(0.5*height_sc-1.*y_cent_sc-1.*(0.5*real_sc_high_4-1.*real_sc_center_4))+0.5*real_sc_bottom_thick"/>  
   <position unit="cm" name="real_hole_sc_trans6" x="0" y="0" z="-1.*y_cent_sc+1.*real_sc_center_4+0.5*real_sc_high_4+0.5*real_sc_middle_conn_high"/>  
   <position unit="cm" name="sc_attach_center" x="0" y="0" z="center_sc_attach"/>
-  <position unit="cm" name="coll_shield_center" x="0" y="0" z="center_sc_attach-length_coll_shield/2."/>
-  <position unit="cm" name="coll_shield_side_trans1" x="width_sc_attach_shield/2.-thick_sc_attach_shield/2." y="0" z="length_coll_shield_side/2.-thick_sc_attach_shield"/>
-  <position unit="cm" name="coll_shield_side_trans2" x="-(width_sc_attach_shield/2.-thick_sc_attach_shield/2.)" y="0" z="length_coll_shield_side/2.-thick_sc_attach_shield"/>
-  <position unit="cm" name="coll_shield_ds_trans" x="0" y="0" z="length_coll_shield_side-thick_sc_attach_shield/1."/>
   <position unit="cm" name="scAttachTrans_1" x="0" y="0" z="0"/> <!---use thick_sc_attach/2 for leave US side open Rakitha Wed Jul  1 11:50:04 EDT 2015 -->
-  
   <position unit="cm" name="scAttachTrans_l" x="-1.0*center_vac_enc_xu" y="0" z="center_vac_enc_z - center_sc_attach - thick_sc_attach"/>
   <position unit="cm" name="scAttachTrans_r" x="1.0*center_vac_enc_xu" y="0" z="center_vac_enc_z - center_sc_attach - thick_sc_attach"/>
   <position unit="cm" name="scAttachTrans_hut_l" x="-1.0*center_vac_enc_xu" y="0" z="center_vac_enc_z - center_sc_attach"/>
@@ -534,7 +528,6 @@
   <position unit="cm" name="scAttachTrans_3" x="0" y="0" z="length_sc_attach/2"/>
   <position unit="cm" name="scAttachTrans_4" x="0" y="0" z="length_sc_attach/2 - length_w_coll_1/2"/>
   <position unit="cm" name="scAttachTrans_5" x="0" y="0" z="-1*length_sc_attach/2"/>
-  <position unit="cm" name="scAttachTrans_6" x="0" y="-height_sc_attach/2-thick_sc_attach_shield/2" z="0."/>
 
   <!-- Alterations made to make way for collimator chamber -->
   <!-- Made alterations (-20 along z axis) for purposes of spacing - Ricky -->
@@ -588,7 +581,7 @@
 
   <!-- New position for pig shield - Ricky -->
   <position unit="cm" name="pig_center" x="0" y="-(height_sc_attach/2.)-(height_pig_shield/2.)" z="center_coll_chamber"/>
-  <position unit="cm" name="pig_sub_trans" y="15."/>
+  <position unit="cm" name="pig_sub_trans" y="5."/>
   <position unit="cm" name="pig_box_trans" y="-height_pig_shield/2+height_w_coll_1/2.+2.5"/>
   <position unit="cm" name="hole_for_pig" x="0" y="-(height_sc_attach/2.)-(height_pig_shield/2.)" z="center_coll_chamber - center_sc_attach"/>
 
@@ -611,7 +604,6 @@
   <position unit="cm" name="septTrans_l"       x="-rect_hole_center_x" y="0"     z="0"/>	
   <position unit="cm" name="septTrans_r"       x="rect_hole_center_x" y="0"     z="0"/>	
 
-  <!-- Scaling for Crex - Ricky -->
   <position unit="cm" name="vac_enc_center_l"     x="-center_vac_enc_xu" y="0"     z="center_vac_enc_z"/>	
   <position unit="cm" name="vac_enc_center_r"     x="center_vac_enc_xu" y="0"     z="center_vac_enc_z"/>	
 
@@ -623,7 +615,7 @@
   <position unit="cm" name="scShldTrans_2" x="0" y="(outer_r_sc-thick_sc/2)" z="-y_cent_sc"/>
   <position unit="cm" name="scShldlayTrans_1" x="0" y="0" z="-0.5*height_sc+0.5*fHightSideSCShield"/>
   <position unit="cm" name="scShldlayTrans_2" x="0" y="0" z="-0.5*height_sc+0.5*fHightFrontSCShield"/>
-  <position unit="cm" name="septShldTrans_l"        x="(rect_hole_center_x - center_vac_enc_xu)"  y="0"     z="center_vac_enc_z - center_septum"/>	
+  <position unit="cm" name="septShldTrans_l"        x="rect_hole_center_x - center_vac_enc_xu"  y="0"     z="center_vac_enc_z - center_septum"/>	
   <position unit="cm" name="septShldTrans_r"        x="-(rect_hole_center_x-center_vac_enc_xu)" y="0"     z="center_vac_enc_z - center_septum"/>
   <position unit="cm" name="septpipeShldTrans_l"        x="-1.* center_vac_enc_xu"  y="0"     z="0.5*length_vac_enc -0.5*fSeptPipeShieldLength"/>	
   <position unit="cm" name="septpipeShldTrans_r"        x="center_vac_enc_xu" y="0"     z="0.5*length_vac_enc -0.5*fSeptPipeShieldLength"/>	
@@ -664,9 +656,9 @@
   <position unit="cm" name="beam_cyl_det_pos"       x="0" y="0"     z="center_targ+237.535-length_septum_pipe+beam_cyl_det_length/2"/>
 
   <!-- Scattering Chamber Detectors -->
-  <position unit="cm" name="prex_det_pos" x="0" y="height_new_sc/2.+1.0" z="prex_target_center"/>
-  <position unit="cm" name="crex_det_pos" x="0" y="height_new_sc/2.+1.0" z="crex_target_center"/>
-  
+  <position unit="cm" name="prex_det_pos" x="height_new_sc/2.+1.0" y="0" z="prex_target_center"/>
+  <position unit="cm" name="crex_det_pos" x="height_new_sc/2.+1.0" y="0" z="crex_target_center"/>
+
   <!--Electronic hut placement -->
   <position unit="cm" name="dbox_elec_hut_pos"       x="450" y="0"     z="1900"/>
 
@@ -678,14 +670,13 @@
   <position unit="cm" name="cDet_2_trans"     x="0" y="-cDet_2_radius"     z="-1.*center_cylwall-0.5*thick_cylwall"/>
   <position unit="cm" name="cDet_3_trans"     x="0" y="-cDet_3_radius"     z="-1.*center_cylwall-0.5*thick_cylwall"/>
 
-    <!-- Positions for detectors and walls at concrete site - Ricky-->
+  <!-- Positions for detectors and walls at concrete site - Ricky-->
   <position unit="cm" name="farDet_farside_pos" x="860." y="0" z="-1461."/>
   <position unit="cm" name="farDet_rampside_pos" x="-425." y="0" z="-1461"/>
   <position unit="cm" name="slab1_pos" x="810." y="-(height_slab)/2.+thick_cylwall+50." z="-1411."/>
   <position unit="cm" name="slab2_pos" x="-425." y="-(height_slab)/2.+thick_cylwall+50." z="-1461."/>
   <position unit="cm" name="slab1_trans" x="thick_slab" y="0" z="-(thick_slab)"/>
   <position unit="cm" name="slab2_trans" x="-(thick_slab)" y="0" z="-(thick_slab)"/>
-
 
   <!-- Pedestal scattering chamber -->
  
@@ -790,7 +781,7 @@
 
 
   <!-- Cylindrical CW70 Collimator : rakitha Mon Sep 30 16:40:34 EDT 2013 -->
-  <!-- Need to change - Ricky -->
+  
   <tube aunit="deg" startphi="0" deltaphi="360" lunit="cm" name="coll_cw70_cyln" rmin="0.0" rmax="radius_cw70_coll_1" z="length_cw70_coll_1"/>
   <!-- CW70 water jacket inlet volume dimentions -->  
   <tube aunit="deg" startphi="0" deltaphi="360" lunit="cm" name="coll_cw70_cyln_outer_1" rmin="cw70_jacket_inner_r" rmax="cw70_jacket_outer_r" z="cw70_jacket_length"/>
@@ -849,7 +840,7 @@
   </union>
 
   <!-- W Box Collimator Jacket : rakitha Mon Sep 30 16:40:34 EDT 2013 -->
-  <!-- Scaled for Crex - Ricky -->
+  
   <box lunit="cm" name="Coll_jacket_W" x="width_w_coll_1" y="height_w_coll_1" z="length_w_coll_1"/>
   <cone aunit="deg" startphi="0" deltaphi="360" lunit="cm" name="coll_jacket_w_bore_cone" rmin1="0.0" rmax1="coll_inner_r1" rmin2="0.0" rmax2="coll_inner_r2" z="length_bore"/>
 
@@ -1163,22 +1154,22 @@
       <second ref="sc_attach_beam_hole"/> <!-- Should be with the septum pipe -->
       <positionref ref="scAttachTrans_3"/>
   </subtraction>
+
   <!--
   <subtraction name="sc_attach_solid">
     <first ref="sc_attach_6"/>
     <second ref="new_coll_chamber_sub"/>
     <positionref ref="coll_chamber_sub_trans"/>
     <rotationref ref="scRot_1"/>
-<<<<<<< HEAD
-  </subtraction>-->
-
+    </subtraction>
+    -->
   <!-- Pylon Solid for Pics - Ricky -->
   <tube aunit="deg" startphi="0" deltaphi="360" lunit="cm" name="pylon_solid" rmin="(width_sc_attach - 0.5*thick_sc_attach)/8. - 1.*thick_sc_attach" rmax="(width_sc_attach - 0.5*thick_sc_attach)/8." z="0.5*(height_septum - height_sc_attach)+1." />
   
 
   <!-- New Shielding for collimator box  -->
   <box lunit="cm" name="sc_attach_shield_0" x="width_sc_attach_shield" y="height_sc_attach_shield" z="length_sc_attach_shield"/>
-  <box lunit="cm" name="sc_attach_shield_1" x="width_sc_attach + 0.1" y="height_sc_attach + 0.1" z="length_sc_attach + 1000."/>
+  <box lunit="cm" name="sc_attach_shield_1" x="width_sc_attach + 0.1" y="height_sc_attach + 0.1" z="length_sc_attach + 0"/>
   <!--Two tubes above the sc_attachment -->
   <tube aunit="deg" startphi="0" deltaphi="360" lunit="cm" name="sc_attach_shield_tube" rmin="0" rmax="(width_sc_attach - 0.5*thick_sc_attach)/8. + 0.1" z="0.5*(height_septum - height_sc_attach) + 0.1" />
   <!-- new SC beam pipe substract -->
@@ -1240,44 +1231,8 @@
     <positionref ref="coll_chamber_sub_trans"/>
     <rotationref ref="scRot_1"/>
   </subtraction>
-  -->
-
-  
-  <!-- New minimal shielding - Ricky 3/21/16 -->
-  <box lunit="cm" name="coll_shield_0" x="width_sc_attach_shield" y="height_sc_attach_shield" z="length_coll_shield"/>
-  <box lunit="cm" name="coll_shield_cut" x="width_sc_attach_shield+1." y="thick_sc_attach_shield+1." z="length_sc_attach_shield+1000."/>
-    <box lunit="cm" name="coll_shield_back_0" x="width_sc_attach_shield" y="height_sc_attach_shield" z="length_sc_attach_shield"/>
-  
-  <subtraction name ="coll_shield_1">
-    <first ref="coll_shield_0"/>
-    <second ref="sc_attach_shield_1"/>
-    <positionref ref="center"/>
-  </subtraction>
-
-  <subtraction name="coll_shield_2">
-    <first ref="coll_shield_1"/>
-    <second ref="coll_shield_cut"/>
-    <positionref ref="scAttachTrans_6"/>
-  </subtraction>
-
-  <box lunit="cm" name="coll_shield_side" x="thick_sc_attach_shield" y="height_coll_shield_side" z="length_coll_shield_side"/>
-  
-
-  <union name="coll_shield_3">
-    <first ref="coll_shield_2"/>
-    <second ref="coll_shield_side"/>
-    <positionref ref="coll_shield_side_trans1"/>
-  </union>
-  
-  
-  <union name="coll_shield_4">
-    <first ref="coll_shield_3"/>
-    <second ref="coll_shield_side"/>
-    <positionref ref="coll_shield_side_trans2"/>
-  </union>
-  
+-->
 <!--  
->>>>>>> 1140dfc67fa50d07ef16428a56ad845cc7506c3c
   <box lunit="cm" name="pig_shield_sub" x="width_pig_shield" y="height_pig_shield" z="length_pig_shield"/>
   <subtraction name="sc_attach_shield_10">
     <first ref="sc_attach_shield_9"/>
@@ -1500,7 +1455,6 @@
     <positionref ref="pig_box_trans"/>
   </union>
 
-  
   <!-- Concrete sites and concrete site detectors -Ricky -->
   <box lunit="cm" name="farDet_farside_solid" x="width_det_far" y="height_det_far" z="length_det_far"/>
   <box lunit="cm" name="farDet_rampside_solid" x="width_det_far" y="height_det_far" z="length_det_far"/>
@@ -1521,7 +1475,6 @@
     <positionref ref="slab2_trans"/>
   </subtraction>
   
-
 
   <!-- o-rings and o-ring detectors -->
 
@@ -1573,7 +1526,7 @@
 
 <!-- Beamline -->
 <!--septum_pipe_tube tube is not used the polycone is the one used in the geometry-->
-<tube aunit="deg" startphi="0" deltaphi="360" lunit="cm" name="septum_pipe_tube" rmin="ri_septum_pipe" rmax="ro_septum_pipe" z="length_septum_pipe" />
+  <tube aunit="deg" startphi="0" deltaphi="360" lunit="cm" name="septum_pipe_tube" rmin="ri_septum_pipe" rmax="ro_septum_pipe" z="length_septum_pipe" />
    <polycone aunit="deg" startphi="0" deltaphi="360" lunit="cm" name="septum_pipe_tube_1"> 
      <zplane  rmin="1.2 * coll_inner_r2" rmax="1.2 * coll_inner_r2 + 1.0*ro_septum_pipe -1.0*ri_septum_pipe" z="-0.5*length_septum_pipe" />
      <zplane  rmin="1.2 * coll_inner_r2 + 20.0 * tan(coll_angle*PI/180.)" rmax="1.2 * coll_inner_r2 + 20.0 * tan(coll_angle*PI/180.) + 1.0*ro_septum_pipe -1.0*ri_septum_pipe" z="-0.5*length_septum_pipe + 20.0" />
@@ -2327,14 +2280,12 @@
       <positionref ref="cDet_3_trans"/>
       <rotationref ref="scRot_1"/>
   </subtraction>
-  
- <!-- Above Scat Chamber Detectors -Ricky -->
+
+  <!-- Above Scat Chamber Detectors -Ricky -->
   <tube aunit="deg" startphi="0" deltaphi="360" lunit="cm" name="prex_det_solid" rmin="0" rmax="scat_det_r" z="0.1"/>
   <tube aunit="deg" startphi="0" deltaphi="360" lunit="cm" name="crex_det_solid" rmin="0" rmax="scat_det_r" z="0.1"/>
-  
-  <!-- coll_inner_r1 was replaced - Ricky -->
+
   <tube aunit="deg" startphi="0" deltaphi="360" lunit="cm" name="dDet_us" rmin="0" rmax="cw70_jacket_outer_r*1.0001" z="0.1" />
-  <!-- Scaled for Crex - Ricky -->
   <tube aunit="deg" startphi="0" deltaphi="360" lunit="cm" name="dDet_ds" rmin="0" rmax="(coll_inner_r2)*1.0001" z="0.1" />
 
   <sphere aunit="deg" startphi="0" deltaphi="360" starttheta="0" deltatheta="360" lunit="cm" name="sDet_2"  rmin="30.0" rmax="30.1"/>
@@ -2407,7 +2358,7 @@
 
 
     <volume name="W_coll_logic">
-       <materialref ref="matCW70"/>
+       <materialref ref="CW70"/>
        <!--       <materialref ref="Kryptonite"/> -->
        <!--      <materialref ref="Tungsten"/>  -->
       <solidref ref="coll_CW70_Solid"/>
@@ -2447,10 +2398,10 @@
 
     <!-- Crex target logic - Ricky -->
 
-    <volume name="Ca_target_logic">
+    <!-- <volume name="Ca_target_logic">
       <materialref ref="Calcium48"/>
       <solidref ref="CaTarget"/>
-    </volume>
+    </volume> -->
 <!--
     <volume name="scDet_logic">
       <materialref ref="Vacuum"/>
@@ -2525,12 +2476,6 @@
       <materialref ref="Shield"/>
       <solidref ref="sc_attach_shield_8"/>
       <auxiliary auxtype="SensDet" auxvalue="volumeN5051"/>
-    </volume>
-
-    
-    <volume name="coll_shield_logic">
-      <materialref ref="Shield"/>
-      <solidref ref="coll_shield_4"/>
     </volume>
 
     <volume name="sc_oring_logic">
@@ -2750,9 +2695,9 @@
       <materialref ref="Vacuum"/>
       <solidref ref="sDet_2"/>
       <!-- <auxiliary auxtype="SensDet" auxvalue="volumeN8006"/> -->
-    </volume> 
+    </volume>
 
-  <!-- Scat Chamber Detectors - Ricky -->
+    <!-- Scat Chamber Detectors - Ricky -->
     <volume name="prex_det_logic">
       <materialref ref="Vacuum"/>
       <solidref ref="prex_det_solid"/>
@@ -2835,14 +2780,8 @@
 	<volumeref ref="new_coll_chamber_logic"/>
 	<positionref ref="coll_chamber_center"/>
 	<rotationref ref="scRot_1"/>
-      </physvol>-->
+      </physvol> -->
 
-      <!-- Placing Pig Shield - Ricky -->
-      <!--<physvol name="pig_shield">
-	<volumeref ref="pig_shield_logic"/>
-	<positionref ref="pig_center"/>
-	</physvol>-->
-      
       <!-- Concrete sites and detectors - Ricky -->
       <physvol name="farDet_farside">
 	<volumeref ref="farDet_farside_logic"/>
@@ -2858,11 +2797,13 @@
 	<volumeref ref="slab1_logic"/>
 	<positionref ref="slab1_pos"/>
       </physvol>
-      
+
       <physvol name="slab2">
 	<volumeref ref="slab2_logic"/>
 	<positionref ref="slab2_pos"/>
       </physvol>
+
+      
 
 
       <!-- Placing pylons - Ricky -->
@@ -2885,10 +2826,10 @@
       </physvol>
 
       <!-- Crex target - ricky -->
-      <!--<physvol name="Ca_target">
+      <!-- <physvol name="Ca_target">
 	<volumeref ref="Ca_target_logic"/>
 	<positionref ref="crex_targ_center"/>
-      </physvol>-->
+      </physvol> -->
 
 
       <!--Making way to new SC design -->
@@ -2944,18 +2885,11 @@
         <positionref ref="sc_attach_center"/>
       </physvol>
 
-      <!--<physvol name="sc_attachment_shield">
+      <physvol name="sc_attachment_shield">
         <volumeref ref="sc_attach_shield_logic"/>
         <positionref ref="sc_attach_center"/>
-      </physvol>-->
-
-
-      <physvol name="coll_shield">
-	<volumeref ref="coll_shield_logic"/>
-	<positionref ref="coll_shield_center"/>
       </physvol>
 
-      
       <physvol name="septum">
         <volumeref ref="septum_logic"/>
         <positionref ref="septum_center"/>
@@ -3146,13 +3080,13 @@
       <physvol name="prex_det">
 	<volumeref ref="prex_det_logic"/>
 	<positionref ref="prex_det_pos"/>
-	<rotationref ref="scRot_1"/>
+	<rotationref ref="scRot_13"/>
       </physvol>
 
       <physvol name="crex_det">
 	<volumeref ref="crex_det_logic"/>
 	<positionref ref="crex_det_pos"/>
-	<rotationref ref="scRot_1"/>
+	<rotationref ref="scRot_13"/>
       </physvol>
 
 <!--The sphere detector is disable due to volume overlap with the septum pipe -->

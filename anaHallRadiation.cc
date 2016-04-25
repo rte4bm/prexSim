@@ -317,7 +317,8 @@ void processTree(string tname){
 	else if ( xd==9100 && (yd>-500 && yd<500) && (zd>-15110 && zd<-14110) ) Det_Face->Fill(3);
 	else if ( xd==8100 && (yd>-500 && yd<500) && (zd>-15110 && zd<-14110) ) Det_Face->Fill(4);
 	else if ( (xd>8100 && xd<9100) && yd==500 && (zd>-15110 && zd<-14110) ) Det_Face->Fill(5);
-	else if ( (xd>8100 && xd<9100) && yd==-500 && (zd>-15110 && zd<-14110) ) Det_Face->Fill(6);	
+	else if ( (xd>8100 && xd<9100) && yd==-500 && (zd>-15110 && zd<-14110) ) Det_Face->Fill(6);
+	else Det_Face->Fill(7);
       }
       if (SensVolume_v == 2002){
 	if ( (xd>-4750 && xd<-3750) && (yd>-500 && yd<500) && zd==-14110 ) Det_Face->Fill(1);
@@ -325,7 +326,8 @@ void processTree(string tname){
 	else if ( xd==-3750 && (yd>-500 && yd<500) && (zd>-15110 && zd<-14110) ) Det_Face->Fill(3);
 	else if ( xd==-4750 && (yd>-500 && yd<500) && (zd>-15110 && zd<-14110) ) Det_Face->Fill(4);
 	else if ( (xd>-4750 && xd<-3750) && yd==500 && (zd>-15110 && zd<-14110) ) Det_Face->Fill(5);
-	else if ( (xd>-4750 && xd<-3750) && yd==-500 && (zd>-15110 && zd<-14110) ) Det_Face->Fill(6);	
+	else if ( (xd>-4750 && xd<-3750) && yd==-500 && (zd>-15110 && zd<-14110) ) Det_Face->Fill(6);
+	else Det_Face->Fill(7);
       }
       if (SensVolume_v == 10008){
 	if ( (xd>3500 && xd<5500) && (yd>-1000 && yd<1000) && zd==21000 ) Det_Face->Fill(1);
@@ -333,7 +335,8 @@ void processTree(string tname){
 	else if ( xd==5500 && (yd>-1000 && yd<1000) && (zd>17000 && zd<21000) ) Det_Face->Fill(3);
 	else if ( xd==3500 && (yd>-1000 && yd<1000) && (zd>17000 && zd<21000) ) Det_Face->Fill(4);
 	else if ( (xd>3500 && xd<5500) && yd==1000 && (zd>17000 && zd<21000) ) Det_Face->Fill(5);
-	else if ( (xd>3500 && xd<5500) && yd==-1000 && (zd>17000 && zd<21000) ) Det_Face->Fill(6);	
+	else if ( (xd>3500 && xd<5500) && yd==-1000 && (zd>17000 && zd<21000) ) Det_Face->Fill(6);
+	else Det_Face->Fill(7);
       }
       if (SensVolume_v == 10009){
 	if ( (xd>-1750 && xd<-750) && (yd>500 && yd<1500) && zd==2000 ) Det_Face->Fill(1);
@@ -341,7 +344,8 @@ void processTree(string tname){
 	else if ( xd==-750 && (yd>500 && yd<1500) && (zd>1000 && zd<2000) ) Det_Face->Fill(3);
 	else if ( xd==-1750 && (yd>500 && yd<1500) && (zd>1000 && zd<2000) ) Det_Face->Fill(4);
 	else if ( (xd>-1750 && xd<-750) && yd==1500 && (zd>1000 && zd<2000) ) Det_Face->Fill(5);
-	else if ( (xd>-1750 && xd<-750) && yd==500 && (zd>1000 && zd<2000) ) Det_Face->Fill(6);	
+	else if ( (xd>-1750 && xd<-750) && yd==500 && (zd>1000 && zd<2000) ) Det_Face->Fill(6);
+	else Det_Face->Fill(7);
       }
     }
        
