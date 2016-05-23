@@ -34,6 +34,8 @@ o_*
 *.rndm
 result*
 *~
+*.jpg
+*.pdf
 .DS_Store
 y_*
 #*
