@@ -98,29 +98,28 @@ void MollerGlobalMagnetField::GetFieldValue(const G4double Point[4], G4double *B
 
   // gives integral 7003.4 G @ 1 cm
   G4double a = magScaleFactor*158.*gauss/cm;
-  G4double shielded = magScaleFactor*15.8 *gauss/cm;
-  //G4double shielded = magScaleFactor*0.78 *gauss/cm;
+  G4double shielded = magScaleFactor*0.78 *gauss/cm;
   // bu and bd define center of gaussian approximations of fringe field along z-axis
   G4double bu = -44*cm;
   G4double bd = 44*cm;
   // c1 is gaussian width inside the shield
   G4double c1 = 4.2*cm;
   // c2 is gaussian width outside the shield
-  G4double c2 = 10.19*cm;
-
-  //G4double z_intercept_low = mg_field_low + pow( (2*pow(c1,2)*log(a*exp(-(pow(mg_field_low-bu,2)/(2*pow(c2,2))))/shielded)),0.5);
-  //G4double z_intercept_high =  mg_field_high - pow( (2*pow(c1,2)*log(a*exp(-(pow(mg_field_high-bd,2)/(2*pow(c2,2))))/shielded)),0.5);
-  G4double z_intercept_low = mg_field_low + 12.*cm;
-  G4double z_intercept_high = mg_field_high - 15.*cm;
-  G4double z_dstep_end = mg_field_high - 7.*cm;
-  G4double z_ustep_end = mg_field_low + 7.5*cm;
+  G4double c2 = 14.15*cm;
   
+  // Worksite for new gaussian - Ricky
+  // Calculating the new peaks au and ad
+  G4double au = a*(exp(-((pow(mg_field_low-bu,2))/(2*pow(c2,2)))));
+  G4double ad = a*(exp(-((pow(mg_field_high-bd,2))/(2*pow(c2,2)))));
+  G4double z_intercept_low = mg_field_low + pow( (2*pow(c1,2)*log(a*exp(-(pow(mg_field_low-bu,2)/(2*pow(c2,2))))/shielded)),0.5);
+  G4double z_intercept_high =  mg_field_high - pow( (2*pow(c1,2)*log(a*exp(-(pow(mg_field_high-bd,2)/(2*pow(c2,2))))/shielded)),0.5);
+
   //---------------------------------------------------------------
   // translation from global Point[4] into local magnet coordinates
   //---------------------------------------------------------------
   myLocalPointInMainMagnet[0] = Point[0];             // x-pos
   myLocalPointInMainMagnet[1] = Point[1];             // y-pos
-  myLocalPointInMainMagnet[2] = Point[2];             // z-pos
+  myLocalPointInMainMagnet[2] = Point[2]-69.91*cm;    // z-pos
   myLocalPointInMainMagnet[3] = Point[3];             // time
   //---------------------------------------------------------------
   // (2) transformation into local MiniMagnet coordinate is easy
@@ -138,21 +137,17 @@ void MollerGlobalMagnetField::GetFieldValue(const G4double Point[4], G4double *B
     if ((myLocalPointInMainMagnet[2]>-100*cm)&&(myLocalPointInMainMagnet[2]<100*cm)){
       if (myLocalPointInMainMagnet[2]<mg_field_low){ 
 	dBxdy = a*(exp(-((pow(myLocalPointInMainMagnet[2]-bu,2))/(2*pow(c2,2)))));
-      } else if ((myLocalPointInMainMagnet[2]>=mg_field_low)&&(myLocalPointInMainMagnet[2]<z_ustep_end)){
+      } else if ((myLocalPointInMainMagnet[2]>=mg_field_low)&&(myLocalPointInMainMagnet[2]<z_intercept_low)){
 	dBxdy = a*(exp(-(pow(mg_field_low-bu                         ,2)/(2*pow(c2,2)))))*
-	  (exp(-(pow(myLocalPointInMainMagnet[2]-mg_field_low,2)/(2*pow(c1,2)))));
-      } else if ((myLocalPointInMainMagnet[2]<=z_intercept_low)&&(myLocalPointInMainMagnet[2]>z_ustep_end)){ 
-	dBxdy = a*(exp(-(pow(z_ustep_end-bu,2)/(2*pow(c1,2)))));
+	          (exp(-(pow(myLocalPointInMainMagnet[2]-mg_field_low,2)/(2*pow(c1,2)))));
       } else if ((myLocalPointInMainMagnet[2]>=z_intercept_low)&&(myLocalPointInMainMagnet[2]<=z_intercept_high)){
 	dBxdy = shielded;
-      } else if ((myLocalPointInMainMagnet[2]>z_intercept_high)&&(myLocalPointInMainMagnet[2]<=z_dstep_end)){
-	dBxdy = a*(exp(-(pow(z_dstep_end-bd,2)/(2*pow(c1,2)))));
-      }else if ((myLocalPointInMainMagnet[2]<=mg_field_high)&&(myLocalPointInMainMagnet[2]>z_dstep_end)){
+      } else if ((myLocalPointInMainMagnet[2]<=mg_field_high)&&(myLocalPointInMainMagnet[2]>z_intercept_high)){
 	dBxdy = a*(exp(-(pow(mg_field_high-bd                         ,2)/(2*pow(c2,2)))))*
-	  (exp(-(pow(myLocalPointInMainMagnet[2]-mg_field_high,2)/(2*pow(c1,2)))));
-	} else if ((myLocalPointInMainMagnet[2]>mg_field_high)){ 
+	          (exp(-(pow(myLocalPointInMainMagnet[2]-mg_field_high,2)/(2*pow(c1,2)))));
+      } else if ((myLocalPointInMainMagnet[2]>mg_field_high)){ 
 	dBxdy = a*(exp(-((pow(myLocalPointInMainMagnet[2]-bd,2))/(2*pow(c2,2)))));
-	} else {
+      } else {
 	dBxdy=0;
       }     	
       dBydx=dBxdy;      
@@ -165,9 +160,9 @@ void MollerGlobalMagnetField::GetFieldValue(const G4double Point[4], G4double *B
       Bfield[2] = 0.;
     }
   } else {	
-    Bfield[0] = 0.;
-    Bfield[1] = 0.;
-    Bfield[2] = 0.;
+      Bfield[0] = 0.;
+      Bfield[1] = 0.;
+      Bfield[2] = 0.;
   }
   
   if(readfrommap){
@@ -181,14 +176,14 @@ void MollerGlobalMagnetField::GetFieldValue(const G4double Point[4], G4double *B
     }
     else if(fMagneticField_MainMagnet && !fMagneticField_MiniMagnet){
       fMagneticField_MainMagnet->GetFieldValue( myLocalPointInMainMagnet, myLocalBfieldInMainMagnet );
-      
+    
       Bfield[0] = myLocalBfieldInMainMagnet[0]*BFieldScalingFactor_MainMagnet;
       Bfield[1] = myLocalBfieldInMainMagnet[1]*BFieldScalingFactor_MainMagnet;
       Bfield[2] = myLocalBfieldInMainMagnet[2]*BFieldScalingFactor_MainMagnet;
     }
     else if(!fMagneticField_MainMagnet && fMagneticField_MiniMagnet){
       fMagneticField_MiniMagnet->GetFieldValue( myLocalPointInMiniMagnet, myLocalBfieldInMiniMagnet );
-      
+
       Bfield[0] =  myLocalBfieldInMiniMagnet[0]*BFieldScalingFactor_MiniMagnet;
       Bfield[1] =  myLocalBfieldInMiniMagnet[1]*BFieldScalingFactor_MiniMagnet;
       Bfield[2] =  myLocalBfieldInMiniMagnet[2]*BFieldScalingFactor_MiniMagnet;    
@@ -227,14 +222,14 @@ void MollerGlobalMagnetField::WriteMagField()
     point2[1] = gr_dy *cm;
     point2[3] = 0.*ns;
     for (int i=0; i<201; i++) {
-      z[i] = 175.211-105.3-69.91+double(i-100);
+      z[i] = 175.211-105.3+double(i-100);
       point[2] = z[i] *cm;
       point2[2] = z[i] *cm;
       GetFieldValue(point,g4grB[i]);
       for (int j=0; j<3; j++) grB[i][j]=(double)g4grB[i][j]/gauss;
       GetFieldValue(point2,g4grB[i]);
       for (int j=0; j<3; j++) grB2[i][j]=(double)g4grB[i][j]/gauss;
-      gr_dBxdy[i] = -(grB2[i][0]- grB[i][0])/gr_dy;
+      gr_dBxdy[i] = (grB2[i][0]- grB[i][0])/gr_dy;
       G4cout << z[i] << " " << point[2]/cm << " " << gr_dBxdy[i] << G4endl;
     }
     TGraph * graph_Mag_field = new TGraph(201,z,gr_dBxdy);
