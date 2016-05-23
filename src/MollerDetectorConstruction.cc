@@ -49,7 +49,12 @@
 #include "G4VisAttributes.hh"
 #include "G4Colour.hh"
 
+#include "G4UnitsTable.hh"
+#include "G4SimpleRunge.hh"
+#include "CLHEP/Units/SystemOfUnits.h"                                                         
+#include "globals.hh"  
 
+using namespace CLHEP;
 
 MollerDetectorConstruction::MollerDetectorConstruction()
   :pGlobalMagnetField(0)
@@ -166,6 +171,7 @@ G4VPhysicalVolume* MollerDetectorConstruction::Construct()
     }
     k++;
   }
+  setNumColl(k);
 
   //==========================
   // Visualization attributes

@@ -104,7 +104,7 @@ void MollerGlobalMagnetField::GetFieldValue(const G4double Point[4], G4double *B
   G4double bu = -44*cm;
   G4double bd = 44*cm;
   // c1 is gaussian width inside the shield
-  G4double c1 = 4.2*cm;
+  G4double c1 = 5.45*cm;
   // c2 is gaussian width outside the shield
   G4double c2 = 10.19*cm;
 
@@ -112,8 +112,8 @@ void MollerGlobalMagnetField::GetFieldValue(const G4double Point[4], G4double *B
   //G4double z_intercept_high =  mg_field_high - pow( (2*pow(c1,2)*log(a*exp(-(pow(mg_field_high-bd,2)/(2*pow(c2,2))))/shielded)),0.5);
   G4double z_intercept_low = mg_field_low + 12.*cm;
   G4double z_intercept_high = mg_field_high - 15.*cm;
-  G4double z_dstep_end = mg_field_high - 7.*cm;
-  G4double z_ustep_end = mg_field_low + 7.5*cm;
+  G4double z_dstep_end = mg_field_high - 9.*cm;
+  G4double z_ustep_end = mg_field_low + 9.3*cm;
   
   //---------------------------------------------------------------
   // translation from global Point[4] into local magnet coordinates
