@@ -847,13 +847,13 @@
   &materials;
   
   <materials>
-    <material Z="18" name="matKryptonite" state="solid">
+    <material Z="18" name="Kryptonite" state="solid">
       <T unit="K" value="298"/>
       <D unit="mg/cm3" value="0.00000001"/>
       <atom unit="g/mole" value="39.948"/>
     </material>
   </materials>
-  
+
   <solids>
     <!-- Mother Volume -->
     <box lunit="cm" name="boxMother" x="width_mother" y="height_mother" z="length_mother"/>

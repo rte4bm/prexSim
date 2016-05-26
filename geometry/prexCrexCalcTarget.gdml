@@ -354,8 +354,8 @@
   <constant name="backthick_sc_attach_shield" value="0."/>
   <constant name="width_sc_attach_shield" value="width_sc_attach + 2.*thick_sc_attach_shield"/>
   <constant name="height_sc_attach_shield" value="height_sc_attach + 2.*thick_sc_attach_shield"/>
-  <constant name="length_sc_attach_shield" value="length_sc_attach/2.-5."/>
-
+  <constant name="length_sc_attach_shield" value="length_sc_attach+2.*thick_sc_attach_shield"/>
+  <!--<constant name="length_sc_attach_shield" value="length_sc_attach/2.-5."/>-->
   <!-- Minimal Shielding constants 3-24-16 -->
   <constant name="length_coll_shield" value="length_sc_attach/2.+30."/>
   <constant name="height_coll_shield_side" value="height_sc_attach_shield"/>
@@ -782,13 +782,11 @@
 &materials;
 
 
-
-
 <solids>
-<!-- Mother Volume -->
+  <!-- Mother Volume -->
   <box lunit="cm" name="boxMother" x="width_mother" y="height_mother" z="length_mother"/>
-
-
+  
+  
   <!-- Cylindrical CW70 Collimator : rakitha Mon Sep 30 16:40:34 EDT 2013 -->
   <!-- Need to change - Ricky -->
   <tube aunit="deg" startphi="0" deltaphi="360" lunit="cm" name="coll_cw70_cyln" rmin="0.0" rmax="radius_cw70_coll_1" z="length_cw70_coll_1"/>
@@ -2652,27 +2650,27 @@
 
     <!-- Electronic hut @ HRS represnted by this box -->
     <volume name="box_elec_hut_logic">
-       <materialref ref="Kryptonite"/>
+       <materialref ref="matKryptonite"/>
       <solidref ref="box_elec_hut"/>
       <auxiliary auxtype="SensDet" auxvalue="volumeN10008"/> 
     </volume>
 
     <!-- Electronic hut @ septum represnted by this box -->
     <volume name="box_elec_hut_sept_logic">
-      <materialref ref="Kryptonite"/>
+      <materialref ref="matKryptonite"/>
       <solidref ref="box_elec_hut_sept"/>
       <auxiliary auxtype="SensDet" auxvalue="volumeN10009"/> 
     </volume>
 
     <!-- Detectors at concrete sites and concrete -->
     <volume name="farDet_farside_logic">
-      <materialref ref="Kryptonite"/>
+      <materialref ref="matKryptonite"/>
       <solidref ref="farDet_farside_solid"/>
       <auxiliary auxtype="SensDet" auxvalue="volumeN2001"/>
     </volume>
 
     <volume name="farDet_rampside_logic">
-      <materialref ref="Kryptonite"/>
+      <materialref ref="matKryptonite"/>
       <solidref ref="farDet_rampside_solid"/>
       <auxiliary auxtype="SensDet" auxvalue="volumeN2002"/>
     </volume>
@@ -2879,16 +2877,16 @@
       </physvol> -->
 
 
-      <physvol name="target">
+      <!--<physvol name="target">
         <volumeref ref="target_logic"/>
         <positionref ref="targ_center"/>
-      </physvol>
+      </physvol>-->
 
       <!-- Crex target - ricky -->
-      <!--<physvol name="Ca_target">
+      <physvol name="Ca_target">
 	<volumeref ref="Ca_target_logic"/>
 	<positionref ref="crex_targ_center"/>
-      </physvol>-->
+      </physvol>
 
 
       <!--Making way to new SC design -->
@@ -2944,16 +2942,16 @@
         <positionref ref="sc_attach_center"/>
       </physvol>
 
-      <!--<physvol name="sc_attachment_shield">
+      <physvol name="sc_attachment_shield">
         <volumeref ref="sc_attach_shield_logic"/>
         <positionref ref="sc_attach_center"/>
-      </physvol>-->
+      </physvol>
 
 
-      <physvol name="coll_shield">
+      <!--<physvol name="coll_shield">
 	<volumeref ref="coll_shield_logic"/>
 	<positionref ref="coll_shield_center"/>
-      </physvol>
+      </physvol>-->
 
       
       <physvol name="septum">

@@ -1,2 +1,2 @@
-/moller/ana/rootfilename ./test1
-/run/beamOn 1000
+/moller/ana/rootfilename ./test
+/run/beamOn 100

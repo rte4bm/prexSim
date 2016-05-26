@@ -98,22 +98,29 @@ void MollerGlobalMagnetField::GetFieldValue(const G4double Point[4], G4double *B
 
   // gives integral 7003.4 G @ 1 cm
   G4double a = magScaleFactor*158.*gauss/cm;
-  G4double shielded = magScaleFactor*15.8 *gauss/cm;
+  //G4double shielded = magScaleFactor*.78 *gauss/cm;
+  G4double shielded = .78 *gauss/cm;
+  //G4double shielded = magScaleFactor*15.8 *gauss/cm;
   //G4double shielded = magScaleFactor*0.78 *gauss/cm;
   // bu and bd define center of gaussian approximations of fringe field along z-axis
-  G4double bu = -44*cm;
-  G4double bd = 44*cm;
+  G4double bu = -69*cm;
+  G4double bd = 61*cm;
   // c1 is gaussian width inside the shield
-  G4double c1 = 5.45*cm;
+  //G4double c1 = 4.2*cm;
+  G4double c1 = 3.40*cm;
+  G4double c2 = 6.94*cm;
   // c2 is gaussian width outside the shield
-  G4double c2 = 10.19*cm;
+  //G4double c2 = 14.15*cm;
+  //G4double c1_d = 3.20*cm;
+  //G4double c2_d = 6.94*cm;
+  G4double c_mid = 18.69*cm; 
 
   //G4double z_intercept_low = mg_field_low + pow( (2*pow(c1,2)*log(a*exp(-(pow(mg_field_low-bu,2)/(2*pow(c2,2))))/shielded)),0.5);
   //G4double z_intercept_high =  mg_field_high - pow( (2*pow(c1,2)*log(a*exp(-(pow(mg_field_high-bd,2)/(2*pow(c2,2))))/shielded)),0.5);
-  G4double z_intercept_low = mg_field_low + 12.*cm;
-  G4double z_intercept_high = mg_field_high - 15.*cm;
-  G4double z_dstep_end = mg_field_high - 9.*cm;
-  G4double z_ustep_end = mg_field_low + 9.3*cm;
+  G4double z_intercept_low = mg_field_low + 11.7*cm;
+  G4double z_intercept_high = mg_field_high - 8.5*cm;
+  //G4double z_dstep_end = mg_field_high - 9.*cm;
+  //G4double z_ustep_end = mg_field_low + 9.*cm;
   
   //---------------------------------------------------------------
   // translation from global Point[4] into local magnet coordinates
@@ -137,21 +144,17 @@ void MollerGlobalMagnetField::GetFieldValue(const G4double Point[4], G4double *B
   if( !readfrommap && sqrt(pow(myLocalPointInMainMagnet[0],2)+pow(myLocalPointInMainMagnet[1],2))<4.128*cm){    
     if ((myLocalPointInMainMagnet[2]>-100*cm)&&(myLocalPointInMainMagnet[2]<100*cm)){
       if (myLocalPointInMainMagnet[2]<mg_field_low){ 
-	dBxdy = a*(exp(-((pow(myLocalPointInMainMagnet[2]-bu,2))/(2*pow(c2,2)))));
-      } else if ((myLocalPointInMainMagnet[2]>=mg_field_low)&&(myLocalPointInMainMagnet[2]<z_ustep_end)){
-	dBxdy = a*(exp(-(pow(mg_field_low-bu                         ,2)/(2*pow(c2,2)))))*
+	dBxdy = shielded+(0.667)*a*(exp(-((pow(myLocalPointInMainMagnet[2]-bu,2))/(2*pow(c2,2)))));
+      } else if ((myLocalPointInMainMagnet[2]>=mg_field_low)&&(myLocalPointInMainMagnet[2]<z_intercept_low)){
+	dBxdy = shielded+(0.667)*a*(exp(-(pow(mg_field_low-bu                         ,2)/(2*pow(c2,2)))))*
 	  (exp(-(pow(myLocalPointInMainMagnet[2]-mg_field_low,2)/(2*pow(c1,2)))));
-      } else if ((myLocalPointInMainMagnet[2]<=z_intercept_low)&&(myLocalPointInMainMagnet[2]>z_ustep_end)){ 
-	dBxdy = a*(exp(-(pow(z_ustep_end-bu,2)/(2*pow(c1,2)))));
       } else if ((myLocalPointInMainMagnet[2]>=z_intercept_low)&&(myLocalPointInMainMagnet[2]<=z_intercept_high)){
-	dBxdy = shielded;
-      } else if ((myLocalPointInMainMagnet[2]>z_intercept_high)&&(myLocalPointInMainMagnet[2]<=z_dstep_end)){
-	dBxdy = a*(exp(-(pow(z_dstep_end-bd,2)/(2*pow(c1,2)))));
-      }else if ((myLocalPointInMainMagnet[2]<=mg_field_high)&&(myLocalPointInMainMagnet[2]>z_dstep_end)){
-	dBxdy = a*(exp(-(pow(mg_field_high-bd                         ,2)/(2*pow(c2,2)))))*
+	dBxdy = shielded+a*(exp(-(pow(myLocalPointInMainMagnet[2],2)/(2*pow(c_mid,2)))));
+      } else if ((myLocalPointInMainMagnet[2]<=mg_field_high)&&(myLocalPointInMainMagnet[2]>z_intercept_high)){
+	dBxdy = shielded+(1.58)*a*(exp(-(pow(mg_field_high-bd                         ,2)/(2*pow(c2,2)))))*
 	  (exp(-(pow(myLocalPointInMainMagnet[2]-mg_field_high,2)/(2*pow(c1,2)))));
 	} else if ((myLocalPointInMainMagnet[2]>mg_field_high)){ 
-	dBxdy = a*(exp(-((pow(myLocalPointInMainMagnet[2]-bd,2))/(2*pow(c2,2)))));
+	dBxdy = shielded+(1.58)*a*(exp(-((pow(myLocalPointInMainMagnet[2]-bd,2))/(2*pow(c2,2)))));
 	} else {
 	dBxdy=0;
       }     	
