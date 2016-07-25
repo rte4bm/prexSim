@@ -5,6 +5,7 @@
 /moller/gun/setConstSeed true ##FIXME later
 /moller/det/readGeometryFromFile true
 /gun/particle e-
+#/gun/particle neutron
 /moller/gun/gen 7
 
 ############
@@ -16,26 +17,31 @@
    #PREX-II collimator.  Latest shielding.
    ############
    #### beam energy
-   #/gun/energy 1.05 GeV ##PREX
-   /gun/energy 2.2 GeV ##CREX
+   /gun/energy 1.05 GeV ##PREX
+   #/gun/energy 2.2 GeV ##CREX
+   #/gun/energy 2.0 GeV ##CREX_5
    #### Scale factor for fringe mag field
    ##PREX
-   #/moller/field/setFieldScaleFactor 1.
+   /moller/field/setFieldScaleFactor 1.
+   ##CREX_5
+   #/moller/field/setFieldScaleFactor 2.
    ##CREX
    #/moller/field/setFieldScaleFactor 2.35
    ##MAGNET FIELD TEST
-   /moller/field/setFieldScaleFactor .219
+   #/moller/field/setFieldScaleFactor .219
    ####Limits for Fringe field
-   #/moller/field/setLowLim -44 cm
-   #/moller/field/setHighLim 44 cm
-   /moller/field/setLowLim -69 cm
-   /moller/field/setHighLim 61 cm
+   /moller/field/setLowLim -74 cm
+   /moller/field/setHighLim 74 cm
+   #/moller/field/setLowLim -69 cm
+   #/moller/field/setHighLim 61 cm
    #### Geometry files
    #/moller/det/setDetectorFileName geometry/prexII_coll_prototype_4_complete.gdml
-   #/moller/det/setDetectorFileName geometry/prexII_rickyTest.gdml
+   #/moller/det/setDetectorFileName geometry/oneWayTest.gdml
    #/moller/det/setDetectorFileName geometry/prexCrexLeadTarget.gdml
    #/moller/det/setDetectorFileName geometry/kriptoniteDetectors.gdml
-   /moller/det/setDetectorFileName geometry/prexCrexCalcTarget.gdml
+   #/moller/det/setDetectorFileName geometry/prexCrexCalcTarget.gdml
+   #/moller/det/setDetectorFileName geometry/prexCrexLeadTargetCaryn.gdml
+   /moller/det/setDetectorFileName geometry/prexCrexLeadTargetCarynCREX.gdml
    #/moller/det/setDetectorFileName geometry/prexII_newSC_update.gdml
    #/moller/det/setDetectorFileName geometry/newPigDesign_1.gdml
 

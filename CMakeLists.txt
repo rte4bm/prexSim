@@ -52,6 +52,9 @@ target_link_libraries(anaRad ${LINK_LIBRARIES})
 add_executable(calcRadDamage calc1MeVneutronEquivalent.cc)
 target_link_libraries(calcRadDamage ${LINK_LIBRARIES})
 
+add_executable(anaDose anaRadDosage.cc)
+target_link_libraries(anaDose ${LINK_LIBRARIES})
+
 #----------------------------------------------------------------------------
 # Copy all scripts to the build directory, i.e. the directory in which we
 # build N02. This is so that we can run the executable directly because it

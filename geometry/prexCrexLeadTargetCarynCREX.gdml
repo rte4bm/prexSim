@@ -50,7 +50,7 @@
     <!-- referenced from elog 2977 by Seamus where predicted relative shift is 46 cm -->
     <constant name="crex_target_center" value="-151.3"/>  
 
-    <!-- Detector dimensions  -->
+    <!-- Detector dimenscions  -->
     <constant name="det_thick" value="1"/>
     <constant name="det_inner_r" value="length_mother/2+prex_target_center-det_thick"/>  <!-- as large as it can be... -->
     <constant name="det_outer_r" value="length_mother/2+prex_target_center"/>
@@ -201,7 +201,7 @@
 	      value="57.2"/><!-- 54.5 cm -->
     
     <constant name="center_sc_attach"
-	      value="center_sc+inner_r_sc+length_sc_attach/2"/> <!-- -27.028 cm -->
+	      value="center_sc+inner_r_sc+length_sc_attach/2"/> <!-- -27.4 cm -->
     <!-- Need to get a real number for this for actual attachment... -->
     <constant name="length_sc_attach_hole" value="outer_r_sc"/>
 
@@ -247,6 +247,24 @@
     <constant name="height_prex_aboveW" value="6."/>
     <constant name="height_crex_aboveW" value="6."/>
 
+    <!-- Tungsten L-shielding above targets - Ricky -->
+    <constant name="thick_targShield" value="15."/>
+    <constant name="length_targShield" value="50."/>
+    <constant name="width_targShield" value="30.+thick_targShield+5."/>
+    <constant name="width_targShield_cut" value="thick_targShield+10." />
+    <constant name="length_targShield_cut" value="30."/>
+
+    <!-- Big Pipe Near Targets in Newest Drawing 6/6/16 - Ricky -->
+    <constant name="radius_bigPipe" value="30."/>
+    <constant name="length_bigPipe" value="length_targShield"/>
+
+    <!-- Plastic Detectors to measure radiation dosages - Ricky -->
+    <constant name="length_plasDet" value="10."/>
+    <constant name="radius_plasDet1" value="25."/>
+    <constant name="radius_plasDet2" value="50."/>
+    <constant name="radius_plasDet3" value="100."/>
+
+    
     <!-- Septum dimensions  -->
     <constant name="width_septum" value="137.16"/>
     <constant name="height_septum" value="84."/>
@@ -349,7 +367,7 @@
     <constant name="length_sc_attach_hut" value="length_sc_attach+2.*fSCHutShieldLength"/>
 
     <!-- New Shielding for collimator box  -->
-    <constant name="thick_sc_attach_shield" value="20."/>
+    <constant name="thick_sc_attach_shield" value="30."/>
     <constant name="width_sc_attach_shield" value="width_sc_attach + 2.*thick_sc_attach_shield"/>
     <constant name="height_sc_attach_shield" value="height_sc_attach + 2.*thick_sc_attach_shield"/>
     <constant name="length_sc_attach_shield" value="length_sc_attach/2.-5."/>
@@ -682,19 +700,40 @@
     <position unit="cm" name="prex_det_pos" x="0" y="outer_r_new_sc + 0.5" z="prex_target_center"/>
     <position unit="cm" name="crex_det_pos" x="0" y="outer_r_new_sc + 0.5" z="crex_target_center"/> 
 
-    <!-- target chamber shielding W above CAP-->
-    <position unit="cm" name="pos_global_prex_aboveW"
-	      x="0" y="outer_r_new_sc+height_prex_aboveW/2+0.5+0.05" z="prex_target_center"/>
-    <position unit="cm" name="pos_global_crex_aboveW"
-	      x="0" y="outer_r_new_sc+height_crex_aboveW/2+0.5+0.05" z="crex_target_center"/>
-    
-    <constant name="height_crex_abovePoly" value="10.+height_crex_aboveW"/>
-    <position unit="cm" name="pos_rel_crex_aboveW_wrt_abovePoly"
-	      x="0" y="-height_crex_abovePoly/2+height_crex_aboveW/2" z="0"/>
-    <position unit="cm" name="pos_global_crex_abovePoly"
-	      x="0" y="outer_r_new_sc+height_crex_abovePoly/2+0.5+0.1+0.05"
-	      z="crex_target_center"/>
+<!-- target chamber shielding W above CAP-->
+   <position unit="cm" name="pos_global_prex_aboveW" x="0" y="outer_r_new_sc+height_prex_aboveW/2+0.5+0.05" z="prex_target_center"/>
+   <position unit="cm" name="pos_global_crex_aboveW" x="0" y="outer_r_new_sc+height_crex_aboveW/2+0.5+0.05" z="crex_target_center"/>
 
+   <!-- target chamber shielding "L" shape - Ricky -->
+   <position unit="cm" name="pos_global_targShield_center"
+	     x="0"
+	     y="30.+thick_targShield/2.+5."
+	     z="crex_target_center"/>
+
+   <position unit="cm" name="pos_rel_targShield_cut"
+	     x="-(width_targShield/4.)-2*(outer_rad_targ)"
+	     y="0"
+	     z="(length_targShield)/2. - (length_targShield_cut)/2."/>
+
+
+   <!-- Adding in Big pipe position - Ricky -->
+   <position unit="cm" name="pos_global_bigPipe_center"
+	     x="0."
+	     y="0."
+	     z="(center_targ+crex_target_center)/2."/>
+
+   <!-- Positioning of Plastic Dosage Detectors -->
+   <position unit="cm" name="pos_global_prex_plasDet_center"
+	     x="0."
+	     y="0."
+	     z="prex_target_center"/>
+
+   <position unit="cm" name="pos_global_crex_plasDet_center"
+	     x="0."
+	     y="0."
+	     z="crex_target_center"/>
+   
+   
 
     <!-- <position unit="cm" name="scTrans_1" x="0" y="-(outer_r_sc-thick_sc/2)" z="-y_cent_sc"/> -->
     <position unit="cm" name="cDet_1_trans"     x="0" y="-cDet_1_radius"     z="-1.*center_cylwall-0.5*thick_cylwall"/>
@@ -824,8 +863,13 @@
 	      z="length_coll_shield_side/2.-thick_sc_attach_shield"/>
     <position unit="cm" name="pos_rel_dsShield1_wrt_collShield"
 	      x="0"
-	      y="height_sc_attach/2 + thick_sc_attach_shield/2."
-	      z="length_coll_shield_side/2. + innerR_sc_attach_pig + 2. + thick_sc_attach_shield/4."/>
+	      y="height_sc_attach/2 + (thick_sc_attach_shield-10.)/2."
+	      z="length_coll_shield_side/2. + innerR_sc_attach_pig + 2. + (thick_sc_attach_shield-10.)/4."/>
+
+    <position unit="cm" name="pos_rel_botShield_collShield"
+	      x="0"
+	      y="-(height_sc_attach_shield/2. - thick_sc_attach_shield/2.)"
+	      z="0."/>
 
     <position unit="cm" name="pos_rel_outsideW_wrt_collShield"
 	      x="0"
@@ -839,8 +883,7 @@
     <position unit="cm" name="pos_global_pigTopShield"
 	      x="0"
 	      y="(height_sc_attach + thick_sc_attach_shield )/2. + height_sc_attach_pig + height_sc_attach_pigLid"
-	      z="center_cw70_coll + length_w_coll_jacket/2 - length_cw70_coll/2"/>
-
+	      z="center_cw70_coll + length_w_coll_jacket/2 - length_cw70_coll/2+2."/>
 </define>
 
   &materials;
@@ -1180,8 +1223,8 @@
           y2="1.0*height_vac_d_enc" x3="1.0*width_vac_d_enc" x4="1.0*width_vac_d_enc" alpha2="alpha_l_2" />
 
     <trap aunit="deg" lunit="cm" name="hole_for_r_vac_enc" z="1.0*length_vac_enc" theta="right_theta" phi="right_phi" 
-          y1="1.0*height_vac_u_enc" x1="1.0*width_vac_u_enc" x2="1.0*width_vac_u_enc"  alpha1="alpha_l_1" 
-          y2="1.0*height_vac_d_enc" x3="1.0*width_vac_d_enc" x4="1.0*width_vac_d_enc" alpha2="alpha_l_2" />
+          y1="1.0*height_vac_u_enc+0.01" x1="1.0*width_vac_u_enc" x2="1.0*width_vac_u_enc"  alpha1="alpha_l_1" 
+          y2="1.0*height_vac_d_enc+0.01" x3="1.0*width_vac_d_enc" x4="1.0*width_vac_d_enc" alpha2="alpha_l_2" />
 
     <tube aunit="deg" startphi="0" deltaphi="360"
 	  lunit="cm" name="sc_attach_sc_chamber_beam_hole"
@@ -1351,7 +1394,7 @@
       <positionref ref="new_sc_Trans_1"/>
     </subtraction>
 
-    <subtraction name ="new_sc_beampipe_3">
+    <subtraction name ="new_sc_beampipe_solid">
       <first ref="new_sc_beampipe_2"/>
       <second ref="new_sc_US_beam_hole"/> 
       <positionref ref="new_sc_Trans_2"/>
@@ -1364,12 +1407,12 @@
     <tube aunit="deg" startphi="0" deltaphi="360" lunit="cm" name="sub_new_sc_crex" rmin="0.0" rmax="outer_r_new_sc+0.001" z="4*radius_sc_chamber_beam_pipe" />
  <tube aunit="deg" startphi="0" deltaphi="360" lunit="cm" name="sub_new_sc_crex_water_tgt" rmin="0.0" rmax="outer_r_new_sc_water_tgt+0.001" z="4*radius_sc_chamber_beam_pipe" /> 
 
-    <subtraction name ="new_sc_beampipe_4">
+    <!--<subtraction name ="new_sc_beampipe_4">
       <first ref="new_sc_beampipe_3"/>
       <second ref="sub_new_sc_prex"/> 
       <positionref ref="new_sc_Trans_3"/>
       <rotationref ref="scRot_1"/>
-    </subtraction>
+    </subtraction>-->
 
 <!--CAP    <subtraction name ="new_sc_beampipe_5">
       <first ref="new_sc_beampipe_4"/>
@@ -1379,13 +1422,13 @@
     </subtraction>-->
 
 <!--CAP    <subtraction name ="new_sc_beampipe_6">-->
-  <subtraction name ="new_sc_beampipe_solid">
+  <!--<subtraction name ="new_sc_beampipe_solid">-->
 <!--      <first ref="new_sc_beampipe_5"/>  -->
-   <first ref="new_sc_beampipe_4"/> 
+   <!--<first ref="new_sc_beampipe_4"/> 
       <second ref="sub_new_sc_crex"/> 
       <positionref ref="new_sc_Trans_4"/>
       <rotationref ref="scRot_1"/>
-    </subtraction>
+    </subtraction>-->
 
 <!--    <subtraction name ="new_sc_beampipe_solid">
       <first ref="new_sc_beampipe_6"/>
@@ -1752,13 +1795,13 @@
 
     <box lunit="cm" name="coll_shield_ds"
 	 x="width_sc_attach_shield"
-	 y="thick_sc_attach_shield"
-	 z="thick_sc_attach_shield/2."/>  
+	 y="(thick_sc_attach_shield-10.)"
+	 z="(thick_sc_attach_shield-10.)/2."/>  
     <union name="coll_shield_5">
       <first ref="coll_shield_4"/>
       <second ref="coll_shield_ds"/>
       <positionref ref="pos_rel_dsShield1_wrt_collShield"/>
-    </union> 
+    </union>
     
     <!-- Block of W  -->
     <box lunit="cm" name="sc_attach_outside_w"
@@ -1769,9 +1812,20 @@
       <first ref="coll_shield_5"/>
       <second ref="sc_attach_outside_w"/>
       <positionref ref="pos_rel_outsideW_wrt_collShield"/>
-    </subtraction> 
+    </subtraction>
+
+    <box lunit="cm" name="coll_shield_bot"
+	 x="width_sc_attach_shield"
+	 y="thick_sc_attach_shield"
+	 z="50."/>
+    <union name="coll_shield_7"> 
+      <first ref="coll_shield_6"/>
+      <second ref="coll_shield_bot"/>
+      <positionref ref="pos_rel_botShield_collShield"/>
+    </union>
+ 
     
-    <!--CAP Blocks of W for above target chambers -->
+<!--CAP Blocks of W for above target chambers -->
     <box lunit="cm" name="prex_attach_above_w"
          x="2*(outer_r_new_sc+1.)"
          y="height_prex_aboveW"
@@ -1781,16 +1835,84 @@
          y="height_crex_aboveW"
          z="2*(outer_r_new_sc+1.)"/>
 
-    <!--CAP Block of poly for above target chambers -->
-    <box lunit="cm" name="crex_attach_above_poly0"
-	 x="2*(outer_r_new_sc+1.) + 20"
-	 y="height_crex_abovePoly"
-	 z="2*(outer_r_new_sc+1.) + 20"/>
-    <subtraction name="crex_attach_above_poly1">
-      <first ref="crex_attach_above_poly0"/>
-      <second ref="crex_attach_above_w"/>
-      <positionref ref="pos_rel_crex_aboveW_wrt_abovePoly"/>
-    </subtraction>
+    <!-- Tungsten shielding at Targets - Ricky -->
+    <box lunit="cm" name="targShield_solid"
+	 x="width_targShield"
+	 y="thick_targShield"
+	 z="length_targShield"/>
+    <box lunit="cm" name="targShield_cut"
+	 x="15."
+	 y="thick_targShield+1."
+	 z="15."/>
+    <!--<subtraction name="targShield_solid">
+      <first ref="targShield_0"/>
+      <second ref="targShield_cut"/>
+      <positionref ref="center"/>
+    </subtraction>-->
+
+
+    <!-- Big Pipe in the latest drawing 6/6/16 - Ricky -->
+    <tube aunit="deg" startphi="0" deltaphi="360" lunit="cm"
+	  name="bigPipe_solid"
+	  rmin="radius_bigPipe - 0.1"
+	  rmax="radius_bigPipe"
+	  z="length_bigPipe" />
+
+    <!-- Plastic Dosage Detectors - Ricky -->
+    <tube aunit="deg" startphi="0" deltaphi="360" lunit="cm"
+	  name="plasDet1_solid"
+	  rmin="radius_plasDet1"
+	  rmax="radius_plasDet1 + 1."
+	  z="length_plasDet" />
+    
+    <tube aunit="deg" startphi="0" deltaphi="360" lunit="cm"
+	  name="plasDet2_solid"
+	  rmin="radius_plasDet2"
+	  rmax="radius_plasDet2 + 1."
+	  z="length_plasDet" />
+
+    <tube aunit="deg" startphi="0" deltaphi="360" lunit="cm"
+	  name="plasDet3_solid"
+	  rmin="radius_plasDet3"
+	  rmax="radius_plasDet3 + 1."
+	  z="length_plasDet" />
+
+    <tube aunit="deg" startphi="0" deltaphi="360" lunit="cm"
+	  name="plasVac1_solid"
+	  rmin="radius_plasDet1 - 0.5"
+	  rmax="radius_plasDet1 - 0.1"
+	  z="length_plasDet" />
+    
+    <tube aunit="deg" startphi="0" deltaphi="360" lunit="cm"
+	  name="plasVac2_solid"
+	  rmin="radius_plasDet1 + 1.1"
+	  rmax="radius_plasDet1 + 1.5"
+	  z="length_plasDet" />
+
+    <tube aunit="deg" startphi="0" deltaphi="360" lunit="cm"
+	  name="plasVac3_solid"
+	  rmin="radius_plasDet2 - 0.5"
+	  rmax="radius_plasDet2 - 0.1"
+	  z="length_plasDet" />
+
+    <tube aunit="deg" startphi="0" deltaphi="360" lunit="cm"
+	  name="plasVac4_solid"
+	  rmin="radius_plasDet2 + 1.1"
+	  rmax="radius_plasDet2 + 1.5"
+	  z="length_plasDet" />
+
+    <tube aunit="deg" startphi="0" deltaphi="360" lunit="cm"
+	  name="plasVac5_solid"
+	  rmin="radius_plasDet3 - 0.5"
+	  rmax="radius_plasDet3 - 0.1"
+	  z="length_plasDet" />
+
+    <tube aunit="deg" startphi="0" deltaphi="360" lunit="cm"
+	  name="plasVac6_solid"
+	  rmin="radius_plasDet2 + 1.1"
+	  rmax="radius_plasDet2 + 1.5"
+	  z="length_plasDet" />
+
     
     <!-- Here keep scattering chamber and hut separate. -->
 
@@ -1915,8 +2037,8 @@
       <positionref ref="septpipeShldTrans_r"/>
     </subtraction>
 
-    <box lunit="cm" name="sept_shld_l_0" x="0.9999*width_septum_rect_hole" y="height_septum_rect_hole" z="length_septum"/>
-    <box lunit="cm" name="sept_shld_r_0" x="0.9999*width_septum_rect_hole" y="height_septum_rect_hole" z="length_septum"/>
+    <box lunit="cm" name="sept_shld_l_0" x="0.9999*width_septum_rect_hole" y="height_septum_rect_hole*0.999" z="length_septum"/>
+    <box lunit="cm" name="sept_shld_r_0" x="0.9999*width_septum_rect_hole" y="height_septum_rect_hole*0.999" z="length_septum"/>
 
     <subtraction name ="sept_shld_l">
       <first ref="sept_shld_l_0"/>
@@ -2599,7 +2721,7 @@
 
     <volume name="coll_shield_logic">
       <materialref ref="Shield"/>
-      <solidref ref="coll_shield_6"/>
+      <solidref ref="coll_shield_7"/>
     </volume>
 
     <volume name="coll_outsideW_shield_logic">
@@ -2650,6 +2772,13 @@
       <!-- <auxiliary auxtype="SensDet" auxvalue="planeDet"/> -->
     </volume>
 
+<!--CAP comment out 5-15-16    <volume name="new_sc_prex_water_tgt_logic">
+      <materialref ref="Aluminum"/>
+      <solidref ref="new_sc_prex_water_tgt_solid"/>
+      <auxiliary auxtype="SensDet" auxvalue="volumeN5042"/> -->
+      <!-- <auxiliary auxtype="SensDet" auxvalue="planeDet"/> -->
+<!--    </volume> -->
+
     <volume name="new_sc_crex_logic">
       <materialref ref="Aluminum"/>
       <solidref ref="new_sc_crex_solid"/>
@@ -2657,7 +2786,15 @@
       <!-- <auxiliary auxtype="SensDet" auxvalue="planeDet"/> -->
     </volume>
 
-    <!--prex and crex tunsten sheilding above target chambers CAP 5/16/16-->
+<!-- commented out CAP 5/15/16 -->
+<!--    <volume name="new_sc_crex_water_tgt_logic">
+      <materialref ref="Aluminum"/>
+      <solidref ref="new_sc_crex_water_tgt_solid"/>
+      <auxiliary auxtype="SensDet" auxvalue="volumeN5044"/> -->
+      <!-- <auxiliary auxtype="SensDet" auxvalue="planeDet"/> -->
+<!--    </volume> -->
+
+<!--prex and crex tunsten sheilding above target chambers CAP 5/16/16-->
     <volume name="prex_aboveW_shield_logic">
       <materialref ref="Tungsten"/>
       <solidref ref="prex_attach_above_w"/>
@@ -2667,12 +2804,129 @@
       <materialref ref="Tungsten"/>
       <solidref ref="crex_attach_above_w"/>
     </volume>
-    
-    <!--crex poly shielding above tungsten above target chambers -->
-    <volume name="crex_abovePoly_shield_logic">
-      <materialref ref="Shield"/>
-      <solidref ref="crex_attach_above_poly1"/>
+
+    <!-- New Tungsten "L" shielding above targets - Ricky -->
+    <volume name="targShield_logic">
+      <materialref ref="Tungsten"/>
+      <solidref ref="targShield_solid"/>
     </volume>
+
+    <!-- Big Pipe in the latest drawing 6/6/16 - Ricky -->
+    <volume name="bigPipe_logic">
+      <materialref ref="Aluminum"/>
+      <solidref ref="bigPipe_solid"/>
+    </volume>
+
+    <!-- Plastic dosage detectors - Ricky -->
+    <volume name="plasDet1_logic">
+      <materialref ref="Shield"/>
+      <solidref ref="plasDet1_solid"/>
+      <auxiliary auxtype="SensDet" auxvalue="volumeN3001"/>
+    </volume>
+    
+    <volume name="plasDet2_logic">
+      <materialref ref="Shield"/>
+      <solidref ref="plasDet2_solid"/>
+      <auxiliary auxtype="SensDet" auxvalue="volumeN3002"/>
+    </volume>
+
+    <volume name="plasDet3_logic">
+      <materialref ref="Shield"/>
+      <solidref ref="plasDet3_solid"/>
+      <auxiliary auxtype="SensDet" auxvalue="volumeN3003"/>
+    </volume>
+    
+    <volume name="plasDet4_logic">
+      <materialref ref="Shield"/>
+      <solidref ref="plasDet1_solid"/>
+      <auxiliary auxtype="SensDet" auxvalue="volumeN3004"/>
+    </volume>
+    
+    <volume name="plasDet5_logic">
+      <materialref ref="Shield"/>
+      <solidref ref="plasDet2_solid"/>
+      <auxiliary auxtype="SensDet" auxvalue="volumeN3005"/>
+    </volume>
+
+    <volume name="plasDet6_logic">
+      <materialref ref="Shield"/>
+      <solidref ref="plasDet3_solid"/>
+      <auxiliary auxtype="SensDet" auxvalue="volumeN3006"/>
+    </volume>
+    
+    <volume name="plasVac1_logic">
+      <materialref ref="Vacuum"/>
+      <solidref ref="plasVac1_solid"/>
+      <auxiliary auxtype="SensDet" auxvalue="volumeN3011"/>
+    </volume>
+    
+    <volume name="plasVac2_logic">
+      <materialref ref="Vacuum"/>
+      <solidref ref="plasVac2_solid"/>
+      <auxiliary auxtype="SensDet" auxvalue="volumeN3021"/>
+    </volume>
+
+    <volume name="plasVac3_logic">
+      <materialref ref="Vacuum"/>
+      <solidref ref="plasVac3_solid"/>
+      <auxiliary auxtype="SensDet" auxvalue="volumeN3012"/>
+    </volume>
+
+    <volume name="plasVac4_logic">
+      <materialref ref="Vacuum"/>
+      <solidref ref="plasVac4_solid"/>
+      <auxiliary auxtype="SensDet" auxvalue="volumeN3022"/>
+    </volume>
+    
+    <volume name="plasVac5_logic">
+      <materialref ref="Vacuum"/>
+      <solidref ref="plasVac5_solid"/>
+      <auxiliary auxtype="SensDet" auxvalue="volumeN3013"/>
+    </volume>
+
+    <volume name="plasVac6_logic">
+      <materialref ref="Vacuum"/>
+      <solidref ref="plasVac6_solid"/>
+      <auxiliary auxtype="SensDet" auxvalue="volumeN3023"/>
+    </volume>
+
+    
+    <volume name="plasVac7_logic">
+      <materialref ref="Vacuum"/>
+      <solidref ref="plasVac1_solid"/>
+      <auxiliary auxtype="SensDet" auxvalue="volumeN3014"/>
+    </volume>
+    
+    <volume name="plasVac8_logic">
+      <materialref ref="Vacuum"/>
+      <solidref ref="plasVac2_solid"/>
+      <auxiliary auxtype="SensDet" auxvalue="volumeN3024"/>
+    </volume>
+
+    <volume name="plasVac9_logic">
+      <materialref ref="Vacuum"/>
+      <solidref ref="plasVac3_solid"/>
+      <auxiliary auxtype="SensDet" auxvalue="volumeN3015"/>
+    </volume>
+
+    <volume name="plasVac10_logic">
+      <materialref ref="Vacuum"/>
+      <solidref ref="plasVac4_solid"/>
+      <auxiliary auxtype="SensDet" auxvalue="volumeN3025"/>
+    </volume>
+    
+    <volume name="plasVac11_logic">
+      <materialref ref="Vacuum"/>
+      <solidref ref="plasVac5_solid"/>
+      <auxiliary auxtype="SensDet" auxvalue="volumeN3016"/>
+    </volume>
+
+    <volume name="plasVac12_logic">
+      <materialref ref="Vacuum"/>
+      <solidref ref="plasVac6_solid"/>
+      <auxiliary auxtype="SensDet" auxvalue="volumeN3026"/>
+    </volume>
+
 
     <volume name="sc_attach_logic">
       <materialref ref="Aluminum"/>
@@ -2943,12 +3197,12 @@
         <positionref ref="pos_global_pig_shield"/>
 	<rotationref ref="scRot_1"/>
       </physvol>
-
+      
       <physvol name="sc_attach_pigTopShield_phys">
-        <volumeref ref="sc_attach_pigTopShield_logic"/>
-        <positionref ref="pos_global_pigTopShield"/>
+	<volumeref ref="sc_attach_pigTopShield_logic"/>
+	<positionref ref="pos_global_pigTopShield"/>
       </physvol>
-
+      
       <physvol name="coll_shield">
       	<volumeref ref="coll_shield_logic"/>
       	<positionref ref="pos_global_collShield"/>
@@ -2960,10 +3214,10 @@
       </physvol>      
 	  
       <!--CAP comment out if running Crex -->
-      <!-- <physvol name="target"> -->
-      <!--   <volumeref ref="target_logic"/> -->
-      <!--   <positionref ref="targ_center"/> -->
-      <!-- </physvol> -->
+      <physvol name="target">
+	<volumeref ref="target_logic"/>
+	<positionref ref="targ_center"/> 
+      </physvol> 
       
       <!--CAP add tunsten shielding above prex target chamber -->
       <!-- <physvol name="prex_aboveW_shield"> -->
@@ -2972,21 +3226,16 @@
       <!--  </physvol> -->
       
       <!--CAP comment out if running Prex-->
-      <physvol name="Ca_target">
+      <!--<physvol name="Ca_target">
         <volumeref ref="Ca_target_logic"/>
         <positionref ref="crex_targ_center"/>
-      </physvol>
+      </physvol>-->
       
       <!--CAP add tunsten shielding above crex target chamber -->
-      <physvol name="crex_aboveW_shield">
-        <volumeref ref="crex_aboveW_shield_logic"/>
-        <positionref ref="pos_global_crex_aboveW"/>
-      </physvol>
-      <!--CAP add Poly shielding above tungsten above crex chambers -->
-      <physvol name="crex_abovePoly_shield">
-        <volumeref ref="crex_abovePoly_shield_logic"/>
-        <positionref ref="pos_global_crex_abovePoly"/>
-      </physvol>
+      <!-- <physvol name="crex_aboveW_shield"> -->
+      <!--   <volumeref ref="crex_aboveW_shield_logic"/> -->
+      <!--   <positionref ref="pos_global_crex_aboveW"/> -->
+      <!-- </physvol> -->
 
       <!-- New dual Scattering Chamber -->
       <physvol name="new_sc_beampipe">
@@ -2994,19 +3243,31 @@
         <positionref ref="new_sc_center"/>
 	<rotationref ref="scRot_14"/>
       </physvol>
+      
+      <!-- Adding new "L" shielding near the target sites - Ricky -->
+      <!--<physvol name="targShield">
+	<volumeref ref="targShield_logic"/>
+	<positionref ref="pos_global_targShield_center"/>  
+      </physvol>-->
+      
+      <!-- Big Pipe in the latest drawing 6/6/16 - Ricky -->
+      <!-- <physvol name="bigPipe">
+	<volumeref ref="bigPipe_logic"/>
+	<positionref ref="pos_global_bigPipe_center"/>
+      </physvol> -->
 
 
-      <physvol name="new_sc_prex">
+      <!--<physvol name="new_sc_prex">
         <volumeref ref="new_sc_prex_logic"/>
         <positionref ref="targ_center"/>
 	<rotationref ref="scRot_13"/>
-      </physvol>
+      </physvol>-->
 
-      <physvol name="new_sc_crex">
+      <!--<physvol name="new_sc_crex">
         <volumeref ref="new_sc_crex_logic"/>
         <positionref ref="crex_targ_center"/>
 	<rotationref ref="scRot_13"/>
-      </physvol>
+      </physvol>-->
 
       <physvol name="sc_attachment">
         <volumeref ref="sc_attach_logic"/>
@@ -3080,10 +3341,10 @@
         <positionref ref="ssenc_cylcenter"/>
       </physvol>
       
-      <physvol name="ped_union">
+      <!--<physvol name="ped_union">
         <volumeref ref="ped_union_logic"/>
         <positionref ref="ped_1_pos"/>
-      </physvol>
+      </physvol>-->
       <physvol name="under_arm_ped_1">
         <volumeref ref="under_arm_logic_1"/>
         <positionref ref="arm_under_ped_pos_1"/>
@@ -3130,7 +3391,7 @@
         <positionref ref="dDet_ds_pos"/> 
       </physvol>
 
-      <physvol name="prex_det">
+      <!-- <physvol name="prex_det">
 	<volumeref ref="prex_det_logic"/>
 	<positionref ref="prex_det_pos"/>
 	<rotationref ref="scRot_1"/>
@@ -3140,8 +3401,98 @@
 	<volumeref ref="crex_det_logic"/>
 	<positionref ref="crex_det_pos"/>
 	<rotationref ref="scRot_1"/>
+	</physvol> -->
+
+      <physvol name="plasDet1">
+	<volumeref ref="plasDet1_logic"/>
+	<positionref ref="pos_global_crex_plasDet_center"/>
       </physvol>
 
+      <physvol name="plasDet2">
+	<volumeref ref="plasDet2_logic"/>
+	<positionref ref="pos_global_crex_plasDet_center"/>
+      </physvol>
+      
+      <physvol name="plasDet3">
+	<volumeref ref="plasDet3_logic"/>
+	<positionref ref="pos_global_crex_plasDet_center"/>
+      </physvol>
+      
+      <physvol name="plasDet4">
+	<volumeref ref="plasDet1_logic"/>
+	<positionref ref="pos_global_prex_plasDet_center"/>
+      </physvol>
+      
+      <physvol name="plasDet5">
+	<volumeref ref="plasDet2_logic"/>
+	<positionref ref="pos_global_prex_plasDet_center"/>
+      </physvol>
+      
+      <physvol name="plasDet6">
+	<volumeref ref="plasDet3_logic"/>
+	<positionref ref="pos_global_prex_plasDet_center"/>
+      </physvol>
+
+      <physvol name="plasVac1">
+	<volumeref ref="plasVac1_logic"/>
+	<positionref ref="pos_global_crex_plasDet_center"/>
+      </physvol>
+
+      <physvol name="plasVac2">
+	<volumeref ref="plasVac2_logic"/>
+	<positionref ref="pos_global_crex_plasDet_center"/>
+      </physvol>
+      
+      <physvol name="plasVac3">
+	<volumeref ref="plasVac3_logic"/>
+	<positionref ref="pos_global_crex_plasDet_center"/>
+      </physvol>
+      
+      <physvol name="plasVac4">
+	<volumeref ref="plasVac4_logic"/>
+	<positionref ref="pos_global_crex_plasDet_center"/>
+      </physvol>
+
+      <physvol name="plasVac5">
+	<volumeref ref="plasVac5_logic"/>
+	<positionref ref="pos_global_crex_plasDet_center"/>
+      </physvol>
+      
+      <physvol name="plasVac6">
+	<volumeref ref="plasVac6_logic"/>
+	<positionref ref="pos_global_crex_plasDet_center"/>
+      </physvol>
+
+      <physvol name="plasVac7">
+	<volumeref ref="plasVac7_logic"/>
+	<positionref ref="pos_global_prex_plasDet_center"/>
+      </physvol>
+
+      <physvol name="plasVac8">
+	<volumeref ref="plasVac8_logic"/>
+	<positionref ref="pos_global_prex_plasDet_center"/>
+      </physvol>
+      
+      <physvol name="plasVac9">
+	<volumeref ref="plasVac9_logic"/>
+	<positionref ref="pos_global_prex_plasDet_center"/>
+      </physvol>
+
+      <physvol name="plasVac10">
+	<volumeref ref="plasVac10_logic"/>
+	<positionref ref="pos_global_prex_plasDet_center"/>
+      </physvol>
+
+      <physvol name="plasVac11">
+	<volumeref ref="plasVac11_logic"/>
+	<positionref ref="pos_global_prex_plasDet_center"/>
+      </physvol>
+      
+      <physvol name="plasVac12">
+	<volumeref ref="plasVac12_logic"/>
+	<positionref ref="pos_global_prex_plasDet_center"/>
+      </physvol>
+      
       <physvol name="beamline_1_det">
         <volumeref ref="dDet_beamline_1_logic"/>
         <positionref ref="dDet_beamline_pos_1"/>

@@ -1,2 +1,3 @@
-/moller/ana/rootfilename ./test
-/run/beamOn 100
+/moller/ana/rootfilename ./prex2_lotsOfVacuum_5e6
+/run/beamOn 5000000
+

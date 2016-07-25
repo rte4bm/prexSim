@@ -75,7 +75,8 @@
   <!-- Mother Volume -->
   <box lunit="cm" name="boxMother" x="width_mother" y="height_mother" z="length_mother"/>
 
-  <box lunit="cm" name="det_solid" x="length_det" y="length_det" z="thick_det"/>
+  <box lunit="cm" name="det_solid_0" x="length_det" y="length_det" z="thick_det"/>
+  <box lunit="cm" name="det_solid_1" x="length_det" y="length_det" z="3*thick_det"/>
 
 
 
@@ -89,21 +90,21 @@
 
   <volume name="det1_logic">
     <materialref ref="Vacuum"/>
-    <solidref ref="det_solid"/>
+    <solidref ref="det_solid_0"/>
     <auxiliary auxtype="SensDet" auxvalue="volumeN1001"/>
   </volume>
 
 
   <volume name="det2_logic">
-    <materialref ref="Vacuum"/>
-    <solidref ref="det_solid"/>
+    <materialref ref="Shield"/>
+    <solidref ref="det_solid_1"/>
     <auxiliary auxtype="SensDet" auxvalue="volumeN1002"/>
   </volume>
 
   
   <volume name="det3_logic">
-    <materialref ref="Vacuum"/>
-    <solidref ref="det_solid"/>
+    <materialref ref="Shield"/>
+    <solidref ref="det_solid_1"/>
     <auxiliary auxtype="SensDet" auxvalue="volumeN1003"/>
   </volume>
 
@@ -112,7 +113,7 @@
       <materialref ref="Vacuum"/>
       <solidref ref="boxMother"/>
 
-<!-- 
+
       <physvol name="detector1">
 	<volumeref ref="det1_logic"/>
 	<positionref ref="det1_center"/>
@@ -122,7 +123,7 @@
 	<volumeref ref="det2_logic"/>
 	<positionref ref="det2_center"/>
       </physvol>
--->
+
       
       <physvol name="detector3">
 	<volumeref ref="det3_logic"/>
