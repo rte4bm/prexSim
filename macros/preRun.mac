@@ -17,14 +17,14 @@
    #PREX-II collimator.  Latest shielding.
    ############
    #### beam energy
-   /gun/energy 1.05 GeV ##PREX
-   #/gun/energy 2.2 GeV ##CREX
+   #/gun/energy 1.05 GeV ##PREX
+   /gun/energy 2.2 GeV ##CREX
    #/gun/energy 2.0 GeV ##CREX_5
    #### Scale factor for fringe mag field
    ##PREX
-   /moller/field/setFieldScaleFactor 1.
+   #/moller/field/setFieldScaleFactor 1.
    ##CREX_5
-   #/moller/field/setFieldScaleFactor 2.
+   /moller/field/setFieldScaleFactor 2.
    ##CREX
    #/moller/field/setFieldScaleFactor 2.35
    ##MAGNET FIELD TEST

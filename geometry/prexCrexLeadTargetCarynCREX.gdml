@@ -2854,7 +2854,7 @@
       <auxiliary auxtype="SensDet" auxvalue="volumeN3006"/>
     </volume>
     
-    <volume name="plasVac1_logic">
+    <!--<volume name="plasVac1_logic">
       <materialref ref="Vacuum"/>
       <solidref ref="plasVac1_solid"/>
       <auxiliary auxtype="SensDet" auxvalue="volumeN3011"/>
@@ -2925,7 +2925,7 @@
       <materialref ref="Vacuum"/>
       <solidref ref="plasVac6_solid"/>
       <auxiliary auxtype="SensDet" auxvalue="volumeN3026"/>
-    </volume>
+    </volume>  -->
 
 
     <volume name="sc_attach_logic">
@@ -3214,10 +3214,10 @@
       </physvol>      
 	  
       <!--CAP comment out if running Crex -->
-      <physvol name="target">
+      <!--<physvol name="target">
 	<volumeref ref="target_logic"/>
 	<positionref ref="targ_center"/> 
-      </physvol> 
+      </physvol>--> 
       
       <!--CAP add tunsten shielding above prex target chamber -->
       <!-- <physvol name="prex_aboveW_shield"> -->
@@ -3226,10 +3226,10 @@
       <!--  </physvol> -->
       
       <!--CAP comment out if running Prex-->
-      <!--<physvol name="Ca_target">
+      <physvol name="Ca_target">
         <volumeref ref="Ca_target_logic"/>
         <positionref ref="crex_targ_center"/>
-      </physvol>-->
+      </physvol>
       
       <!--CAP add tunsten shielding above crex target chamber -->
       <!-- <physvol name="crex_aboveW_shield"> -->
@@ -3419,21 +3419,21 @@
       </physvol>
       
       <physvol name="plasDet4">
-	<volumeref ref="plasDet1_logic"/>
+	<volumeref ref="plasDet4_logic"/>
 	<positionref ref="pos_global_prex_plasDet_center"/>
       </physvol>
       
       <physvol name="plasDet5">
-	<volumeref ref="plasDet2_logic"/>
+	<volumeref ref="plasDet5_logic"/>
 	<positionref ref="pos_global_prex_plasDet_center"/>
       </physvol>
       
       <physvol name="plasDet6">
-	<volumeref ref="plasDet3_logic"/>
+	<volumeref ref="plasDet6_logic"/>
 	<positionref ref="pos_global_prex_plasDet_center"/>
       </physvol>
 
-      <physvol name="plasVac1">
+      <!-- <physvol name="plasVac1">
 	<volumeref ref="plasVac1_logic"/>
 	<positionref ref="pos_global_crex_plasDet_center"/>
       </physvol>
@@ -3491,7 +3491,7 @@
       <physvol name="plasVac12">
 	<volumeref ref="plasVac12_logic"/>
 	<positionref ref="pos_global_prex_plasDet_center"/>
-      </physvol>
+      </physvol> -->
       
       <physvol name="beamline_1_det">
         <volumeref ref="dDet_beamline_1_logic"/>
