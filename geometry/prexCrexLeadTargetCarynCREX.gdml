@@ -81,7 +81,7 @@
 
     <!-- Collimator bore dimentions-->
     <!-- 1.168 at the face of it and an angle of 0.78 deg: see https://ace.phys.virginia.edu:80/HAPPEX/2928 -->
-    <constant name="coll_bore_inner_r1" value="1.133"/> 
+    <constant name="coll_bore_inner_r1" value="1.133"/> <!--1.133--> 
     <constant name="coll_bore_inner_r2" value="1.345"/>
 
     <!-- Collimator surface grooves-->
@@ -244,7 +244,7 @@
     <constant name="scat_det_r" value="outer_r_new_sc+1."/>
 
     <!--Tungsten shielding above target chambers CAP-->
-    <constant name="height_prex_aboveW" value="6."/>
+    <constant name="height_prex_aboveW" value="15."/>
     <constant name="height_crex_aboveW" value="6."/>
 
     <!-- Tungsten L-shielding above targets - Ricky -->
@@ -293,8 +293,8 @@
     <!-- This is computed by (Current collimator length - Previous collimator length) see elog-2873 for previous values : Rakitha  Tue Nov  5 17:56:29 EST 2013 -->
     <!-- <constant name="beam_pipe_placement_offset" value= "-2.149"/>  -->
     <constant name="beam_pipe_placement_offset" value= "0"/> 
-    <constant name="ri_septum_pipe" value= "3.797"/>
-    <constant name="ro_septum_pipe" value="4.102"/>
+    <constant name="ri_septum_pipe" value= "3.495"/> <!--3.797 -->
+    <constant name="ro_septum_pipe" value="3.815"/>  <!--4.102 -->
 
     <!--The thickness of the sc_attach is 5.08 cm and this is the could be the minimum sepration between the collimatorand the septum pipe (there will be bellows at either ends connecting septum pipe to sc_attach and beam pipe.  -->
     <constant name="deltaz_pt4_septum_pipe" value="5.08"/>
@@ -704,6 +704,8 @@
    <position unit="cm" name="pos_global_prex_aboveW" x="0" y="outer_r_new_sc+height_prex_aboveW/2+0.5+0.05" z="prex_target_center"/>
    <position unit="cm" name="pos_global_crex_aboveW" x="0" y="outer_r_new_sc+height_crex_aboveW/2+0.5+0.05" z="crex_target_center"/>
 
+   <position unit="cm" name="pos_global_target_skyshine" x="15." y="outer_r_new_sc+height_prex_aboveW/2+0.5+0.05" z="prex_target_center"/>
+
    <!-- target chamber shielding "L" shape - Ricky -->
    <position unit="cm" name="pos_global_targShield_center"
 	     x="0"
@@ -714,6 +716,12 @@
 	     x="-(width_targShield/4.)-2*(outer_rad_targ)"
 	     y="0"
 	     z="(length_targShield)/2. - (length_targShield_cut)/2."/>
+
+   <!-- Position marker - Ricky -->
+   <position unit="cm" name="pos_global_marker"
+	     x="0."
+	     y="0."
+	     z="-1772."/>
 
 
    <!-- Adding in Big pipe position - Ricky -->
@@ -846,11 +854,54 @@
 	      z="150" />
 
 
-    <!-- Shileding for the collimator -->
+    <!-- Shielding for the collimator -->
+    
     <constant name="length_coll_shield" value="length_sc_attach/2.+30."/>
     <constant name="height_coll_shield_side" value="height_sc_attach_shield"/>
     <constant name="length_coll_shield_side" value="length_sc_attach+30."/>
+    
+    <constant name="thick_coll_shield" value="30."/>
+    
+    <constant name="length_coll_shield_longSide" value="88."/>
+    <constant name="height_coll_shield_longSide" value="70."/>
+    <constant name="length_coll_shield_shortSide" value="68."/>
+    <constant name="height_coll_shield_shortSide" value="70."/>
+    <constant name="length_coll_shield_top" value="49.38"/>
+    <constant name="width_coll_shield_top" value="45."/>
+    <constant name="length_coll_shield_bot" value="60."/>
+    <constant name="width_coll_shield_bot" value="45."/>
+    <constant name="length_coll_shield_ds" value="10."/>
+    <constant name="width_coll_shield_ds" value="45."/>
+    <constant name="height_coll_shield_ds" value="17."/>
 
+    <position unit="cm" name="pos_global_coll_shield_top"
+	      x="0."
+	      y="height_sc_attach/2.+thick_coll_shield/2.+0.1"
+	      z="prex_target_center + 52.42"/>
+
+    <position unit="cm" name="pos_rel_coll_shield_longSide"
+	      x="-(width_sc_attach/2.) - (thick_coll_shield/2.) - 0.1"
+	      y="-(height_sc_attach/2.+thick_coll_shield/2.+0.1)"
+	      z="5.67"/>
+
+    <position unit="cm" name="pos_rel_coll_shield_shortSide"
+	      x="(width_sc_attach/2.) + (thick_coll_shield/2.) + 0.1"
+	      y="-(height_sc_attach/2.+thick_coll_shield/2.+0.1)"
+	      z="15.67"/>
+
+    <position unit="cm" name="pos_rel_coll_shield_bot"
+	      x="0."
+	      y="-(height_sc_attach+thick_coll_shield + 0.2)"
+	      z="-8.33"/>
+
+    <position unit="cm" name="pos_rel_coll_shield_dsShield"
+	      x="0"
+	      y="-5"
+	      z="length_coll_shield_top/2. + 2* innerR_sc_attach_pig + 2. + length_coll_shield_ds/2."/>
+
+        
+
+    <!--
     <position unit="cm" name="pos_global_collShield"
 	      x="0" y="0" z="center_sc_attach-length_sc_attach/2. - 2."/>
     <position unit="cm" name="pos_rel_sideShield1_collShield"
@@ -870,15 +921,18 @@
 	      x="0"
 	      y="-(height_sc_attach_shield/2. - thick_sc_attach_shield/2.)"
 	      z="0."/>
+	      -->
 
     <position unit="cm" name="pos_rel_outsideW_wrt_collShield"
 	      x="0"
-	      y="height_sc_attach/2 + 3."
-	      z=" - innerR_sc_attach_pig/4. + 13. "/>
+	      y="-(thick_coll_shield/2.)+3."
+	      z="6.37"/>
     <position unit="cm" name="pos_global_outsideW"
 	      x="0"
 	      y="height_sc_attach/2 + 3."
-	      z=" center_sc_attach - length_sc_attach/2. - innerR_sc_attach_pig/4. + 11. "/>
+	      z="prex_target_center+ 52.42 + 6.37"/>
+
+    
 
     <position unit="cm" name="pos_global_pigTopShield"
 	      x="0"
@@ -891,6 +945,9 @@
   <solids>
     <!-- Mother Volume -->
     <box lunit="cm" name="boxMother" x="width_mother" y="height_mother" z="length_mother"/>
+
+    <!-- Marker - Ricky -->
+    <box lunit="cm" name="marker_solid" x="10." y="10." z="10."/>
 
 
     <!-- Cylindrical CW70 Collimator-->    
@@ -1760,6 +1817,67 @@
     
     <!-- Shielding for collimator -->
     <box lunit="cm" name="coll_shield_0"
+	 x="width_coll_shield_top"
+	 y="thick_coll_shield"
+	 z="length_coll_shield_top"/>
+    <box lunit="cm" name="sc_attach_outside_w"
+    	 x="width_sc_attach + 0.1"
+    	 y="6."
+    	 z="length_sc_attach - innerR_sc_attach_pig*2. - 2."/>    
+    <subtraction name="coll_shield_1">
+      <first ref="coll_shield_0"/>
+      <second ref="sc_attach_outside_w"/>
+      <positionref ref="pos_rel_outsideW_wrt_collShield"/>
+    </subtraction>
+
+    <box lunit="cm" name="coll_shield_longSide_solid"
+	 x="thick_coll_shield"
+	 y="height_coll_shield_longSide"
+	 z="length_coll_shield_longSide"/>
+
+    <union name="coll_shield_2">
+      <first ref="coll_shield_1"/>
+      <second ref="coll_shield_longSide_solid"/>
+      <positionref ref="pos_rel_coll_shield_longSide"/>
+    </union>
+
+    <box lunit="cm" name="coll_shield_shortSide_solid"
+	 x="thick_coll_shield"
+	 y="height_coll_shield_shortSide"
+	 z="length_coll_shield_shortSide"/>
+
+    <union name="coll_shield_3">
+      <first ref="coll_shield_2"/>
+      <second ref="coll_shield_shortSide_solid"/>
+      <positionref ref="pos_rel_coll_shield_shortSide"/>
+    </union>
+
+    <box lunit="cm" name="coll_shield_bot_solid"
+	 x="width_coll_shield_bot"
+	 y="thick_coll_shield"
+	 z="length_coll_shield_bot"/>
+
+    <union name="coll_shield_4">
+      <first ref="coll_shield_3"/>
+      <second ref="coll_shield_bot_solid"/>
+      <positionref ref="pos_rel_coll_shield_bot"/>
+    </union>
+
+    <box lunit="cm" name="coll_shield_ds"
+	 x="width_coll_shield_ds"
+	 y="height_coll_shield_ds"
+	 z="length_coll_shield_ds"/>
+
+    <union name="coll_shield_solid">
+      <first ref="coll_shield_4"/>
+      <second ref="coll_shield_ds"/>
+      <positionref ref="pos_rel_coll_shield_dsShield"/>
+    </union>
+    
+
+    
+ <!-- 
+    <box lunit="cm" name="coll_shield_0"
 	 x="width_sc_attach_shield"
 	 y="height_sc_attach_shield"
 	 z="length_coll_shield"/>
@@ -1802,8 +1920,9 @@
       <second ref="coll_shield_ds"/>
       <positionref ref="pos_rel_dsShield1_wrt_collShield"/>
     </union>
-    
-    <!-- Block of W  -->
+    -->
+ <!-- Block of W  -->
+ <!--
     <box lunit="cm" name="sc_attach_outside_w"
     	 x="width_sc_attach + 0.1"
     	 y="6."
@@ -1822,8 +1941,7 @@
       <first ref="coll_shield_6"/>
       <second ref="coll_shield_bot"/>
       <positionref ref="pos_rel_botShield_collShield"/>
-    </union>
- 
+    </union> -->
     
 <!--CAP Blocks of W for above target chambers -->
     <box lunit="cm" name="prex_attach_above_w"
@@ -1834,6 +1952,10 @@
          x="2*(outer_r_new_sc+1.)"
          y="height_crex_aboveW"
          z="2*(outer_r_new_sc+1.)"/>
+    <box lunit="cm" name="target_skyshine_solid"
+	 x="45."
+	 y="15."
+	 z="49.38"/>
 
     <!-- Tungsten shielding at Targets - Ricky -->
     <box lunit="cm" name="targShield_solid"
@@ -1909,8 +2031,8 @@
 
     <tube aunit="deg" startphi="0" deltaphi="360" lunit="cm"
 	  name="plasVac6_solid"
-	  rmin="radius_plasDet2 + 1.1"
-	  rmax="radius_plasDet2 + 1.5"
+	  rmin="radius_plasDet3 + 1.1"
+	  rmax="radius_plasDet3 + 1.5"
 	  z="length_plasDet" />
 
     
@@ -2704,6 +2826,11 @@
 
   <structure>
 
+    <volume name="marker_logic">
+      <materialref ref="Shield"/>
+      <solidref ref="marker_solid"/>
+    </volume>
+
     <volume name="W_coll_logic">
       <materialref ref="matCW70"/>
       <solidref ref="coll_cw70_cyln_7"/>
@@ -2718,17 +2845,22 @@
       <materialref ref="Copper"/> 
       <solidref ref="Cu_tube_solid"/>
     </volume>
-
+    <!--
+	<volume name="coll_shield_logic">
+	<materialref ref="Shield"/>
+	<solidref ref="coll_shield_7"/>
+	</volume>
+    -->
     <volume name="coll_shield_logic">
       <materialref ref="Shield"/>
-      <solidref ref="coll_shield_7"/>
+      <solidref ref="coll_shield_solid"/>
     </volume>
-
+    
     <volume name="coll_outsideW_shield_logic">
       <materialref ref="Tungsten"/>
       <solidref ref="sc_attach_outside_w"/>
     </volume>
-
+    
     <volume name="coll_pig_shield">
       <materialref ref="PureLead"/> 
       <solidref ref="pig_shield"/>
@@ -2805,6 +2937,11 @@
       <solidref ref="crex_attach_above_w"/>
     </volume>
 
+    <volume name="target_skyshine_logic">
+      <materialref ref="Tungsten"/>
+      <solidref ref="target_skyshine_solid"/>
+    </volume>
+
     <!-- New Tungsten "L" shielding above targets - Ricky -->
     <volume name="targShield_logic">
       <materialref ref="Tungsten"/>
@@ -2817,116 +2954,116 @@
       <solidref ref="bigPipe_solid"/>
     </volume>
 
-    <!-- Plastic dosage detectors - Ricky -->
-    <volume name="plasDet1_logic">
-      <materialref ref="Shield"/>
-      <solidref ref="plasDet1_solid"/>
-      <auxiliary auxtype="SensDet" auxvalue="volumeN3001"/>
-    </volume>
-    
-    <volume name="plasDet2_logic">
-      <materialref ref="Shield"/>
-      <solidref ref="plasDet2_solid"/>
-      <auxiliary auxtype="SensDet" auxvalue="volumeN3002"/>
-    </volume>
-
-    <volume name="plasDet3_logic">
-      <materialref ref="Shield"/>
-      <solidref ref="plasDet3_solid"/>
-      <auxiliary auxtype="SensDet" auxvalue="volumeN3003"/>
-    </volume>
-    
-    <volume name="plasDet4_logic">
-      <materialref ref="Shield"/>
-      <solidref ref="plasDet1_solid"/>
-      <auxiliary auxtype="SensDet" auxvalue="volumeN3004"/>
-    </volume>
-    
-    <volume name="plasDet5_logic">
-      <materialref ref="Shield"/>
-      <solidref ref="plasDet2_solid"/>
-      <auxiliary auxtype="SensDet" auxvalue="volumeN3005"/>
-    </volume>
-
-    <volume name="plasDet6_logic">
-      <materialref ref="Shield"/>
-      <solidref ref="plasDet3_solid"/>
-      <auxiliary auxtype="SensDet" auxvalue="volumeN3006"/>
-    </volume>
-    
-    <!--<volume name="plasVac1_logic">
+    <!-- Vacuum detectors used in conjunction with plastic detectors -->
+    <volume name="plasVac1_logic">
       <materialref ref="Vacuum"/>
       <solidref ref="plasVac1_solid"/>
-      <auxiliary auxtype="SensDet" auxvalue="volumeN3011"/>
+      <auxiliary auxtype="SensDet" auxvalue="volumeN3001"/>
     </volume>
     
     <volume name="plasVac2_logic">
       <materialref ref="Vacuum"/>
       <solidref ref="plasVac2_solid"/>
-      <auxiliary auxtype="SensDet" auxvalue="volumeN3021"/>
+      <auxiliary auxtype="SensDet" auxvalue="volumeN3011"/>
     </volume>
 
     <volume name="plasVac3_logic">
       <materialref ref="Vacuum"/>
       <solidref ref="plasVac3_solid"/>
-      <auxiliary auxtype="SensDet" auxvalue="volumeN3012"/>
+      <auxiliary auxtype="SensDet" auxvalue="volumeN3002"/>
     </volume>
 
     <volume name="plasVac4_logic">
       <materialref ref="Vacuum"/>
       <solidref ref="plasVac4_solid"/>
-      <auxiliary auxtype="SensDet" auxvalue="volumeN3022"/>
+      <auxiliary auxtype="SensDet" auxvalue="volumeN3012"/>
     </volume>
     
     <volume name="plasVac5_logic">
       <materialref ref="Vacuum"/>
       <solidref ref="plasVac5_solid"/>
-      <auxiliary auxtype="SensDet" auxvalue="volumeN3013"/>
+      <auxiliary auxtype="SensDet" auxvalue="volumeN3003"/>
     </volume>
 
     <volume name="plasVac6_logic">
       <materialref ref="Vacuum"/>
       <solidref ref="plasVac6_solid"/>
-      <auxiliary auxtype="SensDet" auxvalue="volumeN3023"/>
+      <auxiliary auxtype="SensDet" auxvalue="volumeN3013"/>
     </volume>
-
     
     <volume name="plasVac7_logic">
       <materialref ref="Vacuum"/>
       <solidref ref="plasVac1_solid"/>
-      <auxiliary auxtype="SensDet" auxvalue="volumeN3014"/>
+      <auxiliary auxtype="SensDet" auxvalue="volumeN3004"/>
     </volume>
     
     <volume name="plasVac8_logic">
       <materialref ref="Vacuum"/>
       <solidref ref="plasVac2_solid"/>
-      <auxiliary auxtype="SensDet" auxvalue="volumeN3024"/>
+      <auxiliary auxtype="SensDet" auxvalue="volumeN3014"/>
     </volume>
 
     <volume name="plasVac9_logic">
       <materialref ref="Vacuum"/>
       <solidref ref="plasVac3_solid"/>
-      <auxiliary auxtype="SensDet" auxvalue="volumeN3015"/>
+      <auxiliary auxtype="SensDet" auxvalue="volumeN3005"/>
     </volume>
 
     <volume name="plasVac10_logic">
       <materialref ref="Vacuum"/>
       <solidref ref="plasVac4_solid"/>
-      <auxiliary auxtype="SensDet" auxvalue="volumeN3025"/>
+      <auxiliary auxtype="SensDet" auxvalue="volumeN3015"/>
     </volume>
     
     <volume name="plasVac11_logic">
       <materialref ref="Vacuum"/>
       <solidref ref="plasVac5_solid"/>
-      <auxiliary auxtype="SensDet" auxvalue="volumeN3016"/>
+      <auxiliary auxtype="SensDet" auxvalue="volumeN3006"/>
     </volume>
 
     <volume name="plasVac12_logic">
       <materialref ref="Vacuum"/>
       <solidref ref="plasVac6_solid"/>
-      <auxiliary auxtype="SensDet" auxvalue="volumeN3026"/>
-    </volume>  -->
+      <auxiliary auxtype="SensDet" auxvalue="volumeN3016"/>
+    </volume> 
+    
+    <!-- Plastic dosage detectors - Ricky -->
+    <volume name="plasDet1_logic">
+      <materialref ref="Shield"/>
+      <solidref ref="plasDet1_solid"/>
+      <auxiliary auxtype="SensDet" auxvalue="volumeN3021"/>
+    </volume>
+    
+    <volume name="plasDet2_logic">
+      <materialref ref="Shield"/>
+      <solidref ref="plasDet2_solid"/>
+      <auxiliary auxtype="SensDet" auxvalue="volumeN3022"/>
+    </volume>
 
+    <volume name="plasDet3_logic">
+      <materialref ref="Shield"/>
+      <solidref ref="plasDet3_solid"/>
+      <auxiliary auxtype="SensDet" auxvalue="volumeN3023"/>
+    </volume>
+    
+    <volume name="plasDet4_logic">
+      <materialref ref="Shield"/>
+      <solidref ref="plasDet1_solid"/>
+      <auxiliary auxtype="SensDet" auxvalue="volumeN3024"/>
+    </volume>
+    
+    <volume name="plasDet5_logic">
+      <materialref ref="Shield"/>
+      <solidref ref="plasDet2_solid"/>
+      <auxiliary auxtype="SensDet" auxvalue="volumeN3025"/>
+    </volume>
+
+    <volume name="plasDet6_logic">
+      <materialref ref="Shield"/>
+      <solidref ref="plasDet3_solid"/>
+      <auxiliary auxtype="SensDet" auxvalue="volumeN3026"/>
+    </volume>
+    
 
     <volume name="sc_attach_logic">
       <materialref ref="Aluminum"/>
@@ -3177,6 +3314,11 @@
       <materialref ref="Vacuum"/>
       <solidref ref="boxMother"/>
 
+      <!--<physvol name="marker">
+	<volumeref ref="marker_logic"/>
+	<positionref ref="pos_global_marker"/>
+      </physvol>-->
+
       <physvol name="collimator">
         <volumeref ref="W_coll_logic"/>
         <positionref ref="pos_global_coll_cw70"/>
@@ -3198,37 +3340,48 @@
 	<rotationref ref="scRot_1"/>
       </physvol>
       
-      <physvol name="sc_attach_pigTopShield_phys">
+      <!--<physvol name="sc_attach_pigTopShield_phys">
 	<volumeref ref="sc_attach_pigTopShield_logic"/>
 	<positionref ref="pos_global_pigTopShield"/>
-      </physvol>
-      
+      </physvol>-->
+      <!--      
+	   <physvol name="coll_shield">
+	   <volumeref ref="coll_shield_logic"/>
+      	   <positionref ref="pos_global_collShield"/>
+	   </physvol>
+      -->
       <physvol name="coll_shield">
-      	<volumeref ref="coll_shield_logic"/>
-      	<positionref ref="pos_global_collShield"/>
+	<volumeref ref="coll_shield_logic"/>
+	<positionref ref="pos_global_coll_shield_top"/>
       </physvol>
+
 
       <physvol name="coll_outsideW_shield">
       	<volumeref ref="coll_outsideW_shield_logic"/>
       	<positionref ref="pos_global_outsideW"/>
-      </physvol>      
-	  
+      </physvol>
+	
       <!--CAP comment out if running Crex -->
-      <!--<physvol name="target">
+      <physvol name="target">
 	<volumeref ref="target_logic"/>
 	<positionref ref="targ_center"/> 
-      </physvol>--> 
+      </physvol>
       
       <!--CAP add tunsten shielding above prex target chamber -->
-      <!-- <physvol name="prex_aboveW_shield"> -->
-      <!--    <volumeref ref="prex_aboveW_shield_logic"/> -->
-      <!--    <positionref ref="pos_global_prex_aboveW"/> -->
-      <!--  </physvol> -->
+      <!--<physvol name="prex_aboveW_shield"> 
+        <volumeref ref="prex_aboveW_shield_logic"/> 
+        <positionref ref="pos_global_prex_aboveW"/> 
+      </physvol>--> 
       
       <!--CAP comment out if running Prex-->
-      <physvol name="Ca_target">
+      <!--<physvol name="Ca_target">
         <volumeref ref="Ca_target_logic"/>
-        <positionref ref="crex_targ_center"/>
+        <positionref ref="targ_center"/>
+	</physvol>-->
+
+      <physvol name="target_skyshine">
+	<volumeref ref="target_skyshine_logic"/>
+	<positionref ref="pos_global_target_skyshine"/>
       </physvol>
       
       <!--CAP add tunsten shielding above crex target chamber -->
@@ -3403,7 +3556,7 @@
 	<rotationref ref="scRot_1"/>
 	</physvol> -->
 
-      <physvol name="plasDet1">
+      <!--<physvol name="plasDet1">
 	<volumeref ref="plasDet1_logic"/>
 	<positionref ref="pos_global_crex_plasDet_center"/>
       </physvol>
@@ -3433,7 +3586,7 @@
 	<positionref ref="pos_global_prex_plasDet_center"/>
       </physvol>
 
-      <!-- <physvol name="plasVac1">
+      <physvol name="plasVac1">
 	<volumeref ref="plasVac1_logic"/>
 	<positionref ref="pos_global_crex_plasDet_center"/>
       </physvol>

@@ -37,7 +37,7 @@ int main(int argc,char** argv){
   
   Float_t type, volume, event, track, parent;
   Int_t event_n=0;
-  Float_t Edeposit;
+  Float_t Edeposit, kineE;
   Float_t neutron_E=0., eM_E=0., other_E=0.;
   Float_t neutronCut_E=0., eMCut_E=0.;
   Float_t x_0,y_0,z_0,xd,yd,zd;
@@ -55,6 +55,7 @@ int main(int argc,char** argv){
   t->SetBranchAddress("event",&event);
   t->SetBranchAddress("parent",&parent);
   t->SetBranchAddress("track",&track);
+  t->SetBranchAddress("kineE",&kineE);
   t->SetBranchAddress("Edeposit",&Edeposit);
 
   //These are 'catalogs', or what I'll call 'families', which will store the ancestors of a particle. Say we see and proton, but its the daugther of an icident neutron. Then that proton's track will be filed under the neutron family and its damaging energy will be associated with neutron radiation.
@@ -73,15 +74,29 @@ int main(int argc,char** argv){
 	  << event_n <<endl;
 
     t->GetEntry(i);
-    if (z_0== -17720) continue;
-    if (volume == SensVolume_v) {
-      if ((int)event != event_n) {
-	neutron_Fam.clear();
-	eM_Fam.clear();
-	other_Fam.clear();
-	event_n = event;
-	//cout << event << endl;
+    if ((int)event != event_n) {
+      neutron_Fam.clear();
+      eM_Fam.clear();
+      other_Fam.clear();
+      event_n = event;
+
+      neutronCut_Fam.clear();
+      eMCut_Fam.clear();
+      
+    }
+
+    // This portion marks particles coming in with an incident energy greater than the user prescribed cutoff by using surrounding vacuum detectors
+    if ((int)volume == SensVolume_v - 10 || (int)volume == SensVolume_v - 20){
+      if (type == 5 && kineE > N_cut) {
+	neutronCut_Fam.push_back(track);
       }
+      if ((type == 0 || type == 1 || type ==4) && kineE > eM_cut){
+	eMCut_Fam.push_back(track);
+      }
+    } 
+
+    // Now we start looking at when the particles actually hit the detector
+    if ((int)volume == SensVolume_v) {
       
       // This is the part where we will see if this is a daughter particle or whether it is an incident particle, and what 'family' to put its energy in 
       if (ScanFamily(parent,neutron_Fam)) {
@@ -106,12 +121,12 @@ int main(int argc,char** argv){
 	other_E += Edeposit;
       }
     
-      // If the particle has no family history, its an incident particle, and is filed away in the family vector corresponding to its type.
+      // If the particle has no family history, its an incident particle, and is filed away in the family vector corresponding to its type. In addition, we include a statement to scan to see if the particle was recording as coming in with an energy above the cutoff. 
       else {
 	if (type == 5){
 	  neutron_Fam.push_back(track);
 	  neutron_E += Edeposit;
-	  if (Edeposit >= N_cut) {
+	  if (ScanFamily(track,neutronCut_Fam)) {
 	    neutronCut_Fam.push_back(track);
 	    neutronCut_E += Edeposit;
 	  }
@@ -119,7 +134,7 @@ int main(int argc,char** argv){
 	else if (type == 0 || type == 1 || type == 4) {
 	  eM_Fam.push_back(track);
 	  eM_E += Edeposit;
-	  if (Edeposit >= eM_cut) {
+	  if (ScanFamily(track,eMCut_Fam)) {
 	    eMCut_Fam.push_back(track);
 	    eMCut_E += Edeposit;
 	  }
@@ -141,7 +156,7 @@ int main(int argc,char** argv){
 }
 
 
-// This function will check the family vectors to see if the parent of the particle of interest was recorded.
+// This function will check the family vectors to see if the parent (or track) of the particle of interest was recorded.
 
 bool ScanFamily(int parent, std::vector<int>& family){
   for (int i=0; i<(int)family.size(); i++){

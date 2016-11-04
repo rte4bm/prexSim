@@ -198,7 +198,7 @@
     <constant name="deltaz_pt4_sc_attach" value="2.149"/>
     <!--The sc_attachment length is extended  -->
     <constant name="length_sc_attach"
-	      value="57.2"/><!-- 54.5 cm -->
+	      value="57.2"/><!-- 54.5 cm, 57.2 cm -->
     
     <constant name="center_sc_attach"
 	      value="center_sc+inner_r_sc+length_sc_attach/2"/> <!-- -27.028 cm -->
