@@ -230,15 +230,20 @@
     <constant name="thick_new_sc_water_tgt" value="1"/>
     <constant name="height_new_sc_water_tgt" value="2*25.0 + 2*outer_r_new_sc"/> <!--This number is an approximation based on att.2 elog 2978 -->
     <constant name="outer_r_new_sc_water_tgt" value="8.5"/><!--This number is an approximation based on att.2 elog 2978 -->
-    <constant name="inner_r_new_sc_water_tgt" value="1*outer_r_new_sc_water_tgt - 1*thick_new_sc_water_tgt"/>  
-    <constant name="length_sc_chamber_beam_pipe" value="(center_sc_attach - crex_target_center) +  outer_r_new_sc - length_sc_attach/2"/><!-- 110.298  -->
+    <constant name="inner_r_new_sc_water_tgt" value="1*outer_r_new_sc_water_tgt - 1*thick_new_sc_water_tgt"/>
+    <constant name="length_sc_chamber_beam_pipe" value="(center_sc_attach - crex_target_center) +  outer_r_new_sc - length_sc_attach/2"/> <!-- 110.298  -->
+    <!-- <constant name="length_sc_chamber_beam_pipe" value="40.65"/> -->
     <constant name="new_center_sc" value="center_sc_attach - length_sc_attach/2 - length_sc_chamber_beam_pipe/2"/> <!-- -111.151 -->
-    <constant name="thick_sc_chamber_beam_pipe" value="1.0"/>
+    <constant name="delta_targ_chamber" value="prex_target_center - new_center_sc"/>
+    <constant name="thick_sc_chamber_beam_pipe" value="0.635"/>
+    <!--<constant name="thick_sc_chamber_beam_pipe" value="1.0"/>-->
     <!-- Original Pipe radius was 13.5; modified to streamline design -Ricky -->
     <constant name="radius_sc_chamber_beam_pipe" value="13.5"/>
     <!--distance from new_center_sc to PREX/CREX target center -->
     <constant name="delta_new_center_sc_prex" value="length_sc_chamber_beam_pipe/2 - (prex_target_center - crex_target_center) - outer_r_new_sc"/>
     <constant name="delta_new_center_sc_crex" value="length_sc_chamber_beam_pipe/2 - outer_r_new_sc"/>
+    <constant name="targ_chamber_radius" value="30.5"/>
+    <constant name="targ_chamber_length" value="25.4"/>
 
     <!-- Detectors above scattering chambers - Ricky -->
     <constant name="scat_det_r" value="outer_r_new_sc+1."/>
@@ -263,6 +268,11 @@
     <constant name="radius_plasDet1" value="25."/>
     <constant name="radius_plasDet2" value="50."/>
     <constant name="radius_plasDet3" value="100."/>
+
+    <constant name="targ_vac_width" value="50."/>
+    <constant name="targ_vac_length" value="20."/>
+
+   
 
     
     <!-- Septum dimensions  -->
@@ -591,6 +601,7 @@
     <position unit="cm" name="new_sc_Trans_2" x="0" y="0" z="-1*length_sc_chamber_beam_pipe/2"/>
     <position unit="cm" name="new_sc_Trans_3" x="0" y="0" z="-1*delta_new_center_sc_prex"/>
     <position unit="cm" name="new_sc_Trans_4" x="0" y="0" z="-1*delta_new_center_sc_crex"/>
+    <position unit="cm" name="new_sc_targchamber_trans" x="0" y="0" z="delta_targ_chamber"/>
 
     <position unit="cm" name="new_sc_Shield_Trans_1" x="0" y="0" z="thick_sc_beampipe_shield/2"/>
     <position unit="cm" name="new_sc_Shield_Trans_2" x="0" y="0" z="-1*length_sc_chamber_beam_pipe_shield/2"/>
@@ -704,7 +715,7 @@
    <position unit="cm" name="pos_global_prex_aboveW" x="0" y="outer_r_new_sc+height_prex_aboveW/2+0.5+0.05" z="prex_target_center"/>
    <position unit="cm" name="pos_global_crex_aboveW" x="0" y="outer_r_new_sc+height_crex_aboveW/2+0.5+0.05" z="crex_target_center"/>
 
-   <position unit="cm" name="pos_global_target_skyshine" x="15." y="outer_r_new_sc+height_prex_aboveW/2+0.5+0.05" z="prex_target_center"/>
+   <position unit="cm" name="pos_global_target_skyshine" x="15." y="40.48" z="prex_target_center"/>
 
    <!-- target chamber shielding "L" shape - Ricky -->
    <position unit="cm" name="pos_global_targShield_center"
@@ -740,7 +751,53 @@
 	     x="0."
 	     y="0."
 	     z="crex_target_center"/>
+
+   <position unit="cm" name="pos_targ_vac_det_1_center"
+	     x="0."
+	     y="0."
+	     z="prex_target_center"/>
    
+   <position unit="cm" name="pos_targ_vac_det_left2_center"
+	     x="50."
+	     y="0."
+	     z="prex_target_center"/>
+
+   <position unit="cm" name="pos_targ_vac_det_bot2_center"
+	     x="0."
+	     y="-50."
+	     z="prex_target_center"/>
+
+   <position unit="cm" name="pos_targ_vac_det_right2_center"
+	     x="-50."
+	     y="0."
+	     z="prex_target_center"/>
+
+   <position unit="cm" name="pos_targ_vac_det_top2_center"
+	     x="0."
+	     y="50."
+	     z="prex_target_center"/>
+   
+   
+   <position unit="cm" name="pos_targ_vac_det_left3_center"
+	     x="100."
+	     y="0."
+	     z="prex_target_center"/>
+
+   <position unit="cm" name="pos_targ_vac_det_bot3_center"
+	     x="0."
+	     y="-100."
+	     z="prex_target_center"/>
+
+   <position unit="cm" name="pos_targ_vac_det_right3_center"
+	     x="-100."
+	     y="0."
+	     z="prex_target_center"/>
+
+   <position unit="cm" name="pos_targ_vac_det_top3_center"
+	     x="0."
+	     y="100.01"
+	     z="prex_target_center"/>
+
    
 
     <!-- <position unit="cm" name="scTrans_1" x="0" y="-(outer_r_sc-thick_sc/2)" z="-y_cent_sc"/> -->
@@ -1442,21 +1499,34 @@
     <!-- New dual Scattering Chamber -->
     <!-- Add the SC beam pipe first-->
     <tube aunit="deg" startphi="0" deltaphi="360" lunit="cm" name="new_sc_beampipe_0" rmin="0.0" rmax="radius_sc_chamber_beam_pipe" z="length_sc_chamber_beam_pipe" />
-    <tube aunit="deg" startphi="0" deltaphi="360" lunit="cm" name="new_sc_beampipe_1" rmin="0.0" rmax="radius_sc_chamber_beam_pipe - thick_sc_chamber_beam_pipe" z="length_sc_chamber_beam_pipe - thick_sc_chamber_beam_pipe/2" />
+    <tube aunit="deg" startphi="0" deltaphi="360" lunit="cm" name="new_sc_beampipe_cut" rmin="0.0" rmax="radius_sc_chamber_beam_pipe - thick_sc_chamber_beam_pipe" z="length_sc_chamber_beam_pipe - thick_sc_chamber_beam_pipe/2" />
     <tube aunit="deg" startphi="0" deltaphi="360" lunit="cm" name="new_sc_US_beam_hole" rmin="0.0" rmax="sc_beam_hole_radius" z="3*thick_sc_chamber_beam_pipe" />
+    <tube aunit="deg" startphi="0" deltaphi="360" lunit="cm" name="new_sc_beampipe_targchamber" rmin="0.0" rmax="targ_chamber_radius" z="targ_chamber_length"/>
+    <tube aunit="deg" startphi="0" deltaphi="360" lunit="cm" name="new_sc_beampipe_targchamber_sub" rmin="0.0" rmax="targ_chamber_radius - thick_sc_chamber_beam_pipe" z="targ_chamber_length-2*thick_sc_chamber_beam_pipe"/>
+    
+    <union name ="new_sc_beampipe_1">
+      <first ref="new_sc_beampipe_0"/>
+      <second ref="new_sc_beampipe_targchamber"/>
+      <positionref ref="new_sc_targchamber_trans"/>
+    </union>
 
     <subtraction name ="new_sc_beampipe_2">
-      <first ref="new_sc_beampipe_0"/>
-      <second ref="new_sc_beampipe_1"/> 
+      <first ref="new_sc_beampipe_1"/>
+      <second ref="new_sc_beampipe_cut"/> 
       <positionref ref="new_sc_Trans_1"/>
     </subtraction>
 
-    <subtraction name ="new_sc_beampipe_solid">
+    <subtraction name ="new_sc_beampipe_3">
       <first ref="new_sc_beampipe_2"/>
       <second ref="new_sc_US_beam_hole"/> 
       <positionref ref="new_sc_Trans_2"/>
     </subtraction>
 
+    <subtraction name ="new_sc_beampipe_solid">
+      <first ref="new_sc_beampipe_3"/>
+      <second ref="new_sc_beampipe_targchamber_sub"/>
+      <positionref ref="new_sc_targchamber_trans"/>
+    </subtraction>
 
     <!--subtract spaces for main target scattering chambers and water target scattering chamber -->
     <tube aunit="deg" startphi="0" deltaphi="360" lunit="cm" name="sub_new_sc_prex" rmin="0.0" rmax="outer_r_new_sc+0.001" z="4*radius_sc_chamber_beam_pipe" />
@@ -2034,6 +2104,26 @@
 	  rmin="radius_plasDet3 + 1.1"
 	  rmax="radius_plasDet3 + 1.5"
 	  z="length_plasDet" />
+
+
+    <!-- Vacuum Detector squares around target -->
+    <tube aunit="deg" startphi="0" deltaphi="360" lunit="cm"
+	  name="targ_vac_det_ring"
+	  rmin="24.09"
+	  rmax="25."
+	  z="targ_vac_length"/>
+    
+    <box lunit="cm"
+	 name="targ_vac_det_inner_solid"
+	 x="2*targ_vac_width"
+	 y="0.01"
+	 z="targ_vac_length" />
+
+    <box lunit="cm"
+	 name="targ_vac_det_outer_solid"
+	 x="4*targ_vac_width"
+	 y="0.01"
+	 z="targ_vac_length" />
 
     
     <!-- Here keep scattering chamber and hut separate. -->
@@ -3025,8 +3115,62 @@
       <materialref ref="Vacuum"/>
       <solidref ref="plasVac6_solid"/>
       <auxiliary auxtype="SensDet" auxvalue="volumeN3016"/>
-    </volume> 
+    </volume>
+
+    <volume name="targ_vac_det_1_logic">
+      <materialref ref="Vacuum"/>
+      <solidref ref="targ_vac_det_ring"/>
+      <auxiliary auxtype="SensDet" auxvalue="volumeN4001"/>
+    </volume>
     
+    <volume name="targ_vac_det_left2_logic">
+      <materialref ref="Vacuum"/>
+      <solidref ref="targ_vac_det_inner_solid"/>
+      <auxiliary auxtype="SensDet" auxvalue="volumeN4021"/>
+    </volume>
+
+    <volume name="targ_vac_det_bot2_logic">
+      <materialref ref="Vacuum"/>
+      <solidref ref="targ_vac_det_inner_solid"/>
+      <auxiliary auxtype="SensDet" auxvalue="volumeN4022"/>
+    </volume>
+
+    <volume name="targ_vac_det_right2_logic">
+      <materialref ref="Vacuum"/>
+      <solidref ref="targ_vac_det_inner_solid"/>
+      <auxiliary auxtype="SensDet" auxvalue="volumeN4023"/>
+    </volume>
+    
+    <volume name="targ_vac_det_top2_logic">
+      <materialref ref="Vacuum"/>
+      <solidref ref="targ_vac_det_inner_solid"/>
+      <auxiliary auxtype="SensDet" auxvalue="volumeN4024"/>
+    </volume>
+    
+    <volume name="targ_vac_det_left3_logic">
+      <materialref ref="Vacuum"/>
+      <solidref ref="targ_vac_det_outer_solid"/>
+      <auxiliary auxtype="SensDet" auxvalue="volumeN4031"/>
+    </volume>
+
+    <volume name="targ_vac_det_bot3_logic">
+      <materialref ref="Vacuum"/>
+      <solidref ref="targ_vac_det_outer_solid"/>
+      <auxiliary auxtype="SensDet" auxvalue="volumeN4032"/>
+    </volume>
+
+    <volume name="targ_vac_det_right3_logic">
+      <materialref ref="Vacuum"/>
+      <solidref ref="targ_vac_det_outer_solid"/>
+      <auxiliary auxtype="SensDet" auxvalue="volumeN4033"/>
+    </volume>
+
+    <volume name="targ_vac_det_top3_logic">
+      <materialref ref="Vacuum"/>
+      <solidref ref="targ_vac_det_outer_solid"/>
+      <auxiliary auxtype="SensDet" auxvalue="volumeN4034"/>
+    </volume>
+        
     <!-- Plastic dosage detectors - Ricky -->
     <volume name="plasDet1_logic">
       <materialref ref="Shield"/>
@@ -3642,9 +3786,59 @@
       </physvol>
       
       <physvol name="plasVac12">
-	<volumeref ref="plasVac12_logic"/>
+      <volumeref ref="plasVac12_logic"/>
 	<positionref ref="pos_global_prex_plasDet_center"/>
-      </physvol> -->
+	</physvol> -->
+
+      <physvol name="targ_vac_det_1">
+	<volumeref ref="targ_vac_det_1_logic"/>
+	<positionref ref="pos_targ_vac_det_1_center"/>
+	<rotationref ref="scRot_14"/>
+      </physvol>
+
+      <physvol name="targ_vac_det_left2">
+	<volumeref ref="targ_vac_det_left2_logic"/>
+	<positionref ref="pos_targ_vac_det_left2_center"/>
+	<rotationref ref="scRot_14"/>
+      </physvol>
+
+      <physvol name="targ_vac_det_bot2">
+	<volumeref ref="targ_vac_det_bot2_logic"/>
+	<positionref ref="pos_targ_vac_det_bot2_center"/>
+      </physvol>
+      
+      <physvol name="targ_vac_det_right2">
+	<volumeref ref="targ_vac_det_right2_logic"/>
+	<positionref ref="pos_targ_vac_det_right2_center"/>
+	<rotationref ref="scRot_14"/>
+      </physvol>
+      
+      <physvol name="targ_vac_det_top2">
+	<volumeref ref="targ_vac_det_top2_logic"/>
+	<positionref ref="pos_targ_vac_det_top2_center"/>
+      </physvol>
+      
+      <physvol name="targ_vac_det_left3">
+	<volumeref ref="targ_vac_det_left3_logic"/>
+	<positionref ref="pos_targ_vac_det_left3_center"/>
+	<rotationref ref="scRot_14"/>
+      </physvol>
+
+      <physvol name="targ_vac_det_bot3">
+	<volumeref ref="targ_vac_det_bot3_logic"/>
+	<positionref ref="pos_targ_vac_det_bot3_center"/>
+      </physvol>
+      
+      <physvol name="targ_vac_det_right3">
+	<volumeref ref="targ_vac_det_right3_logic"/>
+	<positionref ref="pos_targ_vac_det_right3_center"/>
+	<rotationref ref="scRot_14"/>
+      </physvol>
+      
+      <physvol name="targ_vac_det_top3">
+	<volumeref ref="targ_vac_det_top3_logic"/>
+	<positionref ref="pos_targ_vac_det_top3_center"/>
+      </physvol>
       
       <physvol name="beamline_1_det">
         <volumeref ref="dDet_beamline_1_logic"/>

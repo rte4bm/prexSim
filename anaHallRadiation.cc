@@ -25,9 +25,8 @@ TH1F *Histo_vert_z_weighted_full[3],*Histo_Energy_lt_eCut[3],*Histo_Energy_gt_eC
 //create plots for three vertex ranges [ranges][particle type]
 TH1F *Histo_vert_z[3][3],*Histo_vert_z_weighted[3][3],*Histo_Energy_custom_lt_eCut[3][3],*Histo_Energy_custom_gt_eCut[3][3];
 //plot for the detector faces
-TH1F *Det_Face;
 TH3F *DetFace;
-TH1F *Theta_Raw, *Theta_Neutron;
+TH1F *Theta, *Phi;
 
 Int_t low_ranges[3],up_ranges[3];
 //Flux and power parameters Full range //indices [particle type][energy ranges 0->0.1->eCut->1000] 
@@ -80,7 +79,7 @@ int main(int argc,char** argv) {
   for(int i=5;i<argc;i++){
     TString _sensVol(argv[i]);
     SensVolume_v=_sensVol.Atoi();
-    cout<<"~~~~ Sensative volue set to :" <<SensVolume_v<<endl;
+    cout<<"~~~~ Sensative volume set to :" <<SensVolume_v<<endl;
     cout<<endl;
     
     prename=Form("SV%d",SensVolume_v);
@@ -132,11 +131,10 @@ void Init(){
       }   
     }
   }
-
-  if(Det_Face)         Det_Face       ->Reset();  
+  
   if(DetFace)          DetFace        ->Reset();
-  if(Theta_Raw)        Theta_Raw      ->Reset();
-  if(Theta_Neutron)    Theta_Neutron  ->Reset();
+  if(Theta)            Theta          ->Reset();
+  if(Phi)              Phi            ->Reset();
 }
  
 void bookHisto(){
@@ -176,9 +174,8 @@ void bookHisto(){
     }
   }
 
-  Det_Face = new TH1F("Det_Face","Detector Face Hit",8,-0.5,7.5);
-  Theta_Raw = new TH1F("Theta_Raw","Raw Angular Distribution",72,-5.,185.);
-  Theta_Neutron = new TH1F("Theta_Neutron",">30 MeV Neutron Angular Distribution",72,-5.,185.);
+  Theta = new TH1F("Theta","Polar Angle Distribution",20,65.,115.);
+  Phi = new TH1F("Phi","Azimuthal Angle Distribution",72,-185.,185.);
   
   int knownDet[4]={10008,10009,2001,2002};
   float ranges[5][3][2]={
@@ -233,7 +230,7 @@ void processTree(string tname){
   Float_t type, volume, event;
   Float_t Energy;
   Float_t x_0,y_0,z_0,xd,yd,zd;
-  Float_t dist,radian,angle;
+  Float_t dist=0.,radian=0.,angle=0.;
   
   TChain *t = new TChain("geant");
   t->Add(tname.c_str());
@@ -253,7 +250,8 @@ void processTree(string tname){
 	    SensVolume_v==8003  || SensVolume_v==8004  || SensVolume_v==8005 ||
 	    SensVolume_v==10001 || SensVolume_v==10002 || SensVolume_v==10003||
 	    SensVolume_v==10004 || SensVolume_v==7001  || SensVolume_v==7002 ||
-	    SensVolume_v==3004  || SensVolume_v==3005  || SensVolume_v==3006 ) {
+	    SensVolume_v==3004  || SensVolume_v==3005  || SensVolume_v==3006 ||
+	    SensVolume_v==4001) {
     t->SetBranchAddress("kineE",&Energy); //because these are vacuum
   }else if(SensVolume_v==3001 || SensVolume_v==3002 || SensVolume_v==3003){
     t->SetBranchAddress("Edeposit",&Energy);
@@ -328,47 +326,15 @@ void processTree(string tname){
     
     if  ( volume==SensVolume_v  && z_0 > -26000  && type<=5){
       DetFace->Fill(xd,yd,zd);
-      if (SensVolume_v == 2001){
-	if ( (xd>8100 && xd<9100) && (yd>-500 && yd<500) && zd==-14110 ) Det_Face->Fill(1);
-	else if ( (xd>8100 && xd<9100) && (yd>-500 && yd<500) && zd==-15110 ) Det_Face->Fill(2);
-	else if ( xd==9100 && (yd>-500 && yd<500) && (zd>-15110 && zd<-14110) ) Det_Face->Fill(3);
-	else if ( xd==8100 && (yd>-500 && yd<500) && (zd>-15110 && zd<-14110) ) Det_Face->Fill(4);
-	else if ( (xd>8100 && xd<9100) && yd==500 && (zd>-15110 && zd<-14110) ) Det_Face->Fill(5);
-	else if ( (xd>8100 && xd<9100) && yd==-500 && (zd>-15110 && zd<-14110) ) Det_Face->Fill(6);	
-      }
-      if (SensVolume_v == 2002){
-	if ( (xd>-4750 && xd<-3750) && (yd>-500 && yd<500) && zd==-14110 ) Det_Face->Fill(1);
-	else if ( (xd>-4750 && xd<-3750) && (yd>-500 && yd<500) && zd==-15110 ) Det_Face->Fill(2);
-	else if ( xd==-3750 && (yd>-500 && yd<500) && (zd>-15110 && zd<-14110) ) Det_Face->Fill(3);
-	else if ( xd==-4750 && (yd>-500 && yd<500) && (zd>-15110 && zd<-14110) ) Det_Face->Fill(4);
-	else if ( (xd>-4750 && xd<-3750) && yd==500 && (zd>-15110 && zd<-14110) ) Det_Face->Fill(5);
-	else if ( (xd>-4750 && xd<-3750) && yd==-500 && (zd>-15110 && zd<-14110) ) Det_Face->Fill(6);	
-      }
-      if (SensVolume_v == 10008){
-	if ( (xd>3500 && xd<5500) && (yd>-1000 && yd<1000) && zd==21000 ) Det_Face->Fill(1);
-	else if ( (xd>3500 && xd<5500) && (yd>-1000 && yd<1000) && zd==17000 ) Det_Face->Fill(2);
-	else if ( xd==5500 && (yd>-1000 && yd<1000) && (zd>17000 && zd<21000) ) Det_Face->Fill(3);
-	else if ( xd==3500 && (yd>-1000 && yd<1000) && (zd>17000 && zd<21000) ) Det_Face->Fill(4);
-	else if ( (xd>3500 && xd<5500) && yd==1000 && (zd>17000 && zd<21000) ) Det_Face->Fill(5);
-	else if ( (xd>3500 && xd<5500) && yd==-1000 && (zd>17000 && zd<21000) ) Det_Face->Fill(6);	
-      }
-      if (SensVolume_v == 10009){
-	if ( (xd>-1750 && xd<-750) && (yd>500 && yd<1500) && zd==2000 ) Det_Face->Fill(1);
-	else if ( (xd>-1750 && xd<-750) && (yd>500 && yd<1500) && zd==1000 ) Det_Face->Fill(2);
-	else if ( xd==-750 && (yd>500 && yd<1500) && (zd>1000 && zd<2000) ) Det_Face->Fill(3);
-	else if ( xd==-1750 && (yd>500 && yd<1500) && (zd>1000 && zd<2000) ) Det_Face->Fill(4);
-	else if ( (xd>-1750 && xd<-750) && yd==1500 && (zd>1000 && zd<2000) ) Det_Face->Fill(5);
-	else if ( (xd>-1750 && xd<-750) && yd==500 && (zd>1000 && zd<2000) ) Det_Face->Fill(6);	
-      }
     }
     if ( volume==SensVolume_v && z_0 > -26000 && z_0 < -50){
-      dist = (zd - (-1513));
-      radian = atan2(150,dist);
+      dist = (zd - (-1053));
+      radian = atan2(250.,dist);
       angle = radian * 180. / M_PI;
-      Theta_Raw->Fill(angle);
-      if (type==5 && Energy > 30.){
-	Theta_Neutron->Fill(angle);
-      }
+      Theta->Fill(angle);
+      radian = atan2(xd,yd); //make sure x and y are switched
+      angle = radian * 180. / M_PI;
+      Phi->Fill(angle);
     }
       
     if(i % 1000000 == 1 ) cout<<" processed: "<<tname.c_str()<<" "<<i<<endl;
@@ -405,10 +371,9 @@ void WriteHisto(string fname){
     }
   }
 
-  writeEachHisto(Det_Face);
   writeEachHisto(DetFace);
-  writeEachHisto(Theta_Raw);
-  writeEachHisto(Theta_Neutron);
+  writeEachHisto(Theta);
+  writeEachHisto(Phi);
   
   fout->Close();
   delete fout;
