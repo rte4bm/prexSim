@@ -715,7 +715,11 @@
    <position unit="cm" name="pos_global_prex_aboveW" x="0" y="outer_r_new_sc+height_prex_aboveW/2+0.5+0.05" z="prex_target_center"/>
    <position unit="cm" name="pos_global_crex_aboveW" x="0" y="outer_r_new_sc+height_crex_aboveW/2+0.5+0.05" z="crex_target_center"/>
 
-   <position unit="cm" name="pos_global_target_skyshine" x="15." y="40.48" z="prex_target_center"/>
+   <constant name="width_target_skyshine" value="43.6"/>
+   <constant name="thick_target_skyshine" value="7."/>
+   <constant name="length_target_skyshine" value="43.3"/>
+   <position unit="cm" name="pos_global_target_skyshine" x="15." y="43.8+thick_target_skyshine/2." z="prex_target_center"/>
+   <position unit="cm" name="pos_rel_target_skyshine_cut" x="-width_target_skyshine/2.+(8.33/2.)"/>
 
    <!-- target chamber shielding "L" shape - Ricky -->
    <position unit="cm" name="pos_global_targShield_center"
@@ -764,7 +768,7 @@
 
    <position unit="cm" name="pos_targ_vac_det_bot2_center"
 	     x="0."
-	     y="-50."
+	     y="-50.-0.01"
 	     z="prex_target_center"/>
 
    <position unit="cm" name="pos_targ_vac_det_right2_center"
@@ -774,7 +778,7 @@
 
    <position unit="cm" name="pos_targ_vac_det_top2_center"
 	     x="0."
-	     y="50."
+	     y="51."
 	     z="prex_target_center"/>
    
    
@@ -2022,10 +2026,22 @@
          x="2*(outer_r_new_sc+1.)"
          y="height_crex_aboveW"
          z="2*(outer_r_new_sc+1.)"/>
-    <box lunit="cm" name="target_skyshine_solid"
-	 x="45."
-	 y="15."
-	 z="49.38"/>
+    <box lunit="cm" name="target_skyshine_0"
+	 x="width_target_skyshine"
+	 y="thick_target_skyshine"
+	 z="length_target_skyshine"/>
+    <trd lunit="cm" name="target_skyshine_cut"
+	 x1="11.6"
+	 x2="38.8"
+	 y1="7.5"
+	 y2="7.5"
+	 z="8.33+0.1"/>
+    <subtraction name="target_skyshine_solid">
+      <first ref="target_skyshine_0"/>
+      <second ref="target_skyshine_cut"/>
+      <positionref ref="pos_rel_target_skyshine_cut"/>
+      <rotationref ref="scRot_22"/>
+    </subtraction>
 
     <!-- Tungsten shielding at Targets - Ricky -->
     <box lunit="cm" name="targShield_solid"
@@ -3504,8 +3520,9 @@
       	<volumeref ref="coll_outsideW_shield_logic"/>
       	<positionref ref="pos_global_outsideW"/>
       </physvol>
-	
+      
       <!--CAP comment out if running Crex -->
+
       <physvol name="target">
 	<volumeref ref="target_logic"/>
 	<positionref ref="targ_center"/> 
@@ -3518,15 +3535,16 @@
       </physvol>--> 
       
       <!--CAP comment out if running Prex-->
+
       <!--<physvol name="Ca_target">
         <volumeref ref="Ca_target_logic"/>
-        <positionref ref="targ_center"/>
-	</physvol>-->
-
-      <physvol name="target_skyshine">
+	<positionref ref="targ_center"/>
+      </physvol>-->
+      
+      <!--<physvol name="target_skyshine">
 	<volumeref ref="target_skyshine_logic"/>
 	<positionref ref="pos_global_target_skyshine"/>
-      </physvol>
+      </physvol>-->
       
       <!--CAP add tunsten shielding above crex target chamber -->
       <!-- <physvol name="crex_aboveW_shield"> -->
@@ -3700,7 +3718,7 @@
 	<rotationref ref="scRot_1"/>
 	</physvol> -->
 
-      <!--<physvol name="plasDet1">
+      <physvol name="plasDet1">
 	<volumeref ref="plasDet1_logic"/>
 	<positionref ref="pos_global_crex_plasDet_center"/>
       </physvol>
@@ -3786,16 +3804,16 @@
       </physvol>
       
       <physvol name="plasVac12">
-      <volumeref ref="plasVac12_logic"/>
+	<volumeref ref="plasVac12_logic"/>
 	<positionref ref="pos_global_prex_plasDet_center"/>
-	</physvol> -->
+      </physvol> 
 
       <physvol name="targ_vac_det_1">
 	<volumeref ref="targ_vac_det_1_logic"/>
 	<positionref ref="pos_targ_vac_det_1_center"/>
 	<rotationref ref="scRot_14"/>
       </physvol>
-
+<!--
       <physvol name="targ_vac_det_left2">
 	<volumeref ref="targ_vac_det_left2_logic"/>
 	<positionref ref="pos_targ_vac_det_left2_center"/>
@@ -3838,7 +3856,7 @@
       <physvol name="targ_vac_det_top3">
 	<volumeref ref="targ_vac_det_top3_logic"/>
 	<positionref ref="pos_targ_vac_det_top3_center"/>
-      </physvol>
+      </physvol>-->
       
       <physvol name="beamline_1_det">
         <volumeref ref="dDet_beamline_1_logic"/>
