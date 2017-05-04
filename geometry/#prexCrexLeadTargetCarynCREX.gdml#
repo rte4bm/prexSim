@@ -49,7 +49,7 @@
     <constant name="prex_target_center" value="-105.3"/>
     <!-- referenced from elog 2977 by Seamus where predicted relative shift is 46 cm -->
     <constant name="crex_target_center" value="-151.3"/>  
-
+s
     <!-- Detector dimenscions  -->
     <constant name="det_thick" value="1"/>
     <constant name="det_inner_r" value="length_mother/2+prex_target_center-det_thick"/>  <!-- as large as it can be... -->
