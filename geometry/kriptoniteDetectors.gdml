@@ -5,7 +5,7 @@
       xsi:noNamespaceSchemaLocation="./schema/gdml.xsd">
       
   <define>
-    <!-- This position is works for the first detector(SEPT_elec). The rest need relative postions and rotations -->
+    <!-- This position is works for the first detector(SEPT_elec)(-125,100,150). The rest need relative postions and rotations -->
     <position unit="cm" name="pos_center" x="0" y="0" z="0" />
     <position unit="cm" name="pos_rel_HRS_elec" x="550" y="-100" z="1750" />    
     <position unit="cm" name="pos_rel_upstreamRight_elec" x="-725" y="-290" z="-1225" />    
@@ -13,12 +13,18 @@
     <position unit="cm" name="pos_rel_HRS_underDipole_elec" x="450" y="-300" z="1250" />
     <position unit="cm" name="pos_rel_usRightIron_shield2_wrt_shield1" x="450" y="0" z="37.5" />
     <position unit="cm" name="pos_rel_usRightIron_shield" x="-625" y="-245" z="-925" />
-    <position unit="cm" name="pos_rel_Hall_Lid" x="125" y="1230" z="-150" />
-    <position unit="cm" name="pos_rel_targTube" x="125" y="-100" z="-301.3" />
+    <position unit="cm" name="pos_rel_Hall_Lid" x="125" y="1230" z="-150" />    
+
+    <position unit="cm" name="pos_rel_W10mDet" x="1125" y="-100" z="-150" />
+    <position unit="cm" name="pos_rel_NW10mDet" x="832" y="-100" z="557" />
     
-    <rotation name="rot_HRS_elec" unit="deg" x="0" y="-12.5" z="0"/><!--12.5-->
-    <rotation name="rot_HRS_elec_back" unit="deg" x="0" y="12.5" z="0"/>
+    <rotation name="rot_HRS_elec" unit="deg" x="0" y="-12.5" z="0"/>
+    <rotation name="rot_NW10mDet" unit="deg" x="0" y="-45" z="0"/>
     <rotation name="rot_Hall_Lid" unit="deg" x="90" y="0" z="0"/>
+
+    <rotation name="rot_m_HRS_elec" unit="deg" x="0" y="12.5" z="0"/>
+    <rotation name="rot_m_NW10mDet" unit="deg" x="0" y="45" z="0"/>
+    <rotation name="rot_m_Hall_Lid" unit="deg" x="-90" y="0" z="0"/>
   </define>
   <materials>
     <material Z="18" name="matKryptonite" state="solid">
@@ -33,7 +39,8 @@
       <D unit="g/cm3" value="1e-25"/>
       <atom unit="g/mole" value="1.01"/>
     </material>
-    <material Z="13" name="Iron" state="solid"><!--FIXME -->
+
+    <material Z="13" name="Iron" state="solid">
       <T unit="K" value="298"/>
       <D unit="g/cm3" value="2.699"/>
       <atom unit="g/mole" value="26.982"/>
@@ -88,23 +95,26 @@
 	  rmax="2490."
 	  z="0.2" />
 
-    <tube aunit="deg" startphi="0" deltaphi="360"
-	  lunit="cm" name="solid_targTube"
-	  rmin="15."
-	  rmax="15.1"
-	  z="120."/>
-    
+    <box lunit="cm" name="solid_W10mDet"
+	 x="100"
+	 y="100"
+	 z="100"/>
+    <box lunit="cm" name="solid_NW10mDet"
+	 x="100"
+	 y="100"
+	 z="100"/>
+
     <!-- Union of all detectors so that there is a space to physically add them -->
     <box lunit="cm" name="detUnion0"
-     x="100"
-     y="100"
-     z="100"/>    
-    
+	 x="100"
+	 y="100"
+	 z="100"/>    
+
     <union name ="detUnion1">
       <first ref="detUnion0"/>
       <second ref="solid_HRS_elec"/>
       <positionref ref="pos_rel_HRS_elec"/>
-      <rotationref ref="rot_HRS_elec_back"/>
+      <rotationref ref="rot_m_HRS_elec"/>
     </union>
     <union name ="detUnion2">
       <first ref="detUnion1"/>
@@ -120,7 +130,7 @@
       <first ref="detUnion3"/>
       <second ref="solid_HRS_underDipole_elec"/>
       <positionref ref="pos_rel_HRS_underDipole_elec"/>
-      <rotationref ref="rot_HRS_elec_back"/>
+      <rotationref ref="rot_m_HRS_elec"/>
     </union>
     <union name ="detUnion5">
       <first ref="detUnion4"/>
@@ -131,14 +141,20 @@
       <first ref="detUnion5"/>
       <second ref="solid_Hall_Lid"/>
       <positionref ref="pos_rel_Hall_Lid"/>
-      <rotationref ref="rot_Hall_Lid"/>
+      <rotationref ref="rot_m_Hall_Lid"/>
     </union>
     <union name ="detUnion7">
       <first ref="detUnion6"/>
-      <second ref="solid_targTube"/>
-      <positionref ref="pos_rel_targTube"/>
+      <second ref="solid_W10mDet"/>
+      <positionref ref="pos_rel_W10mDet"/>
     </union>
-    
+    <union name ="detUnion8">
+      <first ref="detUnion7"/>
+      <second ref="solid_NW10mDet"/>
+      <positionref ref="pos_rel_NW10mDet"/>
+      <rotationref ref="rot_m_NW10mDet"/>
+    </union>
+
   </solids>
   <structure>
     <volume name="logic_HRS_elec">
@@ -175,16 +191,22 @@
       <materialref ref="matKryptonite"/>
       <solidref ref="solid_Hall_Lid"/>
       <auxiliary auxtype="SensDet" auxvalue="volumeN10013"/>
-    </volume> 
-    <!--<volume name="logic_targTube">
+    </volume>
+
+    <volume name="logic_W10mDet">
       <materialref ref="matKryptonite"/>
-      <solidref ref="solid_targTube"/>
-      <auxiliary auxtype="SensDet" auxvalue="volumeN10014"/>
-    </volume>-->
-      
+      <solidref ref="solid_W10mDet"/>
+      <auxiliary auxtype="SensDet" auxvalue="volumeN10101"/>
+    </volume>
+    <volume name="logic_NW10mDet">
+      <materialref ref="matKryptonite"/>
+      <solidref ref="solid_NW10mDet"/>
+      <auxiliary auxtype="SensDet" auxvalue="volumeN10102"/>
+    </volume>
+	
     <volume name="logicKripDetectors">
       <materialref ref="Vacuum"/>
-      <solidref ref="detUnion7"/>
+      <solidref ref="detUnion8"/>
       
       <physvol name="phys_SEPT_elec">
 	<volumeref ref="logic_SEPT_elec"/>
@@ -217,10 +239,17 @@
         <positionref ref="pos_rel_Hall_Lid"/>
         <rotationref ref="rot_Hall_Lid"/>
       </physvol>
-      <!--<physvol name="phys_targTube">
-	<volumeref ref="logic_targTube"/>
-	<positionref ref="pos_rel_targTube"/>
-      </physvol>--> 
+      <physvol name="phys_W10mDet">
+      	<volumeref ref="logic_W10mDet"/>
+      	<positionref ref="pos_rel_W10mDet"/>
+      </physvol>
+      <physvol name="phys_NW10mDet">
+      	<volumeref ref="logic_NW10mDet"/>
+      	<positionref ref="pos_rel_NW10mDet"/>
+	<rotationref ref="rot_NW10mDet"/>
+      </physvol>
+
+
     </volume>
     
   </structure>
