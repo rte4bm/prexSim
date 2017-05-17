@@ -141,8 +141,6 @@ void Init(){
   }
   
   if(DetFace)          DetFace        ->Reset();
-  if(Theta)            Theta          ->Reset();
-  if(Phi)              Phi            ->Reset();
 }
  
 void bookHisto(){
@@ -192,9 +190,7 @@ void bookHisto(){
     }
   }
 
-  Theta = new TH1F("Theta","Polar Angle Distribution",20,65.,115.);
-  Phi = new TH1F("Phi","Azimuthal Angle Distribution",72,-185.,185.);
-  
+
   int knownDet[4]={10008,10009,2001,2002};
   float ranges[5][3][2]={
     {{3500,5501},{-1000,1001},{17000,21001}},//10008
@@ -263,7 +259,7 @@ void processTree(string tname){
   t->SetBranchAddress("event",&event);
   t->SetBranchAddress("PDGid",&pdgID);
 
-  if ( SensVolume_v>=10008 && SensVolume_v <= 10014){
+  if ( (SensVolume_v>=10008 && SensVolume_v <= 10014) || (SensVolume_v>=10101 && SensVolume_v <= 10103)){
     t->SetBranchAddress("Edeposit",&Energy); //because these are made from Kryptonite
   }else if( SensVolume_v==8001  || SensVolume_v==8002  ||
 	    SensVolume_v==8003  || SensVolume_v==8004  || SensVolume_v==8005 ||
@@ -373,15 +369,6 @@ void processTree(string tname){
     if  ( volume==SensVolume_v  && z_0 > -26000  && type<=5){
       DetFace->Fill(xd,yd,zd);
     }
-    if ( volume==SensVolume_v && z_0 > -26000 && z_0 < -50){
-      dist = (zd - (-1053));
-      radian = atan2(250.,dist);
-      angle = radian * 180. / M_PI;
-      Theta->Fill(angle);
-      radian = atan2(xd,yd); //make sure x and y are switched
-      angle = radian * 180. / M_PI;
-      Phi->Fill(angle);
-    }
       
     if(i % 1000000 == 1 ) cout<<" processed: "<<tname.c_str()<<" "<<i<<endl;
   }
@@ -420,9 +407,6 @@ void WriteHisto(string fname){
   }
 
   writeEachHisto(DetFace);
-  writeEachHisto(Theta);
-  writeEachHisto(Phi);
-  
   fout->Close();
   delete fout;
 }

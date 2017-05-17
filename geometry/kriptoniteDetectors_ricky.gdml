@@ -17,7 +17,8 @@
 
     <position unit="cm" name="pos_rel_W10mDet" x="1125" y="-100" z="-150" />
     <position unit="cm" name="pos_rel_NW10mDet" x="832" y="-100" z="557" />
-    
+    <position unit="cm" name="pos_rel_shellDet" x="125" y="-100" z="-255.3"/>
+    <position unit="cm" name="pos_rel_gateValveDet" x="125" y="-100" z="-237.5"/>
     
     <rotation name="rot_HRS_elec" unit="deg" x="0" y="-12.5" z="0"/>
     <rotation name="rot_NW10mDet" unit="deg" x="0" y="-45" z="0"/>
@@ -105,7 +106,28 @@
 	 y="100"
 	 z="100"/>
 
-    
+    <sphere aunit="deg" startphi="0" deltaphi="360"
+	    starttheta="0" deltatheta="180"
+	    lunit="cm" name="shell"
+	    rmin="20."
+	    rmax="20.1"/>
+    <tube aunit="deg" startphi="0" deltaphi="360"
+	  lunit="cm" name="shellDet_sub"
+	  rmin="0."
+	  rmax="13.5"
+	  z="50."/>
+    <subtraction name="solid_shellDet">
+      <first ref="shell"/>
+      <second ref="shellDet_sub"/>
+      <positionref ref="pos_center"/>
+    </subtraction>
+
+    <tube aunit="deg" startphi="0" deltaphi="360"
+	  lunit="cm" name="solid_gateValveDet"
+	  rmin="7.5"
+	  rmax="9.1"
+	  z="2.5"/>
+
     <!-- Union of all detectors so that there is a space to physically add them -->
     <box lunit="cm" name="detUnion0"
 	 x="100"
@@ -156,7 +178,16 @@
       <positionref ref="pos_rel_NW10mDet"/>
       <rotationref ref="rot_m_NW10mDet"/>
     </union>
-
+    <union name="detUnion9">
+      <first ref="detUnion8"/>
+      <second ref="solid_shellDet"/>
+      <positionref ref="pos_rel_shellDet"/>
+    </union>
+    <union name="detUnion10">
+      <first ref="detUnion9"/>
+      <second ref="solid_gateValveDet"/>
+      <positionref ref="pos_rel_gateValveDet"/>
+    </union>
 
   </solids>
   <structure>
@@ -206,10 +237,20 @@
       <solidref ref="solid_NW10mDet"/>
       <auxiliary auxtype="SensDet" auxvalue="volumeN10102"/>
     </volume>
+    <volume name="logic_shellDet">
+      <materialref ref="matKryptonite"/>
+      <solidref ref="solid_shellDet"/>
+      <auxiliary auxtype="SensDet" auxvalue="volumeN10103"/>
+    </volume>
+    <volume name="logic_gateValveDet">
+      <materialref ref="matKryptonite"/>
+      <solidref ref="solid_gateValveDet"/>
+      <auxiliary auxtype="SensDet" auxvalue="volumeN10104"/>
+    </volume>
 	
     <volume name="logicKripDetectors">
       <materialref ref="Vacuum"/>
-      <solidref ref="detUnion8"/>
+      <solidref ref="detUnion10"/>
       
       <physvol name="phys_SEPT_elec">
 	<volumeref ref="logic_SEPT_elec"/>
